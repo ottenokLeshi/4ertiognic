@@ -20,11 +20,11 @@ public:
 		if (!isFixed()) {
 			_x = x;
 			_y = y;
-		}					//дописать обработчик ошибок в случае зафиксированной точки
+		}					// add exceptions in case point is fixed 
 	}
 
 	double dist_points(Point A, Point B) const {
-		double distance = sqrt((A._x() - B._x()) ^ 2 + (A._y() - B._y()) ^ 2);
+		double distance = sqrt((A.getX() - B.getX()) ^ 2 + (A.getY() - B.getY()) ^ 2);
 		return distance;
 
 	}
