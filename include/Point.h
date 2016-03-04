@@ -17,14 +17,14 @@ public:
 	double getY() const { return _y; }
 
 	void changeCoord(double x, double y) {
-		if (!_isFixed) {
+		if (!isFixed()) {
 			_x = x;
 			_y = y;
 		}					//дописать обработчик ошибок в случае зафиксированной точки
 	}
 
-	double dist_points(point A, point B) const {
-		double distance = sqrt((A.x() - B.x()) ^ 2 + (A.y() - B.y()) ^ 2);
+	double dist_points(Point A, Point B) const {
+		double distance = sqrt((A._x() - B._x()) ^ 2 + (A._y() - B._y()) ^ 2);
 		return distance;
 
 	}
