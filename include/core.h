@@ -12,9 +12,11 @@ public:
 	void addPrimitive(int type, const Array<double> &params){
 		if (type == 1 && params.size() <2) ///ACHTUNG!!!!
 	}
+
+	void selectByRect(double x1,double y1,double x2,double y2);
 private:
 
-    void selectByRect(double x1,double y1,double x2,double y2);
+    
 };
 
 #endif
