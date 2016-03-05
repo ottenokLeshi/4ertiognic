@@ -26,7 +26,7 @@ public:
 		delete last;
 	};
 
-	void add_item(T d)
+	void add_back(T d)
 	{
 		Cell <T> *New = new Cell <T>;
 		New->data = d;
@@ -50,7 +50,7 @@ public:
 		}
 	};
 
-	void show_list()
+	void show_list() //works only if T can be shown
 	{
 		if (first == NULL) { cout << "Null" << endl; }
 		Cell<T> *current = first;
@@ -144,4 +144,25 @@ public:
 		}
 		return s;
 	}; 
+
+	T get_elem(int index) // gets data of a cell with such index; should always be assigned
+	{
+		Cell<T> *current = first;
+		if (index == 1) return current->data;
+		int i = 1;
+		do {
+			current = current->next;
+			++i;
+		} while (i != index);
+		return current->data;
+	};
+	
+	void set_elem(int index, T d) // change data of a cell
+	{
+		Cell<T> *current = first;
+		if (index == 1) { current->data = d; return; }
+		for (int i = 1; i < index; ++i) current = current->next;
+		current->data = d;
+		return;
+	};
 };
