@@ -1,21 +1,21 @@
 #ifndef _ARRAY_H
 #define _ARRAY_H
 
-template <typename T> class IntArray {
+template <typename T> class TArray {
 public:
-	explicit IntArray(size_t size)
-		: size_(size), data_(new int[size]) { // конструктор
+	explicit TArray(size_t size)
+		: size_(size), data_(new T[size]) { // конструктор
 		for (size_t i = 0; i != size_; i++)
 			data_[i] = 0;
 	}
 
-	IntArray(IntArray const &a)
-		: size_(a.size_), data_(new int[size_]) { // копирование
+	TArray(TArray const &a)
+		: size_(a.size_), data_(new T[size_]) { // копирование
 		for (size_t i = 0;i != size_; i++)
 			data_[i] = a.data_[i];
 	}
 
-	T size() const //возвращение значений
+	unsigned int size() const //возвращение значений
 	{
 		return size_;
 	}
@@ -24,14 +24,16 @@ public:
 		return data_[i]; // получение ячейки с индексом i
 	}
 
-	~IntArray() {  // деструктор
+	~TArray() {  // деструктор
 		delete[] data_;
 	}
+
 	void add_elem(T a) {
 		T *newdata_ = new T[size_ + 1];
 		for (size_t i = 0; i != size_;i++)
 			newdata_[i] = data_[i];
 		newdata_[size_] = a;
+		delete[] data_;
 		data_ = &newdata_[0];
 	}
 
@@ -41,6 +43,7 @@ public:
 			newdata_[i] = data_[i];
 		for (size_t i = k; i != size_ - 1;i++)
 			newdata_[i] = data_[i + 1];
+		delete[] data_;
 		data_ = &newdata_[0];
 	}
 
