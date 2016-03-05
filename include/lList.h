@@ -17,10 +17,8 @@ public:
 	};
 	
 	~List() {
-		Cell<T> *start_del = first;
-		Cell<T> *stop_del = last;
 		Cell<T> *curr_del;
-		for (curr_del = start_del; curr_del != stop_del; ) {
+		for (curr_del = first; curr_del != last; ) {
 			Cell<T> *temp = curr_del;
 			curr_del = curr_del->next;
 			delete temp;
@@ -28,7 +26,7 @@ public:
 		delete last;
 	};
 
-	void add_item(T d)
+	void add_back(T d)
 	{
 		Cell <T> *New = new Cell <T>;
 		New->data = d;
@@ -52,9 +50,9 @@ public:
 		}
 	};
 
-	void show_list()
+	void show_list() //works only if T can be shown
 	{
-		if (first == NULL) { cout << "0" << endl; }
+		if (first == NULL) { cout << "Null" << endl; }
 		Cell<T> *current = first;
 		while (current != last) 
 		{
@@ -90,7 +88,7 @@ public:
 			}
 			delete temp;
 		}
-	}
+	};
 
 	// delete in range [start, stop]
 	void del_range(int start, int stop)
@@ -102,9 +100,8 @@ public:
 		// iteration starts by 1
 		Cell<T> *start_el = first;
 		Cell<T> *stop_el = first;
-		Cell<T> *temp;
 		int i;
-		
+
 		// if we need to delete 3..5 elements from [1, 2, 3, 4, 5, 6]
 		// then start_el will be 2, stop_el will be 5
 		for (i = 1; i < start - 1; i++, start_el = start_el->next);
@@ -115,7 +112,6 @@ public:
 			return;
 		}
 
-		// deleting
 		Cell<T> *start_del = (start == 1) ? start_el : start_el->next;
 		Cell<T> *stop_del = stop_el;
 		Cell<T> *curr_del;
@@ -131,8 +127,42 @@ public:
 			last = start_el;
 			last->next = NULL;
 		}
-		else start_el->next = stop_el->next; 
+		else start_el->next = stop_el->next;
 		delete stop_el;
-	}
+	};
 
+	int size() 
+	{
+		if (first == NULL) { 
+			return 0;
+		}
+		Cell<T> *current = first;
+		int s = 1;
+		while (current != last) {
+			current = current->next;
+			++s;
+		}
+		return s;
+	}; 
+
+	T get_elem(int index) // gets data of a cell with such index; should always be assigned
+	{
+		Cell<T> *current = first;
+		if (index == 1) return current->data;
+		int i = 1;
+		do {
+			current = current->next;
+			++i;
+		} while (i != index);
+		return current->data;
+	};
+	
+	void set_elem(int index, T d) // change data of a cell
+	{
+		Cell<T> *current = first;
+		if (index == 1) { current->data = d; return; }
+		for (int i = 1; i < index; ++i) current = current->next;
+		current->data = d;
+		return;
+	};
 };
