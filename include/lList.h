@@ -17,10 +17,8 @@ public:
 	};
 	
 	~List() {
-		Cell<T> *start_del = first;
-		Cell<T> *stop_del = last;
 		Cell<T> *curr_del;
-		for (curr_del = start_del; curr_del != stop_del; ) {
+		for (curr_del = first; curr_del != last; ) {
 			Cell<T> *temp = curr_del;
 			curr_del = curr_del->next;
 			delete temp;
@@ -54,7 +52,7 @@ public:
 
 	void show_list()
 	{
-		if (first == NULL) { cout << "0" << endl; }
+		if (first == NULL) { cout << "Null" << endl; }
 		Cell<T> *current = first;
 		while (current != last) 
 		{
@@ -90,7 +88,7 @@ public:
 			}
 			delete temp;
 		}
-	}
+	};
 
 	// delete in range [start, stop]
 	void del_range(int start, int stop)
@@ -102,9 +100,8 @@ public:
 		// iteration starts by 1
 		Cell<T> *start_el = first;
 		Cell<T> *stop_el = first;
-		Cell<T> *temp;
 		int i;
-		
+
 		// if we need to delete 3..5 elements from [1, 2, 3, 4, 5, 6]
 		// then start_el will be 2, stop_el will be 5
 		for (i = 1; i < start - 1; i++, start_el = start_el->next);
@@ -115,7 +112,6 @@ public:
 			return;
 		}
 
-		// deleting
 		Cell<T> *start_del = (start == 1) ? start_el : start_el->next;
 		Cell<T> *stop_del = stop_el;
 		Cell<T> *curr_del;
@@ -131,8 +127,21 @@ public:
 			last = start_el;
 			last->next = NULL;
 		}
-		else start_el->next = stop_el->next; 
+		else start_el->next = stop_el->next;
 		delete stop_el;
-	}
+	};
 
+	int size() 
+	{
+		if (first == NULL) { 
+			return 0;
+		}
+		Cell<T> *current = first;
+		int s = 1;
+		while (current != last) {
+			current = current->next;
+			++s;
+		}
+		return s;
+	}; 
 };
