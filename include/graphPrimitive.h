@@ -4,6 +4,7 @@
 #include <cmath>
 
 class GraphPrimitive {
+	bool _isPicked;
 	bool _isFixed;
 	int _id;
 	static int static_id;
@@ -19,6 +20,9 @@ public:
 	bool isFixed() const { return _isFixed; }
 	void fix(bool f) { _isFixed = f; }
 	int showId() { return _id; }
+
+	bool isPicked() const { return _isPicked; }
+	void pick(bool f) { _isPicked = f; }
 };
 
 int GraphPrimitive::static_id = 0;
