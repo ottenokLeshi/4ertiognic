@@ -37,8 +37,8 @@ int Gauss_metod(vector < vector<double> > a,vector<double> & ans)
 			////
 			 ans.assign(m-1,0);
 			 	for (int i=0; i<m;++i)
-						if (where[i] != -1)
-							ans[i] = a[where[i]][m]/a[where[i]][i];
+						if (pos[i] != -1)
+							ans[i] = a[pos[i]][m]/a[pos[i]][i];
 							
 				for (int i=0; i<n; ++i)
 				{
@@ -49,7 +49,7 @@ int Gauss_metod(vector < vector<double> > a,vector<double> & ans)
 				}
 			///////	
 		for (int i=0; i<m; ++i)
-			if (where[i] == -1)
+			if (pos[i] == -1)
 				return 5;
 			///////
 	return 1;
