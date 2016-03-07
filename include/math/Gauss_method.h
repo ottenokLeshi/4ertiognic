@@ -1,3 +1,5 @@
+#ifndef GAUSS_METH_H
+#define GAUSS_METH_H
 #include <iostream>
 #include <vector>
 #include <cmath>
@@ -55,50 +57,5 @@ int Gauss_metod(vector < vector<double> > a,vector<double> & ans)
 	return 1;
 			////
 }
-int main()
-{
-	int n,m,PoW;
-	double kkk;
-	cout << "Input the number of rows: ";
-	cin >> n;
-	cout << "Input the number of colomns: ";
-	cin >> m;
-	
-	vector< vector<double> > SLAU(n,vector<double>(m+1));
-	vector<double> answ; // 
-	for(int i = 0; i<n;++i)
-	{
-	for(int j = 0; j<m+1;++j)
-		{
-			cin >> kkk;
-			SLAU[i][j] = kkk;
-		}
-	}
-		for(int i = 0; i<n;++i)
-	{
-	for(int j = 0; j<m+1;++j)
-		{
-			cout << "[" << i << "]" << "[" << j << "] ="<< SLAU[i][j]  << " " ;
-		}
-		cout << endl;
-	}
-	cout << SLAU.size()*SLAU[0].size();
-	cout << endl;
-	///////////
-			PoW = Gauss_metod(SLAU,answ);
-			switch(PoW)
-			{
-			case 5: cout << "Infinity"; break;
-			case 0: cout << "There are no answers"; break;
-				case 1: 
-				{
-					for(int i = 0; i<=answ.size();++i)
-					{
-						cout << answ[i] << " ";
-					}
-					break;
-				}
-			}
-		cout << endl;
-		system("pause");
-}
+#endif
+
