@@ -23,6 +23,8 @@ public:
 
 	bool isPicked() const { return _isPicked; }
 	void pick(bool f) { _isPicked = f; }
+        void changePick() { _isPicked = !_isPicked;}
+        void changePick(bool p) { _isPicked = p;}
 };
 
 int GraphPrimitive::static_id = 0;
