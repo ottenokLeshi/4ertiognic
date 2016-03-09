@@ -45,6 +45,10 @@ public:
 		else if (_angle > 1) _angle = 1;
 		return acos(_angle);
 	}
+	double x1() { return _t1.getX(); }
+	double y1() { return _t1.getY(); }
+	double x2() { return _t2.getX(); }
+	double y2() { return _t2.getY(); }
 };
 
 
