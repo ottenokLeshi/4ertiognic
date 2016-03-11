@@ -1,5 +1,11 @@
 #ifndef _CORE_H
 #define _CORE_H
+
+#include "primitive_type.h"
+#include "ilist.h"
+#include "array.h"
+#include "objects.h"
+
 class Core{
 public:
 	Core();
@@ -9,11 +15,9 @@ public:
 
 	
 
-	void addPrimitive(int type, const Array<double> &params){
-		if (type == 1 && params.size() <2) ///ACHTUNG!!!!
-	}
+	void addPrimitive(int type, const Array<double> &params); // need to check are the parameters valid
 
-	void selectByRect(double x1,double y1,double x2,double y2);
+	List<GraphPrimitive*>* selectByRect(double x1,double y1,double x2,double y2);
 private:
 
     
