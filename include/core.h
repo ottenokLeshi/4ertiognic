@@ -1,5 +1,11 @@
 #ifndef _CORE_H
 #define _CORE_H
+#include "objects.h"
+#include "lList.h"
+#include "Array.h"
+#include "Equation.h"
+List<GraphPrimitive*> objects;
+
 class Core{
 public:
 	Core();
@@ -10,10 +16,10 @@ public:
 	
 
 	void addPrimitive(int type, const Array<double> &params){
-		if (type == 1 && params.size() <2) ///ACHTUNG!!!!
+		
 	}
 
-	void selectByRect(double x1,double y1,double x2,double y2);
+	List<GraphPrimitive*>* selectByRect(double x1,double y1,double x2,double y2);
 private:
 
     
