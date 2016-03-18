@@ -44,11 +44,10 @@ public:
 class Segment :public GraphPrimitive {
 	Point *_t1,*_t2;
 	double _length;
-	//?????????? _isFixed ?? ?????? ????? ??????????
 	double A, B, C;
 public:
 	Segment()
-		: _t1(0), _t2(0), A(0), B(0), C(0) {} //??????????? ?? ????????? !??????! -- ? ??? ??????? 
+		: _t1(0), _t2(0), A(0), B(0), C(0) {} 
 
 	Segment(double x1, double y1, double x2, double y2){
 		Point t1(x1, y1), t2(x2, y2);
@@ -65,7 +64,7 @@ public:
 		}
 	}
 
-	Segment(Point Point1, Point Point2){
+	/*Segment(Point Point1, Point Point2){
 		Point t1(Point1.getX(), Point1.getY()), t2(Point2.getX(), Point2.getY());
 		_t1 = &t1; 
 		_t2 = &t2;
@@ -78,15 +77,9 @@ public:
 			B *= -1;
 			C *= -1;
 		}
-	}
+	}*/
 	double getLength() { return _length; }
-	//double dote1_x() { return Point::x(); } ????? ??? ????????
-	double Angle(Segment &S1, Segment &S2) {
-		double _angle = (Point1.getX()*Point2.getX() + Point1.getY()*Point2.getY()) / (sqrt((double)Point1.getX()*Point1.getX() + Point1.getY()*Point1.getY())*sqrt((double)Point2.getX()*Point2.getX() + Point2.getY()*Point2.getY()));
-		if (_angle < -1) _angle = -1;
-		else if (_angle > 1) _angle = 1;
-		return acos(_angle);
-	}
+
 	double x1() { return _t1->getX(); }
 	double y1() { return _t1->getY(); }
 	double x2() { return _t2->getX(); }
@@ -99,12 +92,23 @@ public:
 	}
 
 	virtual bool isInRect(double x1, double y1, double x2, double y2) {
-		if ((x1 <= _t1->getX()) && (_t1->getX() <= x2) && (y1 <= _t1->getY()) && (_t1->getY() <= y2)) ||
-		((x1 <= _t2->getX()) && (_t2->getX() <= x2) && (y1 <= _t2->getY()) && (_t2->getY() <= y2))
+		if (((x1 <= _t1->getX()) && (_t1->getX() <= x2) && (y1 <= _t1->getY()) && (_t1->getY() <= y2)) || ((x1 <= _t2->getX()) && (_t2->getX() <= x2) && (y1 <= _t2->getY()) && (_t2->getY() <= y2)))
 			return true;
 		else return false;
 	}
 };
+
+double Angle(Segment &S1, Segment &S2) {
+	double x1 = S1.x2() - S1.x1();
+	double y1 = S1.y2() - S1.y1();
+	double x2 = S2.x2() - S2.x1();
+	double y2 = S2.y2() - S2.y1();
+	double _angle = ((x1*x2 + y1*y2) / (sqrt((double)x1*x1 + y1*y1)*sqrt((double)x2*x2 + y2*y2)));
+	cout << _angle << endl;
+	if (_angle < -1) _angle = -1;
+	else if (_angle > 1) _angle = 1;
+	return acos(_angle);
+}
 
 
 class Circle : public GraphPrimitive, Equation {
