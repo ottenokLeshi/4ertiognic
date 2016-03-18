@@ -1,15 +1,15 @@
 #ifndef _ARRAY_H
 #define _ARRAY_H
 
-template <typename T> class TArray {
+template <typename T> class Array {
 public:
-	explicit TArray(size_t size)
+	explicit Array(size_t size)
 		: size_(size), data_(new T[size]) { // конструктор
 		for (size_t i = 0; i != size_; i++)
 			data_[i] = 0;
 	}
 
-	TArray(TArray const &a)
+	Array(Array const &a)
 		: size_(a.size_), data_(new T[size_]) { // копирование
 		for (size_t i = 0;i != size_; i++)
 			data_[i] = a.data_[i];
@@ -24,7 +24,7 @@ public:
 		return data_[i]; // получение ячейки с индексом i
 	}
 
-	~TArray() {  // деструктор
+	~Array() {  // деструктор
 		delete[] data_;
 	}
 
@@ -54,5 +54,5 @@ private:
 	T * data_;
 };
 
-template <typename T> void Array<T>::add_elem(T a){}
+
 #endif _ARRAY_H

@@ -2,6 +2,7 @@
 #define _GRAPHPRIMITIVE_H
 
 #include <cmath>
+#include "primitive_type.h"
 
 class GraphPrimitive {
 	bool _isPicked;
@@ -25,6 +26,9 @@ public:
 	void pick(bool f) { _isPicked = f; }
         void changePick() { _isPicked = !_isPicked;}
         void changePick(bool p) { _isPicked = p;}
+
+		virtual Primitive_Type object_type() = 0;
+		virtual bool isInRect(double x1, double y1, double x2, double y2) = 0;
 };
 
 int GraphPrimitive::static_id = 0;
