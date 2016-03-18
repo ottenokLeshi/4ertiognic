@@ -111,7 +111,7 @@ double Angle(Segment &S1, Segment &S2) {
 }
 
 
-class Circle : public GraphPrimitive, Equation {
+class Circle : public GraphPrimitive {
 	Point *_center;
 	double _radius;
 	//Equation _equation; // x^2 + y^2 + Ax + By + C = 0
