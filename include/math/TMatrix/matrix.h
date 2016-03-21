@@ -4,77 +4,73 @@
 using namespace std;
 template < typename T > class Matrix{
 public:
-		Matrix(size_t nrows, size_t ncols): R(nrows),C(ncols)
+		Matrix(size_t nrows, size_t ncols): R(nrows),C(ncols) // Constructor
 		{
 		Mat = new T *[nrows];
 		for (size_t i =0; i< nrows; ++i) Mat[i] = new T [ncols];
-		}; // T
-		
-		~Matrix(){
+		};
+		~Matrix(){ // Destructor
 			for(size_t i =0; i < R;++i) delete[] Mat[i];
-			delete[] Mat;
-	}; // T
-		size_t numrows() const{return R;}; // T
-		size_t numcols() const{return C;}; // T
-		T getElem(size_t nrow, size_t ncol); // T
-		void setElem(size_t nrow, size_t ncol, T var); // T
-		void Matrix_eye(){
-			size_t ncols = C;
-			size_t nrows = R;
-			for (size_t i = 0; i< nrows;++i)
-				for (size_t j =0; j< ncols; ++j){
-					if(i == j) Mat[i][j] = 1;
-						else Mat[i][j] = 0;
-					}
-			} // T
-		Matrix transpose(); // T
+			delete[] Mat;}; // T
+		size_t numrows() const{return R;};
+		size_t numcols() const{return C;}; 
+		void setElem(size_t nrow, size_t ncol, T var); 
+		void Matrix_eye(); 
+		Matrix transpose(); 
 		// Matrix
-			Matrix<T> operator +(const Matrix &m){
-				Matrix <T> varM;
-				for (size_t i = 0; i< R;++i)
-					for (size_t j =0; j< C; ++j){
-						varM.Mat[i][j] = m.Mat[i][j]+Mat[i][j];
-					}
-				return varM;
-			}; // T
-			Matrix operator *(const Matrix<T> &m);
-			/*Matrix operator *(const Matrix<T> &m){ // Hadamard multiplication
-				Matrix varM(R,C);
-			for (size_t i = 0; i< R;++i)
-			for (size_t j =0; j< C; ++j){
-				varM.Mat[i][j] = m.Mat[i][j]*Mat[i][j];
-			}
-				return varM;
-			}*/
-			Matrix operator -(const Matrix &m); // T
+		Matrix operator +(const Matrix &m); 
+		Matrix operator *(const Matrix<T> &m);			
+		Matrix operator -(const Matrix &m); 
 		// Scalar
-			Matrix operator *(const double K); // T
-			void Show(){
-				int K = static_cast<int>(R);
-				int K1 = static_cast<int>(C);
-				for (int i = 0; i < K; ++i) {
-					for (int j = 0; j < K1; ++j) {
-						cout << Mat[i][j];
-					}
-					cout << endl;
-				}
-
-					return;
-			}
-			Matrix& operator =(Matrix &m);
-		double det() const;
-		 Matrix inv();
-		 
-		 T **Mat;
-	private:
+		Matrix operator *(const double K); 
+		void Show();
+		Matrix& operator =(Matrix &m);
+		T det() const;
+		Matrix inv();
+ 
+	T **Mat;
+	private:	
 	size_t R;
-	size_t C;
-	
+	size_t C;	
 };
 /////////////////////////
-template <typename T>
-	double Matrix<T>::det() const{ // PROBLEM
-		Matrix<double> VarM(R,C);
+template <typename T> Matrix<T> Matrix<T>::inv() {
+	for (int k = 0; k < R*C; ++k) {
+			for (int i = 0; i < R; ++i)
+				for (int j = 0; j < C; ++j) 
+				{
+
+				}
+	}
+}
+template <typename T> void Matrix<T>::Matrix_eye() {
+	size_t ncols = C;
+	size_t nrows = R;
+	for (size_t i = 0; i< nrows; ++i)
+		for (size_t j = 0; j< ncols; ++j) {
+			if (i == j) Mat[i][j] = 1;
+			else Mat[i][j] = 0;
+		}
+}
+template <typename T> void Matrix<T>::Show() {
+	int K = static_cast<int>(R);
+	int K1 = static_cast<int>(C);
+	for (int i = 0; i < K; ++i) {
+		for (int j = 0; j < K1; ++j) {
+			cout << Mat[i][j];
+		}
+		cout << endl;
+	}return;}
+template <typename T> Matrix<T> Matrix<T>::operator +(const Matrix &m) {
+	Matrix <T> varM;
+	for (size_t i = 0; i< R; ++i)
+		for (size_t j = 0; j< C; ++j) {
+			varM.Mat[i][j] = m.Mat[i][j] + Mat[i][j];
+		}
+	return varM;
+};
+template <typename T> T Matrix<T>::det() const{ // PROBLEM
+		Matrix<T> VarM(R,C);
 		double sum = 0;
 		int Sign = 1;
 		int subi = 0, subj = 0;
@@ -89,36 +85,33 @@ template <typename T>
 						{
 							continue;
 						}
-						VarM[subi][subj] = static_cast<double>(Mat[j][k]);
+						VarM.Mat[subi][subj] = Mat[j][k];
 						subj++;
 					}
 					subi++;
 				}
 				if (C % 2) Sign = -1;
 				else Sign = 1;
-				sum = sum + Sign*Mat[0][C] * VarM.det();
+				sum = sum + Sign*Mat[0][C]* VarM.det();
 			}
 		}
 		return sum;
 	}
-template <typename T>
-Matrix<T>& Matrix<T>:: operator =(Matrix<T> &m){ // PROBLEM
+template <typename T> Matrix<T>& Matrix<T>:: operator =(Matrix<T> &m){ 
 	for(size_t i = 0; i< R;++i)
 		for(size_t j = 0; j<C; ++j)
 			Mat[i][j] = m.Mat[i][j];
 	return *this;
 } 
-template <typename T>
-Matrix<T> Matrix<T>::operator -(const Matrix<T> &m){
+template <typename T> Matrix<T> Matrix<T>::operator -(const Matrix<T> &m){
 	Matrix varM(R,C);
 	for (size_t i = 0; i< R;++i)
 		for (size_t j =0; j< C; ++j){
-			varM.Mat[i][j] = m.Mat[i][j]-Mat[i][j];
+			varM.Mat[i][j] = m.Mat[i][j] - Mat[i][j];
 		}
 		return varM;
 }
-template <typename T>
-Matrix<T> Matrix<T>:: operator *(const double K){
+template <typename T> Matrix<T> Matrix<T>:: operator *(const double K){
 	Matrix varM(R,C);
 	for (size_t i = 0; i< R;++i)
 		for (size_t j =0; j< C; ++j){
@@ -126,16 +119,10 @@ Matrix<T> Matrix<T>:: operator *(const double K){
 		}
 		return varM;
 }
-template <typename T>
-T Matrix<T>::getElem(size_t nrow, size_t ncol){
-	return Mat[nrow][ncol];
-}
-template <typename T>
-void Matrix<T>::setElem(size_t nrow, size_t ncol, T var){
+template <typename T> void Matrix<T>::setElem(size_t nrow, size_t ncol, T var){
 	Mat[nrow][ncol] = var;
 }
-template <typename T>
-Matrix<T> Matrix<T>::transpose(){
+template <typename T> Matrix<T> Matrix<T>::transpose(){
 	T var;
 	for(size_t i =0; i< R; ++i)
 		for(size_t j =0; j< C; ++j){
@@ -144,8 +131,7 @@ Matrix<T> Matrix<T>::transpose(){
 			Mat[j][i] = var;
 		}
 }
-template <typename T>
-Matrix<T> Matrix<T>::operator *(const Matrix &m){
+template <typename T> Matrix<T> Matrix<T>::operator *(const Matrix &m){
 	Matrix<T> var(R, m.C);
 	for (size_t i = 0; i < R ;++i)
 		for (size_t j = 0; j < m.C; ++j ){
@@ -156,7 +142,15 @@ Matrix<T> Matrix<T>::operator *(const Matrix &m){
 				}}
 	return var;
 }
-
+/*Matrix operator *(const Matrix<T> &m){ // Hadamard multiplication
+Matrix varM(R,C);
+for (size_t i = 0; i< R;++i)
+for (size_t j =0; j< C; ++j){
+varM.Mat[i][j] = m.Mat[i][j]*Mat[i][j];
+}
+return varM;
+}*/
 
 #endif
+
 
