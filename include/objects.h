@@ -136,25 +136,22 @@ bool segments_intersection(Segment S1, Segment S2) {
 	else return 0;
 }
 
-class Circle : public GraphPrimitive, Equation {
+class Circle : public GraphPrimitive {
 	Point *_center;
 	double _radius;
-	Equation _equation; // x^2 + y^2 + Ax + By + C = 0
+	//Equation _equation; // x^2 + y^2 + Ax + By + C = 0
 
 public:
 	Circle() : 
-		_center(0), _radius(0), _equation(3) {};
-	Circle(Point center, double radius) : _equation(3) {
+		_center(0), _radius(0) {};
+	Circle(double x, double y, double radius) :  {
 		try {
 			const char* e = "Negative raduis!";
 			if (radius < 0)
 				throw e;
 			_radius = radius;
-			*_center = center;
-
-			_equation._a[0] = -_center->getX() / 2;
-			_equation._a[1] = -_center->getY() / 2;
-			_equation._a[2] = (-4 * pow(_radius, 2) + pow(_equation._a[0], 2) + pow(_equation._a[1], 2)) / 4;
+			*_center->_x = x;
+			*_center->_y = y;
 		}
 		catch (const char* e) {
 			std::cout << e;
@@ -162,8 +159,11 @@ public:
 	};
 	Point getCenter() { return *_center; };
 	double getRadius() { return _radius; };
-	Equation getEquation() { return _equation; }
-
+	
+	virtual double distanceToPoint(double x, double y) { //distance to circle's border, not center
+		return abs(sqrt(pow(_center->getX() - x, 2) + pow(_center->getY() - y, 2)) - _radius);
+	}
+	
 	virtual Primitive_Type object_type()
 	{
 		return IsCircle;

@@ -1,9 +1,6 @@
 #include "core.h"
 
 
-
-
-
 List<GraphPrimitive*>* Core::selectByRect(double x1, double y1, double x2, double y2) {
 	List<GraphPrimitive*>* PickedObjects = new List<GraphPrimitive*>;
 	for (int i = 0; i < objects.size();i++) {
@@ -13,34 +10,23 @@ List<GraphPrimitive*>* Core::selectByRect(double x1, double y1, double x2, doubl
 			return PickedObjects;
 }
 
-List<GraphPrimitive*>* Core::selectByPoint(double x, double y) {
-	List<GraphPrimitive*>* PickedObjects = new List<GraphPrimitive*>;
-	const double EPS = 3;
-	double min_dist;
-	bool isEmpty = True;
-	for (size_t i = 1; i <= ListPoint.size();i++) {
-		Point* point = &ListPoint.get_elem(i);
-		if if (pow(point->x() - x, 2) + pow(point->y() - y, 2) <= EPS) {
-			PickedObjects->add_back(point);
-            point->changePick();
-		}
-	}
-   //search in a ListSegment
-	for (size_t i = 1; i <= ListSegment.size();i++) {
-		Segment* segment = &ListSegment.get_elem(i);
-		if 	(Segment.distanceToPoint(segment, x, y) <= EPS) {
-			PickedObjects->add_back(segment);
-            segment->changePick();
-		}
-
-	//search in a ListCircle
-		for (size_t i = 1; i <= ListCircle.size();i++) {
-			Circle* circle = &ListCircle.get_elem(i);
-			if (pow(circle->getCenter._x() - x, 2) + pow(circle->getCenter._y() = y, 2) <= circle->getRadius() + EPS) {
-				PickedObjects->add_back(circle);
-                circle->changePick();
+GraphPrimitive* Core::selectByPoint(double x, double y) {
+	GraphPrimitive* PickedObject = NULL;
+	const double EPS = 1e-10;
+	double current_distance, min_distance = 0;
+	bool isEmpty = true;
+	for (int i = 0; i < objects.size(); i++) {
+		current_distance = objects.get_elem(i)->distanceToPoint(x, y);
+		if (current_distance <= EPS) {
+			if (isEmpty) {
+				PickedObject = objects.get_elem(i);
+				isEmpty = false;
+			}
+			else if (current_distance < min_distance) {
+				PickedObject = object.get_elem(i);
+				min_distance = current_distance;
 			}
 		}
-
-	return PickedObjects;
+	}
+	return PickedObject;
 }
