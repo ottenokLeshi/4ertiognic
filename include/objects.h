@@ -52,7 +52,7 @@ public:
 		: _t1(0), _t2(0), _A(0), _B(0), _C(0) {} 
 
 	Segment(double x1, double y1, double x2, double y2){
-		Point t1(x1, y1), t2(x2, y2);
+		static Point t1(x1, y1), t2(x2, y2);
 		_t1 = &t1; 
 		_t2 = &t2;
 		_length = sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2));
@@ -130,7 +130,6 @@ bool segments_intersection(Segment S1, Segment S2) {
 		double x = det1 / det;
 		double y = det2 / det; //so I just find the point of intersection of two lines and check, if the point belongs to both segments
 		Point P(x, y);
-		cout << "x = " << P.getX() << " y = " << P.getY() << endl;
 		return (point_in_segment(S1, P) && point_in_segment(S2, P));
 	}
 	else return 0;

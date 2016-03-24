@@ -2,12 +2,13 @@
 #define _BASIC_RESTRICTION_H
 
 #include "restrict_types.h"
+#include "objects.h"
 
 class BasicRestriction
 {
 public:
-	BasicRestriction();
-	int get_id()const;
+	BasicRestriction() {}
+	int get_id()const {}
 	virtual RestrictType get_type()const = 0;
 	virtual double violation()const = 0;
 };
