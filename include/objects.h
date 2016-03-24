@@ -54,14 +54,15 @@ public:
 	Segment()
 		: _t1(0), _t2(0), _A(0), _B(0), _C(0) {} 
 
-	Segment(double x1, double y1, double x2, double y2){
-		static Point t1(x1, y1), t2(x2, y2);
-		_t1 = &t1; 
-		_t2 = &t2;
-		_length = sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2));
-		_A = y1 - y2;
-		_B = x2 - x1;
-		_C = x1*y2 - x2*y1;
+	Segment(Point *t1, Point *t2) {
+		_t1 = t1;
+		cout << _t1->getX() << " " << _t1->getY() << endl;
+		_t2 = t2;
+		cout << _t2->getX() << " " << _t2->getY() << endl;
+		_length = sqrt((t1->getX() - t2->getX())*(t1->getX() - t1->getX()) + (t1->getY() - t2->getY())*(t1->getY() - t2->getY()));
+		_A = t1->getY() - t2->getY();
+		_B = t2->getX() - t1->getX();
+		_C = t1->getX()*t2->getY() - t2->getX()*t1->getY();
 		if (_A < 0) {
 			_A *= -1;
 			_B *= -1;
@@ -69,20 +70,7 @@ public:
 		}
 	}
 
-	/*Segment(Point Point1, Point Point2){
-		Point t1(Point1.getX(), Point1.getY()), t2(Point2.getX(), Point2.getY());
-		_t1 = &t1; 
-		_t2 = &t2;
-		//	_length(dist_points(Point1, Point2)) 
-		A = Point1.getY() - Point2.getY();
-		B = Point2.getX() - Point1.getX();
-		C = Point1.getX()*Point2.getY() - Point2.getX()*Point1.getY();
-		if (A < 0) {
-			A *= -1;
-			B *= -1;
-			C *= -1;
-		}
-	}*/
+	
 	double getLength() { return _length; }
 
 	double x1() { return _t1->getX(); }
