@@ -1,4 +1,4 @@
-//#include "core.h"
+#include "core.h"
 
 void AddPrimitive(int type, const Array<double> &params) {
 	switch (type)
