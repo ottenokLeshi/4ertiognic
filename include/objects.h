@@ -56,9 +56,7 @@ public:
 
 	Segment(Point *t1, Point *t2) {
 		_t1 = t1;
-		cout << _t1->getX() << " " << _t1->getY() << endl;
 		_t2 = t2;
-		cout << _t2->getX() << " " << _t2->getY() << endl;
 		_length = sqrt((t1->getX() - t2->getX())*(t1->getX() - t1->getX()) + (t1->getY() - t2->getY())*(t1->getY() - t2->getY()));
 		_A = t1->getY() - t2->getY();
 		_B = t2->getX() - t1->getX();
