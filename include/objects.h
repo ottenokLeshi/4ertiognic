@@ -108,8 +108,8 @@ double Angle(Segment &S1, Segment &S2) {
 	return acos(_angle);
 }
 
-bool point_in_segment(Segment S, Point P) { //checks if the point belongs to segment
-	if ((dist_points(S.point1(), P) + dist_points(S.point2(), P) - dist_points(S.point1(), S.point2())) < eps)  return 1;
+bool point_in_segment(Segment s, Point p) { //checks if the point belongs to segment
+	if ((dist_points(s.point1(), p) + dist_points(s.point2(), p) - dist_points(s.point1(), s.point2())) < eps)  return 1;
 	return 0;
 }
 
@@ -134,31 +134,29 @@ class Circle : public GraphPrimitive {
 public:
 	Circle() : 
 		_center(0), _radius(0) {};
-	Circle(double x, double y, double radius) :  {
+	Circle(double x, double y, double radius){
 		try {
 			const char* e = "Negative raduis!";
 			if (radius < 0)
 				throw e;
 			_radius = radius;
-			*_center->_x = x;
-			*_center->_y = y;
+			_center->setX(x);
+			_center->setY(y);
 		}
-		catch (const char* e) {
-			std::cout << e;
-		}
+		catch (const char* e) {}
 	};
 	Point getCenter() { return *_center; };
 	double getRadius() { return _radius; };
 	
-	virtual double distanceToPoint(double x, double y) { //distance to circle's border, not center
+	double distanceToPoint(double x, double y) { //distance to circle's border, not center
 		return abs(sqrt(pow(_center->getX() - x, 2) + pow(_center->getY() - y, 2)) - _radius);
 	}
 	
-	virtual Primitive_Type object_type()
+	Primitive_Type object_type()
 	{
 		return IsCircle;
 	}
-	virtual bool isInRect(double x1, double y1, double x2, double y2) {
+	bool isInRect(double x1, double y1, double x2, double y2) {
 		//search min length from center to points
 		double X = _center->getX(), Y = _center->getY();
 		double l1 = sqrt((X - x1)*(X - x1) + (Y - y2)*(Y - y2)), l2 = sqrt((X - x1)*(X - x1) + (Y - y1)*(Y - y1));

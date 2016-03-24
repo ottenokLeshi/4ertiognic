@@ -23,7 +23,7 @@ GraphPrimitive* Core::selectByPoint(double x, double y) {
 				isEmpty = false;
 			}
 			else if (current_distance < min_distance) {
-				PickedObject = object.get_elem(i);
+				PickedObject = objects.get_elem(i);
 				min_distance = current_distance;
 			}
 		}
