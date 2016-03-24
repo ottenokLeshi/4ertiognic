@@ -3,7 +3,6 @@
 #include "objects.h"
 #include "lList.h"
 #include "Array.h"
-#include "Equation.h"
 #include "primitive_type.h"
 #include "lList.h"
 #include "array.h"
