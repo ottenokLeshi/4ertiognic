@@ -15,6 +15,9 @@ public:
 
 	double getX() const { return _x; }
 	double getY() const { return _y; }
+	
+	void setX(double x) { _x = x; }
+	void setY(double y) { _y = y; }
 
 	void changeCoord(double x, double y) {
 		if (!isFixed()) {
