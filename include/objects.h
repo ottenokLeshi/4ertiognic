@@ -119,19 +119,9 @@ class Circle : public GraphPrimitive {
 public:
 	Circle() : 
 		_center(0), _radius(0) {};
-	Circle(double x, double y, double radius) :  {
-		try {
-			const char* e = "Negative raduis!";
-			if (radius < 0)
-				throw e;
-			_radius = radius;
-			*_center->_x = x;
-			*_center->_y = y;
-		}
-		catch (const char* e) {
-			std::cout << e;
-		}
-	};
+	Circle(Point *center, double radius) 
+		:  _center(center), _radius(radius) {}
+	
 	Point getCenter() { return *_center; };
 	double getRadius() { return _radius; };
 	
