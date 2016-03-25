@@ -1,3 +1,5 @@
+#ifndef _CORE_SELECT_H
+#define _CORE_SELECT_H
 #include "core.h"
 
 
@@ -10,13 +12,13 @@ List<GraphPrimitive*>* Core::selectByRect(double x1, double y1, double x2, doubl
 			return PickedObjects;
 }
 
-GraphPrimitive* Core::selectByPoint(double x, double y) {
+GraphPrimitive* Core::selectByPoint(Point p) {
 	GraphPrimitive* PickedObject = NULL;
 	const double EPS = 1e-10;
 	double current_distance, min_distance = 0;
 	bool isEmpty = true;
 	for (int i = 0; i < objects.size(); i++) {
-		current_distance = objects.get_elem(i)->distanceToPoint(x, y);
+		current_distance = objects.get_elem(i)->distanceToPoint(p.getX(),p.getY());
 		if (current_distance <= EPS) {
 			if (isEmpty) {
 				PickedObject = objects.get_elem(i);
@@ -30,3 +32,5 @@ GraphPrimitive* Core::selectByPoint(double x, double y) {
 	}
 	return PickedObject;
 }
+
+#endif

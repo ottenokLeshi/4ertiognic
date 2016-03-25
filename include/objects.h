@@ -26,10 +26,9 @@ public:
 		}					// add exceptions in case point is fixed 
 	}
 
-	 double distanceToPoint(Point A,Point B) const {
-		double distance = sqrt((A.getX() - B.getX())*(A.getX() - B.getX()) + (A.getY() - B.getY())*(A.getY() - B.getY()));
-		return distance;
-
+	 double distanceToPoint(double x, double y) {
+		//double distance = sqrt((A.getX() - B.getX())*(A.getX() - B.getX()) + (A.getY() - B.getY())*(A.getY() - B.getY()));
+		return 0.1;
 	}
 
 	virtual Primitive_Type object_type()
@@ -87,6 +86,9 @@ public:
 	{
 		return IsSegment;  
 	}
+	double distanceToPoint(double x, double y) {
+		return 0.1;
+	};
 
 	virtual bool isInRect(double x1, double y1, double x2, double y2) {
 		if (((x1 <= _t1->getX()) && (_t1->getX() <= x2) && (y1 <= _t1->getY()) && (_t1->getY() <= y2)) || ((x1 <= _t2->getX()) && (_t2->getX() <= x2) && (y1 <= _t2->getY()) && (_t2->getY() <= y2)))
@@ -107,7 +109,7 @@ double Angle(Segment &S1, Segment &S2) {
 }
 
 bool point_in_segment(Segment s, Point p) { //checks if the point belongs to segment
-	if (p.distanceToPoint(s.point1(), p) + p.distanceToPoint(s.point2(), p) - s.point1().distanceToPoint(s.point1(), s.point2()) < eps)  return 1;
+	if (s.point1().distanceToPoint(p.getX(),p.getY()) + s.point2().distanceToPoint(p.getX(),p.getY()) - s.point1().distanceToPoint(s.point2().getX(), s.point2().getY()) < eps)  return 1;
 	return 0;
 }
 
@@ -132,11 +134,9 @@ class Circle : public GraphPrimitive {
 public:
 	Circle() : 
 		_center(0), _radius(0) {};
-<<<<<<< HEAD
-	Circle(Point *center, double radius) 
-		:  _center(center), _radius(radius) {}
+	Circle(Point *center, double radius)
+		: _center(center), _radius(radius) {};
 	
-=======
 	Circle(double x, double y, double radius){
 		try {
 			const char* e = "Negative raduis!";
@@ -148,12 +148,12 @@ public:
 		}
 		catch (const char* e) {}
 	};
->>>>>>> 2fa79d41520489d7decda89d5a6f7c159722b49a
 	Point getCenter() { return *_center; };
 	double getRadius() { return _radius; };
 	
 	double distanceToPoint(double x, double y) { //distance to circle's border, not center
-		return abs(sqrt(pow(_center->getX() - x, 2) + pow(_center->getY() - y, 2)) - _radius);
+		return 0.1;
+		//return abs(sqrt(pow(_center->getX() - x, 2) + pow(_center->getY() - y, 2)) - _radius);
 	}
 	
 	Primitive_Type object_type()
