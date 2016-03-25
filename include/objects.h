@@ -26,7 +26,7 @@ public:
 		}					// add exceptions in case point is fixed 
 	}
 
-	 double dist_points(Point A,Point B) const {
+	 double distanceToPoint(Point A,Point B) const {
 		double distance = sqrt((A.getX() - B.getX())*(A.getX() - B.getX()) + (A.getY() - B.getY())*(A.getY() - B.getY()));
 		return distance;
 
@@ -107,7 +107,7 @@ double Angle(Segment &S1, Segment &S2) {
 }
 
 bool point_in_segment(Segment s, Point p) { //checks if the point belongs to segment
-	if ((dist_points(s.point1(), p) + dist_points(s.point2(), p) - dist_points(s.point1(), s.point2())) < eps)  return 1;
+	if (p.distanceToPoint(s.point1(), p) + p.distanceToPoint(s.point2(), p) - s.point1().distanceToPoint(s.point1(), s.point2()) < eps)  return 1;
 	return 0;
 }
 
