@@ -13,8 +13,8 @@ public:
 		_dist = dist;
 	};
 	virtual ~RestrP2PDIST() {}
-	virtual RestrictType get_type() { return RT_P2PDIST; };
-        virtual double violation() {
+	virtual RestrictType get_type() const { return RT_P2PDIST; };
+        virtual double violation() const {
                 return *_dist - sqrt((_A->getX() - _B->getX())*(_A->getX() - _B->getX()) + (_A->getY() - _B->getY())*(_A->getY() - _B->getY()));
         }
 private:
