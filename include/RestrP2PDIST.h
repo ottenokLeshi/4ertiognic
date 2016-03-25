@@ -15,7 +15,7 @@ public:
 	virtual ~RestrP2PDIST() {}
 	virtual RestrictType get_type() { return RT_P2PDIST; };
         virtual double violation() {
-        	return *_dist - sqrt((A->getX() - B->getX())*(A->getX() - B->getX()) + (A->getY() - B->getY())*(A->getY() - B->getY()));
+                return *_dist - sqrt((_A->getX() - _B->getX())*(_A->getX() - _B->getX()) + (_A->getY() - _B->getY())*(_A->getY() - _B->getY()));
         }
 private:
 	Point *_A;
