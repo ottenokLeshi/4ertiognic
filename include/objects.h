@@ -26,10 +26,9 @@ public:
 		}					// add exceptions in case point is fixed 
 	}
 
-	 double distanceToPoint(double x, double y) {
-		//double distance = sqrt((A.getX() - B.getX())*(A.getX() - B.getX()) + (A.getY() - B.getY())*(A.getY() - B.getY()));
-		return 0.1;
-	}
+	 virtual double distanceToPoint(double x, double y) {
+		 return sqrt((_x - x)*(_x - x) + (_y - y)*(_y - y));
+	 }
 
 	virtual Primitive_Type object_type()
 	{
@@ -46,12 +45,12 @@ public:
 
 
 class Segment :public GraphPrimitive {
-	Point *_t1,*_t2;
+	Point *_t1, *_t2;
 	double _length;
 	double _A, _B, _C;
 public:
 	Segment()
-		: _t1(0), _t2(0), _A(0), _B(0), _C(0) {} 
+		: _t1(0), _t2(0), _A(0), _B(0), _C(0) {}
 
 	Segment(Point *t1, Point *t2) {
 		_t1 = t1;
@@ -67,7 +66,7 @@ public:
 		}
 	}
 
-	
+
 	double getLength() { return _length; }
 
 	double x1() { return _t1->getX(); }
@@ -84,7 +83,7 @@ public:
 
 	virtual Primitive_Type object_type()
 	{
-		return IsSegment;  
+		return IsSegment;
 	}
 	double distanceToPoint(double x, double y) {
 		return 0.1;
@@ -95,36 +94,60 @@ public:
 			return true;
 		else return false;
 	}
+
+	double Angle(Segment *S2) {
+		double x1 = _t2->getX() - _t1->getX();
+		double y1 = _t2->getY() - _t1->getY();
+		double x2 = S2->x2() - S2->x1();
+		double y2 = S2->y2() - S2->y1();
+		double _angle = ((x1*x2 + y1*y2) / (sqrt((double)x1*x1 + y1*y1)*sqrt((double)x2*x2 + y2*y2)));
+		if (_angle < -1) _angle = -1;
+		else if (_angle > 1) _angle = 1;
+		return acos(_angle);
+	}
+
+	bool point_in_segment(Point *p) { //checks if the point belongs to segment
+		if (_t1->distanceToPoint(p->getX(), p->getY()) + _t2->distanceToPoint(p->getX(), p->getY()) - _t1->distanceToPoint(_t2->getX(), _t2->getY()) < eps)  return 1;
+		return 0;
+	}
+
+	virtual double distanceToPoint(Point *_t) const {
+		double x1 = _t1->getX(), x2 = _t2->getX(), y1 = _t1->getY(), y2 = _t2->getY(), xt = _t->getX(), yt = _t->getY();
+		double vec1x = x1 - xt, vec1y = y1 - yt, vec2x = x2 - xt, vec2y = y2 - yt, segx = x1 - x2, segy = x2 - y2;
+		if ((vec1x*segx + vec1y*segy)*(vec2x*segx + vec2y*segy) < 0) {
+			if (x1 == x2) {
+				double k = (x1 - x2) / (y1 - y2), b = x2 - k*y2;
+				return abs((k*yt - xt + b) / sqrt(k*k + 1));
+			}
+			double k = (y1 - y2) / (x1 - x2), b = y2 - k*x2;
+			return abs((k*xt - yt + b) / sqrt(k*k + 1));
+		}
+		else {
+			if (sqrt(vec1x*vec1x + vec1y*vec1y) < sqrt(vec2x*vec2x + vec2y*vec2y))
+				return sqrt(vec1x*vec1x + vec1y*vec1y);
+			else
+				return sqrt(vec2x*vec2x + vec2y*vec2y);
+		}
+	}
+
+
+	bool segments_intersection(Segment *S2) {
+		double det = _A * S2->B() - S2->A() * _B; //Cramer's rule
+		if (det > eps) {
+			double det1 = -_C * S2->B() + S2->C() * _B; // "-" because we need to reduce the equation to the next form : a11*x1 + a12*x2 = b
+			double det2 = -_A * S2->C() + S2->A() * _C; // so now we have something like A*x + B*y = -C
+			double x = det1 / det;
+			double y = det2 / det; //so I just find the point of intersection of two lines and check, if the point belongs to both segments
+			Point P(x, y);
+			//Segment S1(&_t1, &_t2);
+			return (point_in_segment(&P) && S2->point_in_segment(&P));
+		}
+		else return 0;
+	}
 };
 
-//double Angle(Segment &S1, Segment &S2) {
-//	double x1 = S1.x2() - S1.x1();
-//	double y1 = S1.y2() - S1.y1();
-//	double x2 = S2.x2() - S2.x1();
-//	double y2 = S2.y2() - S2.y1();
-//	double _angle = ((x1*x2 + y1*y2) / (sqrt((double)x1*x1 + y1*y1)*sqrt((double)x2*x2 + y2*y2)));
-//	if (_angle < -1) _angle = -1;
-//	else if (_angle > 1) _angle = 1;
-//	return acos(_angle);
-//}
-//
-//bool point_in_segment(Segment s, Point p) { //checks if the point belongs to segment
-//	if (s.point1().distanceToPoint(p.getX(),p.getY()) + s.point2().distanceToPoint(p.getX(),p.getY()) - s.point1().distanceToPoint(s.point2().getX(), s.point2().getY()) < eps)  return 1;
-//	return 0;
-//}
-//
-//bool segments_intersection(Segment S1, Segment S2) {
-//	double det = S1.A() * S2.B() - S2.A() * S1.B(); //Cramer's rule
-//	if (det > eps) {
-//		double det1 = -S1.C() * S2.B() + S2.C() * S1.B(); // "-" because we need to reduce the equation to the next form : a11*x1 + a12*x2 = b
-//		double det2 = -S1.A() * S2.C() + S2.A() * S1.C(); // so now we have something like A*x + B*y = -C
-//		double x = det1 / det;
-//		double y = det2 / det; //so I just find the point of intersection of two lines and check, if the point belongs to both segments
-//		Point P(x, y);
-//		return (point_in_segment(S1, P) && point_in_segment(S2, P));
-//	}
-//	else return 0;
-//}
+
+
 
 class Circle : public GraphPrimitive {
 	Point *_center;
@@ -136,17 +159,6 @@ public:
 	Circle(Point *center, double radius)
 		: _center(center), _radius(radius) {};
 	
-	Circle(double x, double y, double radius){
-		try {
-			const char* e = "Negative raduis!";
-			if (radius < 0)
-				throw e;
-			_radius = radius;
-			_center->setX(x);
-			_center->setY(y);
-		}
-		catch (const char* e) {}
-	};
 	Point getCenter() { return *_center; };
 	double getRadius() { return _radius; };
 	
