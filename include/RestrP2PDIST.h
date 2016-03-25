@@ -2,7 +2,7 @@
 #define _RESTR_P2PDIST_H
 #include "objects.h"
 #include "BasicRestriction.h"
-
+#include "math.h"
 class RestrP2PDIST:BasicRestriction
 {
 public:
@@ -13,19 +13,14 @@ public:
 		_dist = dist;
 	};
 	virtual ~RestrP2PDIST() {}
-	virtual RestrictType get_type()const { return RT_P2PDIST; };
-        virtual double violation() const {
-        	double realDist = Point::dist_points(&_A, &_B);
-        	return *_dist - realDist;
+	virtual RestrictType get_type() { return RT_P2PDIST; };
+        virtual double violation() {
+        	return *_dist - sqrt((A->getX() - B->getX())*(A->getX() - B->getX()) + (A->getY() - B->getY())*(A->getY() - B->getY()));
         }
 private:
 	Point *_A;
 	Point *_B;
-	double _dist;
+	double *_dist;
 };
-/*
- * In objects.h
- * static dist_points(Point *A, Point *B);
- *
-*/
+
 #endif
