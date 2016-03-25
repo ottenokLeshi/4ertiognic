@@ -1,3 +1,5 @@
+#ifndef _lLIST_H
+#define _lList_H
 template <typename T>
 struct Cell 
 {
@@ -156,7 +158,8 @@ public:
 		} while (i != index);
 		return current->data;
 	};
-	
+
+
 	void set_elem(int index, T d) // change data of a cell
 	{
 		Cell<T> *current = first;
@@ -166,3 +169,4 @@ public:
 		return;
 	};
 };
+#endif
