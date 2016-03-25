@@ -97,39 +97,38 @@ public:
 	}
 };
 
-double Angle(Segment &S1, Segment &S2) {
-	double x1 = S1.x2() - S1.x1();
-	double y1 = S1.y2() - S1.y1();
-	double x2 = S2.x2() - S2.x1();
-	double y2 = S2.y2() - S2.y1();
-	double _angle = ((x1*x2 + y1*y2) / (sqrt((double)x1*x1 + y1*y1)*sqrt((double)x2*x2 + y2*y2)));
-	if (_angle < -1) _angle = -1;
-	else if (_angle > 1) _angle = 1;
-	return acos(_angle);
-}
-
-bool point_in_segment(Segment s, Point p) { //checks if the point belongs to segment
-	if (s.point1().distanceToPoint(p.getX(),p.getY()) + s.point2().distanceToPoint(p.getX(),p.getY()) - s.point1().distanceToPoint(s.point2().getX(), s.point2().getY()) < eps)  return 1;
-	return 0;
-}
-
-bool segments_intersection(Segment S1, Segment S2) {
-	double det = S1.A() * S2.B() - S2.A() * S1.B(); //Cramer's rule
-	if (det > eps) {
-		double det1 = -S1.C() * S2.B() + S2.C() * S1.B(); // "-" because we need to reduce the equation to the next form : a11*x1 + a12*x2 = b
-		double det2 = -S1.A() * S2.C() + S2.A() * S1.C(); // so now we have something like A*x + B*y = -C
-		double x = det1 / det;
-		double y = det2 / det; //so I just find the point of intersection of two lines and check, if the point belongs to both segments
-		Point P(x, y);
-		return (point_in_segment(S1, P) && point_in_segment(S2, P));
-	}
-	else return 0;
-}
+//double Angle(Segment &S1, Segment &S2) {
+//	double x1 = S1.x2() - S1.x1();
+//	double y1 = S1.y2() - S1.y1();
+//	double x2 = S2.x2() - S2.x1();
+//	double y2 = S2.y2() - S2.y1();
+//	double _angle = ((x1*x2 + y1*y2) / (sqrt((double)x1*x1 + y1*y1)*sqrt((double)x2*x2 + y2*y2)));
+//	if (_angle < -1) _angle = -1;
+//	else if (_angle > 1) _angle = 1;
+//	return acos(_angle);
+//}
+//
+//bool point_in_segment(Segment s, Point p) { //checks if the point belongs to segment
+//	if (s.point1().distanceToPoint(p.getX(),p.getY()) + s.point2().distanceToPoint(p.getX(),p.getY()) - s.point1().distanceToPoint(s.point2().getX(), s.point2().getY()) < eps)  return 1;
+//	return 0;
+//}
+//
+//bool segments_intersection(Segment S1, Segment S2) {
+//	double det = S1.A() * S2.B() - S2.A() * S1.B(); //Cramer's rule
+//	if (det > eps) {
+//		double det1 = -S1.C() * S2.B() + S2.C() * S1.B(); // "-" because we need to reduce the equation to the next form : a11*x1 + a12*x2 = b
+//		double det2 = -S1.A() * S2.C() + S2.A() * S1.C(); // so now we have something like A*x + B*y = -C
+//		double x = det1 / det;
+//		double y = det2 / det; //so I just find the point of intersection of two lines and check, if the point belongs to both segments
+//		Point P(x, y);
+//		return (point_in_segment(S1, P) && point_in_segment(S2, P));
+//	}
+//	else return 0;
+//}
 
 class Circle : public GraphPrimitive {
 	Point *_center;
 	double _radius;
-	//Equation _equation; // x^2 + y^2 + Ax + By + C = 0
 
 public:
 	Circle() : 

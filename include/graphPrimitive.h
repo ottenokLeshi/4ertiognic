@@ -15,6 +15,7 @@ public:
 		return static_id;
 	}
 	GraphPrimitive() { 
+		static_id = 0;
 		_isFixed = 0;
 		_id = GraphPrimitive::next_object_id();
 	}
@@ -31,8 +32,8 @@ public:
 	virtual bool isInRect(double x1, double y1, double x2, double y2) = 0;
 
 	virtual double distanceToPoint(double x, double y) = 0;
+	
 };
 
-int GraphPrimitive::static_id = 0;
 
 #endif _GRAPHPRIMITIVE_H

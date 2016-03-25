@@ -9,7 +9,7 @@ List<GraphPrimitive*>* Core::selectByRect(double x1, double y1, double x2, doubl
 		if (objects.get_elem(i)->isInRect(x1, y1, x2, y2))
 			PickedObjects->add_back(objects.get_elem(i));
 		}
-			return PickedObjects;
+		return PickedObjects;
 }
 
 GraphPrimitive* Core::selectByPoint(Point p) {
