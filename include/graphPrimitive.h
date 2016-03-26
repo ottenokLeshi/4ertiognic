@@ -35,6 +35,5 @@ public:
 	
 };
 
-int GraphPrimitive::static_id = 0;
 
 #endif _GRAPHPRIMITIVE_H
