@@ -11,7 +11,7 @@ public:
 		:_S1(S1), _S2(S2) {}
 	virtual ~RestrS2SPARAL() {}
 	virtual RestrictType get_type() const { return RT_S2SPARAL; }
-	virtual double violation() const { return Angle(*_S1, *_S2); }
+	virtual double violation() const { return _S1->Angle(_S2); }
 };
 
 #endif
