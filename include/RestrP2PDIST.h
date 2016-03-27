@@ -3,7 +3,7 @@
 #include "objects.h"
 #include "BasicRestriction.h"
 #include "math.h"
-class RestrP2PDIST:BasicRestriction
+class RestrP2PDIST:public BasicRestriction
 {
 public:
 	RestrP2PDIST(Point *A, Point *B, double *dist)

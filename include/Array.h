@@ -1,6 +1,5 @@
 #ifndef _ARRAY_H
 #define _ARRAY_H
-
 template <typename T> class Array {
 public:
 	explicit Array(size_t size)
@@ -19,10 +18,12 @@ public:
 	{
 		return size_;
 	}
-
-    T get(size_t i) const {
-		return data_[i]; // получение €чейки с индексом i
+	T operator[](size_t elem) const{
+		return data_[elem];
 	}
+   /* T* get(size_t i) const {
+		return *data_[i]; // получение €чейки с индексом i
+	}*/
 
 	~Array() {  // деструктор
 		delete[] data_;
@@ -46,12 +47,30 @@ public:
 		delete[] data_;
 		data_ = &newdata_[0];
 	}
-
-	
-
+	void set_el(size_t i, T A) {
+		data_[i] = A;
+	}
+		Array<T> &operator=(const Array<T> &K) {
+			
+			delete[] data_;
+			size_ = K.size_;
+			data_ = new T[size_];
+		for (size_t i = 0; i < size_; ++i) {
+			data_[i] = K.data_[i];
+		}
+		return *this;
+	}
+		/*std::ostream &operator<< (std::ostream &s, const Array<double> *x0) {
+			for (size_t i = 0; i < x0.size(); ++i) {
+				s << a[i] << " ";
+			}
+			return s;
+		}*/
+		
 private:
-	size_t size_;
 	T * data_;
+	size_t size_;
+	
 };
 
 
