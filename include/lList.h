@@ -12,6 +12,38 @@ template <class T> class List
 	Cell<T> *first;
 	Cell<T> *last;
 public:
+	class Marker {
+	private:
+		Cell<T> *current;
+	public:
+		//friend class List;
+		Marker(Cell<T> *n = 0) {
+			current = n;
+		};
+		~Marker() {};
+
+		bool can_move() {
+			if (current->next == NULL) return 0;
+			else return 1;
+		} 
+
+		void move_next() {
+			if (can_move()) {
+				current = current->next;
+			}
+			else return;
+		}
+		T get_current() {
+			return current->data;
+		}
+
+	};
+
+	Marker to_start() {
+		Marker m(first); //Marker m; m.current = first;
+		return m;
+	};
+	
 	List()
 	{
 		first = NULL;
