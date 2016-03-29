@@ -4,7 +4,7 @@
 #include "objects.h"
 #include "Array.h"
 #include "RestrP2PDIST.h"
-const double EPS = 1e-10;
+const double EPS = 1e-9;
 class functi {
 	BasicRestriction *_r;
 	Point*_p1, *_p2;
@@ -33,19 +33,50 @@ Array<double>& diff(functi *fun, const Array<double>&x0) {
 		}
 	return *result;
 }
-class solver {
-public:
-	solver(functi *f, Array<double>&x0) {
-		while (abs((*f)(x0))> EPS) { // EPS = 1e-10
-			if ((*f)(x0) > EPS) {
-				x0.set_el(0, x0[0] - diff(f, x0)[0]);
-				x0.set_el(0, x0[1] - diff(f, x0)[1]);
+solver(functi *f, Array<double>&x0) {
+		Array<double> V_(2);
+		double i = abs((*f)(x0))/2;
+		V_.set_el(0, x0[0] + i);
+		V_.set_el(1, x0[1]);
+		while (abs((*f)(x0))> EPS) { // EPS = 1e-9
+			while (true){ 
+			if (i < EPS) break;
+			if (abs((*f)(V_)) < abs((*f)(x0))) {
+					x0 = V_;
+					V_.set_el(0, x0[0] + i);
+				continue;}
+			V_ = x0;
+			V_.set_el(0, x0[0] - i);
+			if (abs((*f)(V_)) > abs((*f)(x0))) {
+				i /= 10;
+				V_ = x0; 
+				V_.set_el(0, x0[0] - i);
+				continue;
+				}
+				i /= 10;
 			}
-			if ((*f)(x0) < EPS) {
-				x0.set_el(0, x0[0] + diff(f, x0)[0]);
-				x0.set_el(0, x0[1] + diff(f, x0)[1]);
+			i = abs((*f)(x0));
+			if (abs((*f)(x0))< EPS) { break; }
+			V_.set_el(1, x0[1] + i);
+			while (true)
+			{
+				if (i < EPS) break;
+				if (abs((*f)(V_))<abs((*f)(x0))) {
+						x0 = V_; 
+						V_.set_el(1, x0[1] + i);
+					continue;
+				}
+				V_ = x0;
+				V_.set_el(1, x0[1] - i);
+				if (abs((*f)(V_)) > abs((*f)(x0))) {
+						i /= 10;
+						V_ =x0; // continue
+						V_.set_el(1, x0[1] - i);
+					continue;
+				}
+				i = abs((*f)(x0));
 			}
 		}
-	}
-};
+	};
+
 #endif
