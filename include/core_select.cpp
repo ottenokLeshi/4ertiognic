@@ -1,17 +1,19 @@
 #ifndef _CORE_SELECT_H
 #define _CORE_SELECT_H
 #include "../include/core.h"
+#include "../include/List.h"
 
-
-List<GraphPrimitive*>* Core::selectByRect(double x1, double y1, double x2, double y2) {
-	List<GraphPrimitive*>* PickedObjects = new List<GraphPrimitive*>;
-	for (int i = 0; i < objects.size();i++) {
-		if (objects.get_elem(i)->isInRect(x1, y1, x2, y2))
-			PickedObjects->add_back(objects.get_elem(i));
+List<unsigned>* Core::selectByRect(double x1, double y1, double x2, double y2) {
+	List<unsigned>* PickedObjects = new List<unsigned>;
+	List<unsigned>::Marker p(*PickedObjects);
+	for (List<GraphPrimitive*>::Marker mar(objects);mar.exist();mar.move_next()) {
+		if (mar.get_current()->isInRect(x1, y1, x2, y2)) {
+			PickedObjects->addElem(p, mar.get_current()->showId());
 		}
+	}
 		return PickedObjects;
 }
-
+/*
 GraphPrimitive* Core::selectByPoint(Point p) {
 	GraphPrimitive* PickedObject = NULL;
 	const double EPS = 1e-10;
@@ -32,5 +34,5 @@ GraphPrimitive* Core::selectByPoint(Point p) {
 	}
 	return PickedObject;
 }
-
+*/
 #endif
