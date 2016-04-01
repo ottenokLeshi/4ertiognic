@@ -171,13 +171,18 @@ public:
         return Marker(_data + _size);
     }
 
-    Marker search(const T& item) {
-        for (Marker mar(_data); mar != this->end(); mar++) {
-            if (*mar == item)
-                return mar;
-        }
-        return this->end();
-    }
 };
 
+// sequential search
+template <class Marker, class T>
+    Marker search(Marker beg, Marker end, const T& item) {
+    while(beg != end) {
+        if (*beg == item)
+            return beg;
+        ++beg;
+    }
+    return end;
+};
+
+// binary search
 #endif

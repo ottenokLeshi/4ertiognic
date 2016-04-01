@@ -6,13 +6,18 @@ void test_array(Array<int> &A) {
     cout << "Current array: ";
     for (size_t i = 0; i < A.size(); i++) cout << A[i] << " ";
     cout << endl;
-    Array<int>::Marker mar(A);
-    //A.del(1);
-    cout << "Will set marker to: " << mar.get_data() << endl;
-    cout << "Now increment marker: "; ++mar;
-    cout << *mar << endl; // can use * like pointers
-    cout << "Now erase marked: ";
-    A.erase(mar);
+    Array<int>::Marker mar(A.begin());
+    Array<int>::Marker mar1(A.end()); --mar1;
+    //A.erase(1);
+    cout << "1st marker: " << mar.get_data() << " and 2nd: " << *mar1 << endl;
+    cout << "Increment 1st & erase: "; ++mar; A.erase(mar);
+    
+    for (size_t i = 0; i < A.size(); i++) cout << A[i] << " ";
+    cout << endl;
+
+    Array<int>::Marker start(A.begin());
+    Array<int>::Marker stop(A.end()); stop--;
+    cout << ((search(start, stop, 14) != stop) ? "14 is here" : "14 is out") << endl;
 }
 
 int main() {
@@ -26,13 +31,8 @@ int main() {
 
     test_array(A);
 
-    for (size_t i = 0; i < A.size(); i++) {
-        cout << A[i] << " ";
-    }
     cout << endl;
-    
-    cout << ((A.search(15) != A.end()) ? "15 is in array" : "no 15") << endl;
-    cout << ((A.search(99) != A.end()) ? "99 is in array" : "no 99") << endl;
+    cout << "Test exited." << endl;
 
-     return 0;
+    return 0;
 }
