@@ -85,9 +85,6 @@ public:
 	{
 		return IsSegment;
 	}
-	double distanceToPoint(double x, double y) {
-		return 0.1;
-	};
 
 	virtual bool isInRect(double x1, double y1, double x2, double y2) {
 		if (((x1 <= _t1->getX()) && (_t1->getX() <= x2) && (y1 <= _t1->getY()) && (_t1->getY() <= y2)) || ((x1 <= _t2->getX()) && (_t2->getX() <= x2) && (y1 <= _t2->getY()) && (_t2->getY() <= y2)))
@@ -162,9 +159,8 @@ public:
 	Point getCenter() { return *_center; };
 	double getRadius() { return _radius; };
 	
-	double distanceToPoint(double x, double y) { //distance to circle's border, not center
-		return 0.1;
-		//return abs(sqrt(pow(_center->getX() - x, 2) + pow(_center->getY() - y, 2)) - _radius);
+	double distanceToPoint(double x, double y) { 
+		return abs(sqrt(pow(_center->getX() - x, 2) + pow(_center->getY() - y, 2)) - _radius);
 	}
 	
 	Primitive_Type object_type()
