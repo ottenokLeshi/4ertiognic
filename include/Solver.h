@@ -33,7 +33,9 @@ Array<double>& diff(functi *fun, const Array<double>&x0) {
 		}
 	return *result;
 }
-void solver(functi *f, Array<double>&x0) {
+class CSol{
+public:
+void P2PSolve(functi *f, Array<double>&x0) { // naive implementation
 		Array<double> V_(2);
 		double i = abs((*f)(x0))/2;
 		V_.set_el(0, x0[0] + i);
@@ -76,7 +78,34 @@ void solver(functi *f, Array<double>&x0) {
 				}
 				i = abs((*f)(x0));
 			}
+			// end of While
+			}
+	} 
+void P2PSolve_2(functi *f, Array<double>&x0) {
+	Array<double> V_(2);
+	bool b_mark = 1;
+	V_.set_el(0, x0[0]);
+	V_.set_el(1, x0[1]);
+	double Lam = 1;
+	while (abs((*f)(x0))> EPS) { // EPS = 1e-10
+		if ((*f)(x0) > EPS) {			
+			x0.set_el(0, x0[0] - Lam*diff(f, x0)[0]);
+			x0.set_el(1, x0[1] - Lam*diff(f, x0)[1]);
+			if (!b_mark) Lam /= 10;
+			b_mark = 1;
+			continue;
+
 		}
-	};
+		if ((*f)(x0) < EPS) {			
+			x0.set_el(0, x0[0] + Lam*diff(f, x0)[0]);
+			x0.set_el(1, x0[1] + Lam*diff(f, x0)[1]);
+			if (b_mark) Lam /= 10;
+			b_mark = 0;
+			continue;
+		}
+		// end of while
+	}
+}
+};
 
 #endif

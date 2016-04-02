@@ -8,20 +8,30 @@ for restriction P2PDIST: F(x) = sqrt((x-2)^2+(y-2)^2), in (x0,y0) = (5,0)
 #include "..\..\include\Array.h"
 #include "..\..\include\Solver.h"
 void  Test_Solver() {
+	CSol A;
 	double dist = 0;
 	double x_1 = 0, y_1 = 0;
 	double x_2 = 0, y_2 = 0;
-	Array<double> Z(2);
+	Array<double> Z(2),K(2);
 	cout << "Input point 1 (x y): "; cin >> x_1 >> y_1;
 	cout << "Input Distance: "; cin >> dist;
-	Point p1(x_1/2, x_2/2), p2(x_1, y_1);
+	Point p1(0, 0), p2(x_1, y_1);
 	RestrP2PDIST D1(&p1, &p2, &dist);
+	cout << "Test_viol = " << D1.violation() << endl;
 	functi F(&p1, &p2, &D1);
-	solver(&F, Z);
+	cout << "Test_viol2 = " << F(Z) << endl; 
+	// Naive implement
+	A.P2PSolve(&F, Z);
 	p1.setX(Z[0]);
 	p1.setY(Z[1]);
-	cout << "Violation = " << D1.violation() << endl;
-	cout << "X = " << Z[0] << endl << "Y = " << Z[1] << endl;
+	cout << endl <<"Naive implement: (X,Y) = (" << Z[0] << "," << Z[1] << ")" << endl;
+	cout << "NI: Violation : " << D1.violation() << endl;
+	// Gradient  descent *(The accuracy of the gradient descent depends on the compiler)
+	A.P2PSolve_2(&F, K);
+	p1.setX(K[0]);
+	p1.setY(K[1]);
+	cout << "Gradeint descent: (X,Y) = (" << K[0] << "," << K[1] << ")" << endl;
+	cout << "GD: Violation : " << D1.violation() << endl;
 }
 int main() {
 	const double delta = 0.0001;
