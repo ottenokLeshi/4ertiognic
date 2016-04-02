@@ -14,7 +14,7 @@ void  Test_Solver() {
 	Array<double> Z(2);
 	cout << "Input point 1 (x y): "; cin >> x_1 >> y_1;
 	cout << "Input Distance: "; cin >> dist;
-	Point p1(x_1/2, x_2/2), p2(x_1, x_2);
+	Point p1(x_1/2, x_2/2), p2(x_1, y_1);
 	RestrP2PDIST D1(&p1, &p2, &dist);
 	functi F(&p1, &p2, &D1);
 	solver(&F, Z);

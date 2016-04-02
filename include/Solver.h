@@ -33,7 +33,7 @@ Array<double>& diff(functi *fun, const Array<double>&x0) {
 		}
 	return *result;
 }
-solver(functi *f, Array<double>&x0) {
+void solver(functi *f, Array<double>&x0) {
 		Array<double> V_(2);
 		double i = abs((*f)(x0))/2;
 		V_.set_el(0, x0[0] + i);
