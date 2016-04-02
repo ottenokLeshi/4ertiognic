@@ -14,7 +14,7 @@ public:
 	};
 	virtual ~RestrS2SANGLE(){ }
 	virtual RestrictType get_type()const{return RT_S2SANGLE;};
-	virtual double violation()const { return Angle(*_S1, *_S2) - _angle; }
+	virtual double violation()const { return return _S1->Angle(_S2) - _angle; }
 private:
 	Segment *_S1;
 	Segment *_S2;

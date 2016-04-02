@@ -21,19 +21,20 @@ void  Test_Solver() {
 	functi F(&p1, &p2, &D1);
 	cout << "Test_viol2 = " << F(Z) << endl; 
 	// Naive implement
-	A.P2PSolve(&F, Z);
+	A.Solve(&F, Z);
 	p1.setX(Z[0]);
 	p1.setY(Z[1]);
 	cout << endl <<"Naive implement: (X,Y) = (" << Z[0] << "," << Z[1] << ")" << endl;
 	cout << "NI: Violation : " << D1.violation() << endl;
 	// Gradient  descent *(The accuracy of the gradient descent depends on the compiler)
-	A.P2PSolve_2(&F, K);
+	A.Solve_2(&F, K);
 	p1.setX(K[0]);
 	p1.setY(K[1]);
 	cout << "Gradeint descent: (X,Y) = (" << K[0] << "," << K[1] << ")" << endl;
 	cout << "GD: Violation : " << D1.violation() << endl;
 }
 int main() {
+	CDer B;
 	const double delta = 0.0001;
 	Array<double>  Y(2);
 	Array<double>  X(2);
@@ -49,7 +50,7 @@ int main() {
 	double dist = 2;
 	RestrP2PDIST D1(&p1,&p2,&dist);
 	functi fun(&p1, &p2, &D1);
-	cout << endl << "Dif =" << diff(&fun, X)[0]/diff(&fun, X)[1] << endl;
+	cout << endl << "Dif =" << B.diff(&fun, X)[0]/B.diff(&fun, X)[1] << endl;
 	Test_Solver(); // Test: Solver
 	system("pause");
 	return 0;
