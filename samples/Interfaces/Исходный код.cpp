@@ -18,8 +18,9 @@ int main(){
 	primitives.push_back(p2);
 	primitives.push_back(s);
 
-	Array<GraphPrimitive*>::Marker m(primitives);	
-	while ( m.canMove() ){
+	Array<GraphPrimitive*>::Marker m = primitives.begin();	
+
+	while ( m != primitives.end() ){
 		std::cout << "Object type = " << (*m)->object_type() <<  std::endl;
 		switch((*m)->object_type()){
 		case IsPoint:{
