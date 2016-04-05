@@ -19,6 +19,7 @@ public:
 		_isFixed = 0;
 		_id = GraphPrimitive::next_object_id();
 	}
+	virtual ~GraphPrimitive() {}
 	bool isFixed() const { return _isFixed; }
 	void fix(bool f) { _isFixed = f; }
 	int showId() { return _id; }

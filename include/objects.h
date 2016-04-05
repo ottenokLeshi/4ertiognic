@@ -12,7 +12,7 @@ public:
 		:_x(0), _y(0) {}
 	Point(double x, double y)
 		: _x(x), _y(y) {}
-
+	virtual ~Point() {}
 	double getX() const { return _x; }
 	double getY() const { return _y; }
 	
@@ -66,6 +66,7 @@ public:
 		}
 	}
 
+	virtual ~Segment() {}
 
 	double getLength() { return _length; }
 
@@ -155,11 +156,12 @@ public:
 		_center(0), _radius(0) {};
 	Circle(Point *center, double radius)
 		: _center(center), _radius(radius) {};
+	virtual ~Circle() {}
 	
 	Point getCenter() { return *_center; };
 	double getRadius() { return _radius; };
 	
-	double distanceToPoint(double x, double y) { 
+	virtual double distanceToPoint(double x, double y)const { 
 		return abs(sqrt(pow(_center->getX() - x, 2) + pow(_center->getY() - y, 2)) - _radius);
 	}
 	
@@ -167,7 +169,7 @@ public:
 	{
 		return IsCircle;
 	}
-	bool isInRect(double x1, double y1, double x2, double y2) {
+	virtual bool isInRect(double x1, double y1, double x2, double y2)const {
 		//search min length from center to points
 		double X = _center->getX(), Y = _center->getY();
 		double l1 = sqrt((X - x1)*(X - x1) + (Y - y2)*(Y - y2)), l2 = sqrt((X - x1)*(X - x1) + (Y - y1)*(Y - y1));

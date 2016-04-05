@@ -8,7 +8,7 @@ List<unsigned>* Core::selectByRect(double x1, double y1, double x2, double y2) {
 	List<unsigned>::Marker p(*PickedObjects);
 	for (List<GraphPrimitive*>::Marker mar(objects);mar.exist();mar.move_next()) {
 		if (mar.get_current()->isInRect(x1, y1, x2, y2)) {
-			PickedObjects->addElem(p, mar.get_current()->showId());
+			PickedObjects->push_back(mar.get_current()->showId());
 			mar.get_current()->changePick(1);
 		}
 		else mar.get_current()->changePick(0); // delete last selection
@@ -31,8 +31,3 @@ unsigned Core::selectByPoint(Point p) {
 }
 
 #endif
-
-int main() {
-
-	return 0;
-}

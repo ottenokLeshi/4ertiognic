@@ -4,7 +4,7 @@
 #include "BasicRestriction.h"
 #include <cmath>
 
-class RestrP2SDIST : BasicRestriction {
+class RestrP2SDIST : public BasicRestriction {
 public:
 	RestrP2SDIST( Point *beg, Point *end, Point *t, double *dist)
 		:_beg (beg),_end(end),_t(t),_dist(dist){}
