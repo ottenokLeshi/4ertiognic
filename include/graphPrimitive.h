@@ -29,9 +29,9 @@ public:
     void changePick(bool p) { _isPicked = p;}
 
 	virtual Primitive_Type object_type() = 0;
-	virtual bool isInRect(double x1, double y1, double x2, double y2) = 0;
+	virtual bool isInRect(double x1, double y1, double x2, double y2) const= 0;
 
-	virtual double distanceToPoint(double x, double y) = 0;
+	virtual double distanceToPoint(double x, double y)const = 0;
 	
 };
 
