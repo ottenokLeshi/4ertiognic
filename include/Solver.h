@@ -2,6 +2,7 @@
 #define _SOLVER
 #include "BasicRestriction.h"
 #include "objects.h"
+#include "Nelder-Mead_Method.h"
 #include "Array.h"
 #include "RestrP2PDIST.h"
 const double EPS = 1e-10;
@@ -31,6 +32,11 @@ public:
 		*_S1 = S;
 		return _r->violation();
 	}
+	double operator()(const Vertex &V) {
+		(*_p1).setX(V.x);
+		(*_p1).setX(V.y);
+		return _r->violation();
+	}
 };
 class CDer {
 public:
@@ -46,6 +52,7 @@ public:
 		}
 		return *result;
 	}
+
 };
 class CSol{
 public:
@@ -116,16 +123,15 @@ void Solve_2(functi *f, Array<double>&x0) { // Gradient  descent >>> P2P
 		}
 	} // end of while
 }
-void  Solve_2(functi *f,Segment &S) { // S2SANGLE 
+void  Solve_2(functi *f,Segment &S) { // S2SANGLE
 	CDer A;
-	double X = (*S.getP1).getX()- (*S.getP2).getX(), Y = (*S.getP1).getY()- (*S.getP2).getY();
+	double X = (*S.getP1()).getX()- (*S.getP2()).getX(), Y = (*S.getP1()).getY()- (*S.getP2()).getY();
 		X = cos((*f)(S))*X + (sin((*f)(S)))*Y;
 		Y = -sin((*f)(S))*X + (cos((*f)(S)))*Y;
 	Point Home,End(X,Y);
-	Segment _vS(&Home, &End);
-	S = _vS;
+	//	Segment _vS(&Home, &End);
+	//	S = _vS;
 }
 };
 
 #endif
-
