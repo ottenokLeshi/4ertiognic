@@ -3,10 +3,9 @@
 #include "objects.h"
 #include "BasicRestriction.h"
 
-class RestrS2SANGLE:BasicRestriction
-{
+class RestrS2SANGLE: public BasicRestriction{
 public:
-	RestrS2SANGLE(Segment *S1, Segment *S2, double angle)
+	RestrS2SANGLE(Segment *S1, Segment *S2, double *angle)
 	{
 		_S1 = S1;
 		_S2 = S2;
@@ -14,11 +13,11 @@ public:
 	};
 	virtual ~RestrS2SANGLE(){ }
 	virtual RestrictType get_type()const{return RT_S2SANGLE;};
-	virtual double violation()const { return return _S1->Angle(_S2) - _angle; }
+	virtual double violation()const { return _S1->Angle(_S2) - *_angle; }
 private:
 	Segment *_S1;
 	Segment *_S2;
-	double _angle;
+	double *_angle;
 };
 
 #endif

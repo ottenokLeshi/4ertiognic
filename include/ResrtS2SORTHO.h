@@ -3,12 +3,12 @@
 
 #include "BasicRestriction.h"
 
-class ResrtS2SORTHO : BasicRestriction {
+class RestrS2SORTHO : public BasicRestriction {
 	Segment *_S1, *_S2;
 public:
-	ResrtS2SORTHO(Segment *S1, Segment *S2) :_S1(S1), _S2(S2) {}
+	RestrS2SORTHO(Segment *S1, Segment *S2) :_S1(S1), _S2(S2) {}
 
-	~ResrtS2SORTHO() {}
+	~RestrS2SORTHO() {}
 
 	RestrictType get_type() const { return RT_S2SORTHO; };
 	double violation()const {

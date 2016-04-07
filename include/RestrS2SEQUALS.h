@@ -3,7 +3,7 @@
 #include "objects.h"
 #include "BasicRestriction.h"
 
-class RestrS2SEQUALS:BasicRestriction
+class RestrS2SEQUALS:public BasicRestriction
 {
 public:
 	RestrS2SEQUALS(Segment *S1, Segment *S2)

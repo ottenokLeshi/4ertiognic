@@ -11,13 +11,12 @@ public:
     friend class Marker;
     class Marker {
     private:
-        T * _current;
-
+        T * _current;		
     public:
         friend class Array<T>;
 
         Marker(const Array& A) {
-            _current = A._data;
+            _current = A._data;		
         }
 
         Marker(T *item) {
@@ -25,6 +24,7 @@ public:
         }
 
         ~Marker() {};
+		
 
         T& get_data() {
             return *_current;

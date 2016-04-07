@@ -12,7 +12,7 @@ public:
 		:_x(0), _y(0) {}
 	Point(double x, double y)
 		: _x(x), _y(y) {}
-
+	virtual ~Point() {}
 	double getX() const { return _x; }
 	double getY() const { return _y; }
 	
@@ -26,7 +26,7 @@ public:
 		}					// add exceptions in case point is fixed 
 	}
 
-	 virtual double distanceToPoint(double x, double y) {
+	 virtual double distanceToPoint(double x, double y)const  {
 		 return sqrt((_x - x)*(_x - x) + (_y - y)*(_y - y));
 	 }
 
@@ -35,7 +35,7 @@ public:
 		return IsPoint;
 	}
 
-	virtual bool isInRect(double x1, double y1, double x2, double y2) {
+	virtual bool isInRect(double x1, double y1, double x2, double y2) const {
 		if ((x1 <= _x) && (_x <= x2) && (y1 <= _y) && (_y <= y2))
 			return true;
 		else return false;
@@ -66,6 +66,7 @@ public:
 		}
 	}
 
+	virtual ~Segment() {}
 
 	double getLength() { return _length; }
 
@@ -86,7 +87,7 @@ public:
 		return IsSegment;
 	}
 
-	virtual bool isInRect(double x1, double y1, double x2, double y2) {
+	virtual bool isInRect(double x1, double y1, double x2, double y2)const {
 		if (((x1 <= _t1->getX()) && (_t1->getX() <= x2) && (y1 <= _t1->getY()) && (_t1->getY() <= y2)) || ((x1 <= _t2->getX()) && (_t2->getX() <= x2) && (y1 <= _t2->getY()) && (_t2->getY() <= y2)))
 			return true;
 		else return false;
@@ -108,8 +109,8 @@ public:
 		return 0;
 	}
 
-	virtual double distanceToPoint(Point *_t) const {
-		double x1 = _t1->getX(), x2 = _t2->getX(), y1 = _t1->getY(), y2 = _t2->getY(), xt = _t->getX(), yt = _t->getY();
+	virtual double distanceToPoint(double xt, double yt) const {
+		double x1 = _t1->getX(), x2 = _t2->getX(), y1 = _t1->getY(), y2 = _t2->getY();
 		double vec1x = x1 - xt, vec1y = y1 - yt, vec2x = x2 - xt, vec2y = y2 - yt, segx = x1 - x2, segy = x2 - y2;
 		if ((vec1x*segx + vec1y*segy)*(vec2x*segx + vec2y*segy) < 0) {
 			if (x1 == x2) {
@@ -155,11 +156,12 @@ public:
 		_center(0), _radius(0) {};
 	Circle(Point *center, double radius)
 		: _center(center), _radius(radius) {};
+	virtual ~Circle() {}
 	
 	Point getCenter() { return *_center; };
 	double getRadius() { return _radius; };
 	
-	double distanceToPoint(double x, double y) { 
+	virtual double distanceToPoint(double x, double y)const { 
 		return abs(sqrt(pow(_center->getX() - x, 2) + pow(_center->getY() - y, 2)) - _radius);
 	}
 	
@@ -167,7 +169,7 @@ public:
 	{
 		return IsCircle;
 	}
-	bool isInRect(double x1, double y1, double x2, double y2) {
+	virtual bool isInRect(double x1, double y1, double x2, double y2)const {
 		//search min length from center to points
 		double X = _center->getX(), Y = _center->getY();
 		double l1 = sqrt((X - x1)*(X - x1) + (Y - y2)*(Y - y2)), l2 = sqrt((X - x1)*(X - x1) + (Y - y1)*(Y - y1));
