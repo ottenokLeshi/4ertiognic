@@ -22,16 +22,23 @@ void Core::addObject(Array<double> parametrs, Primitive_Type type) {
 
 bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType type) {
 	List<GraphPrimitive*> id_obj;
-	for (List<GraphPrimitive*>::Marker mar(objects);mar.exist();mar.move_next())
-		for (List<unsigned>::Marker mar_id(*id);mar_id.exist();mar.move_next())
+	BasicRestriction* newrest = 0;
+	List<GraphPrimitive*>::Marker mar(objects);
+	for (size_t i = 0; i < objects.sizeList();i++) {
+		List<unsigned>::Marker mar_id(*id);
+		for (size_t j = 0;j < id->sizeList();j++) {
 			if (mar.get_current()->showId() == mar_id.get_current())
 				id_obj.push_back(mar.get_current());
-	BasicRestriction* newrest = 0;
+			mar_id.move_next();
+		}
+		mar.move_next();
+	}
 	switch (type) {
 
 	case RT_FIX:
 		for (List<GraphPrimitive*>::Marker mar(id_obj);mar.exist();mar.move_next())
 			mar.get_current()->fix(1);
+		break;
 
 	case RT_P2PDIST:
 		if (id_obj.sizeList() == 2) {
@@ -41,6 +48,7 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			Point *p2 = dynamic_cast<Point*> (mar.get_current());
 			newrest = new RestrP2PDIST(p1, p2, parametr);
 		}
+		break;
 
 	case RT_P2SDIST:
 		if (id_obj.sizeList() == 3) {
@@ -52,6 +60,7 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			Point *p3 = dynamic_cast<Point*> (mar.get_current());
 			newrest = new RestrP2SDIST(p1, p2, p3, parametr);
 		}
+		break;
 
 	case RT_P2SDISTEX:
 		if (id_obj.sizeList() == 3) {
@@ -63,6 +72,7 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			Point *p3 = dynamic_cast<Point*> (mar.get_current());
 			newrest = new RestrP2SDISTEX(p1, p2, p3, parametr);
 		}
+		break;
 
 	case RT_S2SANGLE:
 		if (id_obj.sizeList() == 2) {
@@ -72,6 +82,7 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			Segment *p2 = dynamic_cast<Segment*> (mar.get_current());
 			newrest = new RestrS2SANGLE(p1, p2, parametr);
 		}
+		break;
 
 	case RT_S2SEQUALS:
 		if (id_obj.sizeList() == 2) {
@@ -81,6 +92,7 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			Segment *p2 = dynamic_cast<Segment*> (mar.get_current());
 			newrest = new RestrS2SEQUALS(p1, p2);
 		}
+		break;
 
 	case RT_S2SPARAL:
 		if (id_obj.sizeList() == 2) {
@@ -90,6 +102,7 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			Segment *p2 = dynamic_cast<Segment*> (mar.get_current());
 			newrest = new RestrS2SPARAL(p1, p2);
 		}
+		break;
 
 	case RT_S2SORTHO:
 		if (id_obj.sizeList() == 2) {
@@ -99,23 +112,23 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			Segment *p2 = dynamic_cast<Segment*> (mar.get_current());
 			newrest = new RestrS2SORTHO(p1, p2);
 		}
+		break;
 	}
 		// change object and check restrictions
 		/*solver()
 		...
 		*/
-		for (List<BasicRestriction*>::Marker mar(restrictions);mar.exist();mar.move_next())
-			if (mar.get_current()->violation() != 0) {
+	List<BasicRestriction*>::Marker mar_r(restrictions)
+		for (size_t i = 0;i < restrictions.sizeList();i++) {
+			if (mar_r.get_current()->violation() != 0) {
 				//remove changes
 				delete newrest;
 				return false;
 			}
+			mar_r.move_next();
+		}
 		//save changes
 		restrictions.push_back(newrest);
 		return true;
 }
 
-int main() {
-
-	return 0;
-}
