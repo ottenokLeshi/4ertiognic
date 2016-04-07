@@ -14,7 +14,7 @@ public:
 
 	~MatlabRenderer() {}
 
-	bool drawPrimitive(Primitive_Type type, Array<double> parametrs, size_t markersize) {
+	bool drawPrimitive(Primitive_Type type,const Array<double> &parametrs, size_t markersize) {
 		fstream f;
 		f.open(_filename);
 		if (!f.is_open()) return false;
