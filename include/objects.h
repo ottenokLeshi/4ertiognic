@@ -1,6 +1,8 @@
 #ifndef _OBJECTS_H
 #define _OBJECTS_H
 #include "graphPrimitive.h"
+#include <iostream>
+using namespace std;
 
 const double eps = 1e-6;
 
@@ -49,6 +51,7 @@ class Segment :public GraphPrimitive {
 	double _length;
 	double _A, _B, _C;
 public:
+	friend ostream& operator<<(ostream& ost, Segment &S);
 	Segment()
 		: _t1(0), _t2(0), _A(0), _B(0), _C(0) {}
 
@@ -142,10 +145,24 @@ public:
 		}
 		else return 0;
 	}
+
+	Segment& operator=(Segment &S) {
+		_t1->setX(S.x1());
+		_t1->setY(S.y1());
+		_t2->setX(S.x2());
+		_t2->setY(S.y2());
+		_length = sqrt((_t1->getX() - _t2->getX())*(_t1->getX() - _t2->getX()) + (_t1->getY() - _t2->getY())*(_t1->getY() - _t2->getY()));
+		_A = S.A();
+		_B = S.B();
+		_C = S.C();
+		return *this;
+	}
 };
 
-
-
+ostream& operator<<(ostream& ost, Segment &S) {
+	ost << '(' << S.x1() << ',' << S.y1() << ')' << ' ' << '(' << S.x2() << ',' << S.y2() << ')';
+	return ost;
+}
 
 class Circle : public GraphPrimitive {
 	Point *_center;
