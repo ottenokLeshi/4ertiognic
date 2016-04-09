@@ -19,6 +19,7 @@ class Core {
 public:
 	List<GraphPrimitive*> objects;
 	List<BasicRestriction*> restrictions;
+	List<GraphPrimitive*> backupObjects;
 	Core() {};
 	void addPrimitive(int type, const Array<double> &params) {}; // need to check are the parameters valid
 	List<unsigned>* Core::selectByRect(double x1, double y1, double x2, double y2);
@@ -28,6 +29,7 @@ public:
 	void addObject(GraphPrimitive* obj) {
 		objects.push_back(obj);
 	}
+	void backupState();
 };
 
 #endif

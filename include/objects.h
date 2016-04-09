@@ -17,20 +17,20 @@ public:
 	virtual ~Point() {}
 	double getX() const { return _x; }
 	double getY() const { return _y; }
-	
+
 	void setX(double x) { _x = x; }
 	void setY(double y) { _y = y; }
 
-	void changeCoord(double x, double y) {
+	void changePoint(double x, double y) {
 		if (!isFixed()) {
 			_x = x;
 			_y = y;
 		}					// add exceptions in case point is fixed 
 	}
 
-	 virtual double distanceToPoint(double x, double y)const  {
-		 return sqrt((_x - x)*(_x - x) + (_y - y)*(_y - y));
-	 }
+	virtual double distanceToPoint(double x, double y)const {
+		return sqrt((_x - x)*(_x - x) + (_y - y)*(_y - y));
+	}
 
 	virtual Primitive_Type object_type()
 	{
@@ -96,6 +96,13 @@ public:
 		else return false;
 	}
 
+	void changeSegment(Point *p1, Point *p2) {
+		if (!isFixed()) {
+			_t1 = p1;
+			_t2 = p2;
+		}
+	}
+
 	double Angle(Segment *S2) {
 		double x1 = _t2->getX() - _t1->getX();
 		double y1 = _t2->getY() - _t1->getY();
@@ -159,29 +166,36 @@ public:
 	}
 };
 
-ostream& operator<<(ostream& ost, Segment &S) {
-	ost << '(' << S.x1() << ',' << S.y1() << ')' << ' ' << '(' << S.x2() << ',' << S.y2() << ')';
-	return ost;
+/*ostream& operator<<(ostream& ost, Segment &S) {
+ost << '(' << S.x1() << ',' << S.y1() << ')' << ' ' << '(' << S.x2() << ',' << S.y2() << ')';
+return ost;
 }
-
+*/
 class Circle : public GraphPrimitive {
 	Point *_center;
 	double _radius;
 
 public:
-	Circle() : 
+	Circle() :
 		_center(0), _radius(0) {};
 	Circle(Point *center, double radius)
 		: _center(center), _radius(radius) {};
 	virtual ~Circle() {}
-	
+
 	Point getCenter() { return *_center; };
 	double getRadius() { return _radius; };
-	
-	virtual double distanceToPoint(double x, double y)const { 
+
+	void changeCircle(Point *center, double rad) {
+		if (!isFixed()) {
+			_center = center;
+			_radius = rad;
+		}
+	}
+
+	virtual double distanceToPoint(double x, double y)const {
 		return abs(sqrt(pow(_center->getX() - x, 2) + pow(_center->getY() - y, 2)) - _radius);
 	}
-	
+
 	Primitive_Type object_type()
 	{
 		return IsCircle;
@@ -203,3 +217,4 @@ public:
 
 
 #endif
+
