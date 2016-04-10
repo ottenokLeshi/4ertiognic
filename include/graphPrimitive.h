@@ -15,7 +15,6 @@ public:
 		return static_id;
 	}
 	GraphPrimitive() { 
-		static_id = 0;
 		_isFixed = 0;
 		_id = GraphPrimitive::next_object_id();
 	}

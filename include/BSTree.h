@@ -67,8 +67,46 @@ private:
 		}
 		else return NULL;
 	}
-	
+
+	Node<KEY_T, VAL_T>* min_el(Node<KEY_T, VAL_T>* subtree){
+		while(subtree->left != NULL) subtree = subtree->left;
+		return subtree;
+	}
+
+	void del(KEY_T key, Node<KEY_T, VAL_T> *subtree) {
+		if(subtree == NULL) return;
+		else if(key < subtree->key) subtree->left = del(key, subtree->left);
+		else if(key > subtree->key) subtree->right = del(key, subtree->right);
+		else {
+			if (subtree->left == NULL && subtree->right == NULL) { 
+				delete subtree;
+				subtree = NULL;
+			}
+			else if (subtree->right != NULL) {
+				Node<KEY_T, VAL_T> *tmp = new Node<KEY_T, VAL_T>;
+				tmp = subtree;
+				subtree = subtree->right;
+				delete tmp;
+			}
+			else if (subtree->left != NULL) {
+				Node<KEY_T, VAL_T> *tmp = new Node<KEY_T, VAL_T>;
+				tmp = subtree;
+				subtree = subtree->left;
+				delete tmp;
+			}
+			else {
+				Node<KEY_T, VAL_T> *tmp = new Node<KEY_T, VAL_T>;
+				tmp = min_el(subtree->right);
+				subtree->data = tmp->data;
+				subtree->ker = tmp->key;
+				subtree->right = del(tmp->key, subtree->right);
+			}
+		}
+	}
+
 public:
+	//friend class Marker;
+	//to be continued..
 	BinaryTree() {
 		root = NULL;
 	}
@@ -101,8 +139,8 @@ public:
 			throw std::logic_error("No such element in the tree");
 	}
 
-	void del(KEY_T key) {
-		// To be continued...
+	Node<KEY_T, VAL_T>* Del(KEY_T key) {
+		return del(key, root);
 	}
 };
 
