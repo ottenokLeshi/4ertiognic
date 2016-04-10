@@ -3,7 +3,7 @@
 
 #include "BasicRestriction.h"
 #include <cmath>
-class RestrP2SDISTEX : BasicRestriction {
+class RestrP2SDISTEX : public BasicRestriction {
 public:
 	RestrP2SDISTEX(Point *beg, Point *end, Point *t, double *min)
 		:_beg(beg), _end(end), _t(t), _min(min) {}

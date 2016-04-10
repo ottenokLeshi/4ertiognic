@@ -61,7 +61,24 @@ public:
 
 		Marker operator--() { return Marker(current->prev); }
 
-		bool operator==(const Marker& mar) { return current == mar.current; }
+		bool valid(){
+			if (current) return true;
+			return false;
+		}
+
+		bool operator==(const Marker& mar){
+			return current == mar.current;
+		}
+
+		bool operator!=(const Marker& mar){
+			return current != mar.current;
+		}
+
+		void operator=(const Marker& mar){
+			current = mar.current;
+		}
+
+		
 	};
 	//-----------------------------------------------------
 
@@ -109,7 +126,8 @@ public:
 
 	//delete element
 	void deleteElem(Marker);
-
+	void push_front(const T&);
+	void push_back(const T&);
 	//delete all elements
 	void deleteAll();
 
@@ -172,7 +190,50 @@ template<typename item_type> void List<item_type>::deleteAll(){
 	return;
 }
 
+template<typename T> void List<T>::push_front(const T &elem)
+{
+	if (first)
+	{
+		Cell *c = new Cell;
+		first->prev = c;
+		first->prev->next = first;
+		first = c;
+		first->data = elem;
+		first->prev = 0;
+		size++;
+	}
+	else
+	{
+		first = new Cell;
+		first->data = elem;
+		first->next = 0;
+		first->prev = 0;
+		last = first;
+		size = 1;
+	}
+}
 
-
+template<typename T> void List<T>::push_back(const T &elem)
+{
+	if (first)
+	{
+		Cell *c = new Cell;
+		last->next = c;
+		last->next->prev = last;
+		last = c;
+		last->data = elem;
+		last->next = 0;
+		size++;
+	}
+	else
+	{
+		first = new Cell;
+		first->data = elem;
+		first->next = 0;
+		first->prev = 0;
+		last = first;
+		size = 1;
+	}
+}
 #endif
 
