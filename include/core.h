@@ -30,6 +30,13 @@ public:
 		objects.push_back(obj);
 	}
 	void backupState();
+	GraphPrimitive* searchID(int index){
+		List<GraphPrimitive*>::Marker mar(objects);
+		for (size_t i = 0; i<objects.sizeList(); i++){
+			if (mar.get_current()->show.Id() == index) return mar.get_current();
+			mar.move_next();
+		}
+	}
 };
 
 #endif
