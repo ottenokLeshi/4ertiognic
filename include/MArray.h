@@ -11,12 +11,13 @@ public:
     friend class Marker;
     class Marker {
     private:
-        T * _current;		
+        T * _current;
+
     public:
         friend class Array<T>;
 
         Marker(const Array& A) {
-            _current = A._data;		
+            _current = A._data;
         }
 
         Marker(T *item) {
@@ -24,7 +25,6 @@ public:
         }
 
         ~Marker() {};
-		
 
         T& get_data() {
             return *_current;
@@ -39,8 +39,6 @@ public:
         }
 
         Marker operator++() {
-            // I don't know how to access to members of Array (_size and _data)
-            //
             //if (_size == 0 || _current == _data[_size - 1])
             //    throw std::out_of_range("Index is out of range");
             return Marker(++_current);
@@ -101,6 +99,10 @@ public:
         return _size;
     }
 
+    bool empty() const {
+        return (_size == 0) ? true : false;
+    }
+
     void push_back(const T& newItem) {
         T *newData = new T[_size + 1];
         for (size_t i = 0; i < _size; i++)
@@ -120,7 +122,6 @@ public:
     void erase(Marker mar) {
         if (!mar.is_null())
             throw std::out_of_range("Index is out of range");
-
         T *newData = new T[_size - 1];
         Marker m_new(newData);
         Marker m(_data);
@@ -151,13 +152,13 @@ public:
         _size--;
     }
 
-    T front() const {
+    T& front() const {
         if (_size == 0)
             throw std::out_of_range("Empty array");
         return _data[0];
     }
 
-    T back() const {
+    T& back() const {
         if (_size == 0)
             throw std::out_of_range("Empty array");
         return _data[_size - 1];
