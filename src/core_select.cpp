@@ -1,36 +1,34 @@
-#ifndef _CORE_SELECT_H
-#define _CORE_SELECT_H
-#include "core.h"
+#include "../include/core.h"
 
 
-List<GraphPrimitive*>* Core::selectByRect(double x1, double y1, double x2, double y2) {
-	List<GraphPrimitive*>* PickedObjects = new List<GraphPrimitive*>;
-	for (int i = 0; i < objects.size();i++) {
-		if (objects.get_elem(i)->isInRect(x1, y1, x2, y2))
-			PickedObjects->add_back(objects.get_elem(i));
+List<unsigned>* Core::selectByRect(double x1, double y1, double x2, double y2) {
+	List<unsigned>* PickedObjects = new List<unsigned>;
+	List<GraphPrimitive*>::Marker mar(objects);
+	for (size_t i = 0;i < objects.sizeList();i++) {
+		if (mar.get_current()->isInRect(x1, y1, x2, y2)) {
+			PickedObjects->push_back(mar.get_current()->showId());
+			mar.get_current()->changePick(1);
 		}
-		return PickedObjects;
-}
-
-GraphPrimitive* Core::selectByPoint(Point p) {
-	GraphPrimitive* PickedObject = NULL;
-	const double EPS = 1e-10;
-	double current_distance, min_distance = 0;
-	bool isEmpty = true;
-	for (int i = 0; i < objects.size(); i++) {
-		current_distance = objects.get_elem(i)->distanceToPoint(p.getX(),p.getY());
-		if (current_distance <= EPS) {
-			if (isEmpty) {
-				PickedObject = objects.get_elem(i);
-				isEmpty = false;
-			}
-			else if (current_distance < min_distance) {
-				PickedObject = objects.get_elem(i);
-				min_distance = current_distance;
-			}
-		}
+		else mar.get_current()->changePick(0); // delete last selection
+		mar.move_next();
 	}
-	return PickedObject;
+	return PickedObjects;
 }
 
-#endif
+unsigned Core::selectByPoint(Point p) {
+	const double EPS = 1e-10;
+	double current_distance, min_distance = EPS;
+	unsigned min_id = 0;
+	List<GraphPrimitive*>::Marker mar(objects);
+	for (size_t i = 0;i < objects.sizeList();i++) {
+		current_distance = mar.get_current()->distanceToPoint(p.getX(), p.getY());
+		if (current_distance < min_distance) {
+			min_distance = current_distance;
+			min_id = mar.get_current()->showId();
+		}
+		mar.move_next();
+	}
+	return min_id;
+}
+
+

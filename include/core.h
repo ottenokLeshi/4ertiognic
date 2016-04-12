@@ -13,30 +13,33 @@
 #include "../include/RestrS2SEQUALS.h"
 #include "../include/RestrS2SPARAL.h"
 #include "../include/ResrtS2SORTHO.h"
-#include "../include/matlab_renderer.h"
+
 
 class Core {
 public:
 	List<GraphPrimitive*> objects;
 	List<BasicRestriction*> restrictions;
 	List<GraphPrimitive*> backupObjects;
-	Core() {};
+
+	Core() {}
+	~Core() {}
 	void addPrimitive(int type, const Array<double> &params) {}; // need to check are the parameters valid
-	List<unsigned>* Core::selectByRect(double x1, double y1, double x2, double y2);
-	unsigned Core::selectByPoint(Point p);
-	void addObject(Array<double> parametrs, Primitive_Type type);
+	List<unsigned>* selectByRect(double x1, double y1, double x2, double y2);
+	unsigned selectByPoint(Point p);
+	void addObject(const Array<double> &parametrs, Primitive_Type type);
 	bool addRestriction(List<unsigned>* id, double* parametr, RestrictType type);
-	void addObject(GraphPrimitive* obj) {
+	void addObjectID(GraphPrimitive* obj) {
 		objects.push_back(obj);
 	}
 	void backupState();
-	GraphPrimitive* searchID(int index){
+	GraphPrimitive* searchID(int index) {
 		List<GraphPrimitive*>::Marker mar(objects);
-		for (size_t i = 0; i<objects.sizeList(); i++){
-			if (mar.get_current()->show.Id() == index) return mar.get_current();
+		for (size_t i = 0; i<objects.sizeList(); i++) {
+			if (mar.get_current()->showId() == index) return mar.get_current();
 			mar.move_next();
 		}
 	}
+
 };
 
 #endif
