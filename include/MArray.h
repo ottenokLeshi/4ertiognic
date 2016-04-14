@@ -152,13 +152,13 @@ public:
         _size--;
     }
 
-    T& front() const {
+    const T& front() const {
         if (_size == 0)
             throw std::out_of_range("Empty array");
         return _data[0];
     }
 
-    T& back() const {
+    const T& back() const {
         if (_size == 0)
             throw std::out_of_range("Empty array");
         return _data[_size - 1];

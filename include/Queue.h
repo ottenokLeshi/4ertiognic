@@ -9,7 +9,7 @@ public:
 	void pushBack(const T& data);
 	bool empty();
 	T popFront();
-	T& top();
+	const T& top();
 };
 
 #endif

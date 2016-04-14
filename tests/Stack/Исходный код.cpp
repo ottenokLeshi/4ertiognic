@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Stack.h"
+#include "../../src/stack.cpp"
 
 bool testStackEmpty(){
 	Stack<size_t> sta;
@@ -23,9 +23,17 @@ bool testStackAccess(){
 }
 
 bool testStackNoEl(){
-	//  огда достаем из стека больше чем положили
-
-	return true;
+	Stack<int> sta;	
+	for (int k = 0;k < 10;++k)
+		sta.push(k);
+	try {
+		for (int k = 9;k > -2; --k) 
+			sta.pop();
+	} 
+	catch(std::out_of_range){
+		return true;
+	}
+	return false;
 }
 
 int main(){

@@ -17,7 +17,7 @@ template <class T> T Queue <T>::popFront() {
 	return tmp;
 }
 
-template <class T> T& Queue <T>::top() {
+template <class T> const T& Queue <T>::top() {
 	if(empty())
 		throw std::out_of_range("Empty queue");
 	return _storage.front();

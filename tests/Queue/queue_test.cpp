@@ -30,7 +30,7 @@ bool testQueueNoEl(){
 		for (int k = 0;k < 101;++k) 
 			que.popFront();
 	} 
-	catch(out_of_range){
+	catch(std::out_of_range){
 		return true;
 	}
 	return false;
