@@ -15,12 +15,18 @@ public:
 	Point(double x, double y)
 		: _x(x), _y(y) {}
 	virtual ~Point() {}
+
 	double getX() const { return _x; }
 	double getY() const { return _y; }
 
 	void setX(double x) { _x = x; }
 	void setY(double y) { _y = y; }
 
+	Point& operator=(Point &P_) {
+		_x = P_.getX();
+		_y = P_.getY();
+		return *this;
+	}
 	void changePoint(double x, double y) {
 		if (!isFixed()) {
 			_x = x;
@@ -82,8 +88,20 @@ public:
 	double B() { return _B; }
 	double C() { return _C; }
 
-	Point point1() { return *_t1; }
-	Point point2() { return *_t2; }
+	Point* getP1() { return _t1; }
+	Point* getP2() { return _t2; }
+
+	Segment &operator= (Segment &A) {
+		if (_t2 == nullptr) _t2 = new Point;
+		if (_t1 == nullptr) _t1 = new Point;
+		(*_t1) = (*A._t1);
+		(*_t2) = (*A._t2);
+		_length = A.getLength();
+		_A = A.A();
+		_B = A.B();
+		_C = A.C();
+		return *this;
+	}
 
 	virtual Primitive_Type object_type()
 	{
@@ -151,18 +169,6 @@ public:
 			return (point_in_segment(&P) && S2->point_in_segment(&P));
 		}
 		else return 0;
-	}
-
-	Segment& operator=(Segment &S) {
-		_t1->setX(S.x1());
-		_t1->setY(S.y1());
-		_t2->setX(S.x2());
-		_t2->setY(S.y2());
-		_length = sqrt((_t1->getX() - _t2->getX())*(_t1->getX() - _t2->getX()) + (_t1->getY() - _t2->getY())*(_t1->getY() - _t2->getY()));
-		_A = S.A();
-		_B = S.B();
-		_C = S.C();
-		return *this;
 	}
 };
 
