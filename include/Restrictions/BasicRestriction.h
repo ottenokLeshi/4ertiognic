@@ -2,7 +2,6 @@
 #define _BASIC_RESTRICTION_H
 
 #include "restrict_types.h"
-#include "objects.h"
 
 class BasicRestriction
  {
