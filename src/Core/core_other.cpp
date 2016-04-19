@@ -1,4 +1,4 @@
-#include "../include/core.h"
+#include "core.h"
 
 void Core::backupState() {
 	backupObjects.deleteAll();
@@ -22,7 +22,7 @@ void Core::backupState() {
 		case IsSegment:
 			seg = dynamic_cast<Segment*>(*mar);
 			newseg = new Segment;
-			newseg->changeSegment(&seg->point1(),&seg->point2());
+			newseg->changeSegment(seg->getP1(),seg->getP2());
 			backupObjects.push_back(newseg);
 			break;
 

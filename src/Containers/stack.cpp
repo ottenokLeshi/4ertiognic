@@ -1,4 +1,4 @@
-#include "../include/Stack.h"
+#include "Stack.h"
 #include <stdexcept>
 
 template <class T> bool Stack <T>::empty() {

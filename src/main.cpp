@@ -1,5 +1,6 @@
-#include "../include/core.h"
+#include "core.h"
 
 int main() {
+
 	return 0;
 }

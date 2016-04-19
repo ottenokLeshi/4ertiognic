@@ -1,4 +1,4 @@
-#include "../include/batch_processor.h"
+#include "batch_processor.h"
 
 bool BatchProcessor::generateCode() {
 	fstream fin, fout;

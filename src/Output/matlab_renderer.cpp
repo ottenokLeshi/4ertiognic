@@ -1,4 +1,4 @@
-#include "../include/matlab_renderer.h"
+#include "matlab_renderer.h"
 
 void MatlabRenderer::drawSketch() {
 	List<GraphPrimitive*>::Marker mar(_core->objects);

@@ -1,4 +1,4 @@
-#include "../include/Queue.h"
+#include "Queue.h"
 #include <stdexcept>
 
 template <class T> bool Queue <T>::empty() {

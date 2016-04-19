@@ -7,10 +7,10 @@ class MGraph {
 private:
 	double **Graph;
 	int numVert;
-	bool _isOr; // not orientated  = 0 ; orientated  = 1
+	bool _isOriented; // not orientated  = 0 ; orientated  = 1
 public:
 
-	MGraph(int VERTEX, bool or): numVert(VERTEX), Graph(new double *[VERTEX]), _isOr(or){
+	MGraph(int VERTEX, bool oriented): numVert(VERTEX), Graph(new double *[VERTEX]), _isOriented(oriented){
 		for (int i = 0; i < VERTEX; ++i) Graph[i] = new double[VERTEX];
 		for (int i = 0; i < numVert; ++i) 
 			for (int j = 0; j < numVert; ++j) 	Graph[i][j] = 0;
@@ -38,7 +38,7 @@ public:
 	//
 	void AddEdge(int F, int T){
 		if ((F >= numVert || F < 0) || (T<0 || T>=numVert)) return;
-		if (_isOr)	cin >> Graph[F][T];
+		if (_isOriented) cin >> Graph[F][T];
 		else { cin >> Graph[F][T]; Graph[T][F] = Graph[F][T];}
 	}
 
@@ -50,7 +50,7 @@ public:
 	void const showGr() {
 		cout << "Number of vertex: " << numVert << endl;
 		cout << "Is orientated: ";
-		if (_isOr) cout << "Yes" << endl;
+		if (_isOriented) cout << "Yes" << endl;
 		else cout << "No" << endl;
 		for (int i = 0; i < numVert; ++i) 
 			for (int j = 0; j < numVert; ++j )	if (QEdge(i,j)) cout << i << " to " << j  << " = "<< QEdge(i, j) << endl;
