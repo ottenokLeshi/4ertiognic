@@ -1,4 +1,4 @@
-#include "../include/core.h"
+#include "core.h"
 
 
 List<unsigned>* Core::selectByRect(double x1, double y1, double x2, double y2) {

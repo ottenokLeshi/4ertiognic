@@ -3,8 +3,8 @@
 #include <fstream>
 #include <string>
 #include <iostream>
-#include "../include/core.h"
-#include "../include/matlab_renderer.h"
+#include "core.h"
+#include "matlab_renderer.h"
 using namespace std;
 
 class BatchProcessor {

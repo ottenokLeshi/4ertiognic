@@ -1,7 +1,7 @@
 
-#include "../include/core.h"
+#include "core.h"
 #include <iostream>
-#include "../include/batch_processor.h"
+#include "batch_processor.h"
 
 using namespace std;
 

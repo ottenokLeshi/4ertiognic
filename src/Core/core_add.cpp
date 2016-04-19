@@ -1,4 +1,4 @@
-#include "../include/core.h" 
+#include "core.h" 
 
 void Core::addObject(const Array<double> &parametrs, Primitive_Type type) {
 	GraphPrimitive* newobj;

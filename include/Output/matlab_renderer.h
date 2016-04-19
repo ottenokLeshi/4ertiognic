@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream> 
 #include <string>
-#include "../include/core.h"
+#include "core.h"
 
 using namespace std;
 class MatlabRenderer {

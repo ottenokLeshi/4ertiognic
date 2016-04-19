@@ -1,4 +1,4 @@
-#include "../include/matlab_renderer.h"
+#include "matlab_renderer.h"
 
 void MatlabRenderer::drawSketch() {
 	List<GraphPrimitive*>::Marker mar(_core->objects);
@@ -45,10 +45,10 @@ bool MatlabRenderer::drawPrimitive(Primitive_Type type, const Array<double> &par
 		string namefunc = "";
 		size_t t = 0;
 		for (t = _filename.size();t != 0;t--)
-			if (_filename[t - 1] == '/') break;
-		for (size_t i = t + 1;i <= _filename.size() - 2;i++){
-			if (_filename[i - 1] != '.')
-				namefunc = namefunc + _filename[i - 1];
+			if (_filename[t - 1] == '.') break;
+		for (size_t i = t-2;;i--){
+			if (_filename[i] != '\\')
+				namefunc =  _filename[i] + namefunc;
 			else break;
 	}
 		f << "function res = " << namefunc << "()" << endl;
