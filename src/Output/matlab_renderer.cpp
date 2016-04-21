@@ -45,10 +45,10 @@ bool MatlabRenderer::drawPrimitive(Primitive_Type type, const Array<double> &par
 		string namefunc = "";
 		size_t t = 0;
 		for (t = _filename.size();t != 0;t--)
-			if (_filename[t - 1] == '.') break;
-		for (size_t i = t-2;;i--){
-			if (_filename[i] != '\\')
-				namefunc =  _filename[i] + namefunc;
+			if (_filename[t - 1] == '/') break;
+		for (size_t i = t;;i++){
+			if (_filename[i] != '.')
+				namefunc += _filename[i];
 			else break;
 	}
 		f << "function res = " << namefunc << "()" << endl;

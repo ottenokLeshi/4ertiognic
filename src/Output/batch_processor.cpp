@@ -1,7 +1,7 @@
 #include "batch_processor.h"
 
 bool BatchProcessor::generateCode() {
-	fstream fin, fout;
+	fstream fin;
 	fin.open(_batchfilename);
 	if (!fin.is_open()) return false;
 	char type;
@@ -80,8 +80,8 @@ bool BatchProcessor::generateCode() {
 			if (rest == "ass") {
 				unsigned id1, id2;
 				double par = 0;
-				fin >> id1 >> id2;
-				idObj->push_back(id1);idObj->push_back(id2);
+				fin >> id1 >> id2>>par;
+				idObj->push_back(id1);idObj->push_back(id2); idObj->push_back(par);
 				_core->addRestriction(idObj, &par, RT_S2SANGLE);
 				delete idObj;
 			}
@@ -117,7 +117,15 @@ bool BatchProcessor::generateCode() {
 		fin.getline(str, 255);
 	}
 	fin.close();
-
+	size_t i = _batchfilename.size() - 1;
+	for (; i != 0;i--)
+		if (_batchfilename[i] == '.') break;
+	string _resultfilename = "";
+	for (size_t t = 0; t < i;t++)
+		_resultfilename += _batchfilename[t];
+	_resultfilename += ".m";
+	ofstream out(_resultfilename);
+	out.close();
 	//generate code to gui
 	//(mb it should create enums GUI_types)
 	if (_gui == "matlab") {

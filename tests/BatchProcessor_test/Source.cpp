@@ -9,10 +9,8 @@ bool BatchProcessor_test() {
 	string input, output;
 	cout << "Enter batchfile ";
 	cin >> input;
-	cout << "Enter resultfile ";
-	cin >> output;
 	Core core;
-	BatchProcessor newbatch(input, output, &core, "matlab");
+	BatchProcessor newbatch(input, &core, "matlab");
 	newbatch.generateCode();
 	return true;
 }
