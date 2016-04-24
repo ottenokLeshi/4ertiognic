@@ -9,26 +9,43 @@ bool BatchProcessor::generateCode() {
 	while (!fin.eof()) {
 		fin >> type;
 		Array<double> par;
+		char c;
+
+		double x = 0, y = 0, x1 = 0, y1 = 0, x2 = 0, y2 = 0, x3 = 0, y3 = 0, r = 0;
 		switch (type) {
 
 		case 'p': // add point
-			double x, y;
-			fin >> x >> y;
+				fin >> x >> y;	
+                par.push_back(x); par.push_back(y);
+				_core->addObject(par, IsPoint);
+			break;
+
+		case 'P': // add point
 			par.push_back(x); par.push_back(y);
 			_core->addObject(par, IsPoint);
 			break;
 
 		case 's':
-			double x1, y1, x2, y2;
-			fin >> x1 >> y1 >> x2 >> y2;
+				fin >> x1 >> y1 >> x2 >> y2;
+				par.push_back(x1); par.push_back(y1);
+				par.push_back(x2); par.push_back(y2);
+			_core->addObject(par, IsSegment);
+			break;
+
+		case 'S':
 			par.push_back(x1); par.push_back(y1);
 			par.push_back(x2); par.push_back(y2);
 			_core->addObject(par, IsSegment);
 			break;
 
 		case 'c':
-			double x3, y3, r;
-			fin >> x3 >> y3 >> r;
+				fin >> x3 >> y3 >> r;
+				par.push_back(x3); par.push_back(y3);
+				par.push_back(r);
+			_core->addObject(par, IsCircle);
+			break;
+
+		case 'C':
 			par.push_back(x3); par.push_back(y3);
 			par.push_back(r);
 			_core->addObject(par, IsCircle);
@@ -40,15 +57,28 @@ bool BatchProcessor::generateCode() {
 			List<unsigned>* idObj = new List<unsigned>;
 
 			if (rest == "fix") {
-				unsigned count, id;
-				fin >> count;
-				for (size_t i = 0;i < count; i++) {
-					fin >> id;
-					idObj->push_back(id);
+				string fix = "   ";
+				fin >> fix[0] >> fix[1] >> fix[2];
+
+				if (fix == "obj") {
+					unsigned count, id;
+					fin >> count;
+					for (size_t i = 0;i < count; i++) {
+						fin >> id;
+						idObj->push_back(id);
+					}
+					_core->addRestriction(idObj, 0, RT_FIX);
 				}
-				_core->addRestriction(idObj, 0, RT_FIX);
+
+				if (fix == "all") {
+					for (unsigned int i = 0;i < _core->objects.sizeList();i++)
+						idObj->push_back(i);
+					_core->addRestriction(idObj, 0, RT_FIX);
+				}
+				
 				delete idObj;
 			}
+
 
 			if (rest == "dpp") {
 				unsigned id1, id2;
