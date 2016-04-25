@@ -156,8 +156,12 @@
     <ClInclude Include="Debug\MArray.h" />
     <ClInclude Include="Debug\objects.h" />
     <ClInclude Include="Debug\primitive_type.h" />
+    <ClInclude Include="Debug\ResrtS2SORTHO.h" />
     <ClInclude Include="Debug\RestrP2PDIST.h" />
+    <ClInclude Include="Debug\RestrP2SDISTEX.h" />
     <ClInclude Include="Debug\RestrS2SANGLE.h" />
+    <ClInclude Include="Debug\RestrS2SEQUALS.h" />
+    <ClInclude Include="Debug\RestrS2SPARAL.h" />
     <ClInclude Include="Debug\Solver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -63,7 +63,7 @@ class Segment :public GraphPrimitive {
 public:
 	// friend ostream& operator<<(ostream& ost, Segment &S);
 	Segment()
-		: _t1(0), _t2(0), _A(0), _B(0), _C(0) {}
+		: _t1(0), _t2(0), _A(0), _B(0), _C(0){}
 
 	Segment(Point *t1, Point *t2): _length(new double) {
 		_t1 = t1;
@@ -79,6 +79,7 @@ public:
 
 	virtual ~Segment() {}
 
+	
 	double *getLength() { return _length; }
 
 	double x1() { return _t1->getX(); }
@@ -186,7 +187,7 @@ ost << '(' << S.x1() << ',' << S.y1() << ')' << ' ' << '(' << S.x2() << ',' << S
 return ost;
 }
 */
-/*class Circle : public GraphPrimitive {
+class Circle : public GraphPrimitive {
 	Point *_center;
 	double _radius;
 
@@ -228,7 +229,7 @@ public:
 		else return false;
 	}
 };
-*/
+
 
 
 #endif

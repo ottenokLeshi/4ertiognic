@@ -5,18 +5,30 @@
 using namespace std;
 
 class RestrS2SANGLE: public BasicRestriction{
+private:
+	Segment *_S1;
+	Segment *_S2;
+	double *_angle;
+
+	double FixL1;
+	double FixL2;
+	bool _isFixLenS1;
+	bool _isFixLenS2;
 public:
 	RestrS2SANGLE(Segment *S1, Segment *S2, double *angle)
 	{
-		if ( S1->isFixed() ) std::cout << "S1 - Fixed" << std::endl;
 		_S1 = S1;
 		_S2 = S2;
 		_angle = angle;
 	};
-	
+
+	void fixLengthS1(bool F) { _isFixLenS1 = F; FixL1 = *_S1->getLength();	}
+	void fixLengthS2(bool F) { _isFixLenS2 = F; FixL2 = *_S2->getLength(); }
+
+
 	virtual ~RestrS2SANGLE(){ }
 	virtual RestrictType get_type() const {return RT_S2SANGLE;};
-	virtual double violation() const { return _S1->Angle(_S2) - *_angle; }
+	virtual double violation() const { if (_isFixLenS1) _S1->; return _S1->Angle(_S2) - *_angle; }
 
 	 Array<double*> getFixP() {
 		Array<double*> F_P;
@@ -34,10 +46,6 @@ public:
 		}
 		return F_P;
 	}
-private:
-	Segment *_S1;
-	Segment *_S2;
-	double *_angle;
 };
 
 #endif

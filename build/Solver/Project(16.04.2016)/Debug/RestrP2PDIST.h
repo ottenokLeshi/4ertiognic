@@ -5,6 +5,11 @@
 #include "Solver.h"
 class RestrP2PDIST:public BasicRestriction
 {
+private:
+	Point *_A;
+	Point *_B;
+	double *_dist;
+
 public:
 	RestrP2PDIST() { }
 	RestrP2PDIST(Point *A, Point *B, double *dist){
@@ -19,7 +24,7 @@ public:
         }
 
 		virtual Array<double*> getFixP() {
-			Array<double*> F_P(4);
+			Array<double*> F_P;
 			if (_A->isFixed()) {
 				F_P.push_back(_A->x());
 				F_P.push_back(_A->y());
@@ -30,11 +35,6 @@ public:
 			}
 			return F_P;
 		}
-
-private:
-	Point *_A;
-	Point *_B;
-	double *_dist;
 };
 
 #endif

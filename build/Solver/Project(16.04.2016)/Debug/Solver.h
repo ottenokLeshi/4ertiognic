@@ -41,7 +41,10 @@ public:
 		return sum;
 	}
 };
+void FixedLength(Array <double> &X, MyFunction *fun) {
 
+
+}
 
 Array <double> indexFixedPar(MyFunction *fun) {
 	Array <double*> FixParam;
@@ -77,7 +80,7 @@ class CSol {
 public:
 
 	void GradDescent(MyFunction *f, Array <double> x0) { // Gradient  descent >>> P2P
-		const double NUM_OF_ITER = 35;
+		const double NUM_OF_ITER = 56;
 		const double DELM = 0.95;
 		Array <double> prevX = x0;
 		Array <double> DIFF = x0;
