@@ -7,14 +7,11 @@ class RestrS2SPARAL : public BasicRestriction {
 private:
 	Segment *_S1;
 	Segment *_S2;
-	bool _isFixLenS1;
-	bool _isFixLenS2;
+
 public: 
 	RestrS2SPARAL(Segment *S1, Segment *S2)
 		:_S1(S1), _S2(S2) {}
 
-	void fixLengthS1(bool F) { _isFixLenS1 = F; }
-	void fixLengthS2(bool F) { _isFixLenS2 = F; }
 
 
 	Array<double*> getFixP() {

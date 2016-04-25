@@ -8,8 +8,7 @@ class RestrS2SEQUALS:public BasicRestriction
 private:
 	Segment *_S1;
 	Segment *_S2;
-	bool _isFixLenS1;
-	bool _isFixLenS2;
+
 public:
 	RestrS2SEQUALS(Segment *S1, Segment *S2)
 	{
@@ -17,10 +16,7 @@ public:
 		_S2 = S2;
 	};
 
-	void fixLengthS1(bool F) { _isFixLenS1 = F; }
-	void fixLengthS2(bool F) { _isFixLenS2 = F; }
-	bool getFLength1() const { return _isFixLenS1; }
-	bool getFLength2() const { return _isFixLenS2; }
+
 
 	Array<double*> getFixP() {
 		Array<double*> F_P;

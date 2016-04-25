@@ -5,15 +5,10 @@
 
 class RestrS2SORTHO : public BasicRestriction {
 	Segment *_S1, *_S2;
-	bool _isFixLenS1;
-	bool _isFixLenS2;
 public:
-	RestrS2SORTHO(Segment *S1, Segment *S2) :_S1(S1), _S2(S2), _isFixLenS1(false), _isFixLenS2(false){}
+	RestrS2SORTHO(Segment *S1, Segment *S2) :_S1(S1), _S2(S2){}
 
-	void fixLengthS1(bool F) { _isFixLenS1 = F; }
-	void fixLengthS2(bool F) { _isFixLenS2 = F; }
-	bool getFLength1() const { return _isFixLenS1; }
-	bool getFLength2() const { return _isFixLenS2; }
+
 	Array<double*> getFixP() {
 		Array<double*> F_P;
 		if (_S1->isFixed()) {
