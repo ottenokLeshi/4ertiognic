@@ -132,6 +132,18 @@ public:
 		return acos(_angle);
 	}
 
+        double cosAngle(Segment *S2) {
+		double x1 = _t2->getX() - _t1->getX();
+		double y1 = _t2->getY() - _t1->getY();
+		double x2 = S2->x2() - S2->x1();
+		double y2 = S2->y2() - S2->y1();
+		double _angle = ((x1*x2 + y1*y2) / (sqrt((double)x1*x1 + y1*y1)*sqrt((double)x2*x2 + y2*y2)));
+		if (_angle < -1) _angle = -1;
+		else if (_angle > 1) _angle = 1;
+		return _angle;
+	}
+
+
 	bool point_in_segment(Point *p) { //checks if the point belongs to segment
 		if (_t1->distanceToPoint(p->getX(), p->getY()) + _t2->distanceToPoint(p->getX(), p->getY()) - _t1->distanceToPoint(_t2->getX(), _t2->getY()) < eps)  return 1;
 		return 0;

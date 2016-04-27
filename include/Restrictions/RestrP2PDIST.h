@@ -11,16 +11,40 @@ public:
 		_A = A;
 		_B = B;
 		_dist = dist;
+		_p1x = A->getX(), _p1y = A->getY(), _p2x = B->getX(), _p2y = B->getY();
 	};
 	virtual ~RestrP2PDIST() {}
 	virtual RestrictType get_type() const { return RT_P2PDIST; };
         virtual double violation() const {
                 return *_dist - sqrt((_A->getX() - _B->getX())*(_A->getX() - _B->getX()) + (_A->getY() - _B->getY())*(_A->getY() - _B->getY()));
         }
+
+		virtual double diff(size_t par)
+		{
+			switch (par) {
+			case 1: // parametr _p1x
+				return (_p2x - _p1x) / sqrt(length(_p1x, _p1y, _p2x, _p2y));
+				break;
+			case 2:// parametr _p2x
+					return (_p1x - _p2x) / sqrt(length(_p1x, _p1y, _p2x, _p2y));
+					break;
+			case 3: //parametr _p1y
+					return (_p2y - _p1y) / sqrt(length(_p1x, _p1y, _p2x, _p2y));
+					break;
+			case 4: // parametr _p2y
+					return (_p1y - _p2y) / sqrt(length(_p1x, _p1y, _p2x, _p2y));
+					break;
+			case 5: // parametr *_dist
+					return 1;
+					break;
+			}
+				return 0;
+		}
 private:
 	Point *_A;
 	Point *_B;
 	double *_dist;
+	double _p1x, _p2x, _p1y, _p2y;
 };
 
 #endif
