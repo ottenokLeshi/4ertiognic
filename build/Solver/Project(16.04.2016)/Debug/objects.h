@@ -95,8 +95,8 @@ public:
 	Point *getP2() { return _t2; }
 
 	Segment &operator= (Segment &A) {
-		if (_t2 == nullptr) _t2 = new Point;
-		if (_t1 == nullptr) _t1 = new Point;
+		if (_t2 == 0) _t2 = new Point;
+		if (_t1 == 0) _t1 = new Point;
 		(*_t1) = (*A._t1);
 		(*_t2) = (*A._t2);
 		_length = A.getLength();

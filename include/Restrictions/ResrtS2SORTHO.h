@@ -6,7 +6,25 @@
 class RestrS2SORTHO : public BasicRestriction {
 	Segment *_S1, *_S2;
 public:
-	RestrS2SORTHO(Segment *S1, Segment *S2) :_S1(S1), _S2(S2) {}
+	RestrS2SORTHO(Segment *S1, Segment *S2) :_S1(S1), _S2(S2){}
+
+
+	Array<double*> getFixP() {
+		Array<double*> F_P;
+		if (_S1->isFixed()) {
+			F_P.push_back(_S1->getP1()->x());
+			F_P.push_back(_S1->getP1()->y());
+			F_P.push_back(_S1->getP2()->x());
+			F_P.push_back(_S1->getP2()->y());
+		}
+		if (_S2->isFixed()) {
+			F_P.push_back(_S2->getP1()->x());
+			F_P.push_back(_S2->getP1()->y());
+			F_P.push_back(_S2->getP2()->x());
+			F_P.push_back(_S2->getP2()->y());
+		}
+		return F_P;
+	}
 
 	~RestrS2SORTHO() {}
 

@@ -1,4 +1,4 @@
-#ifndef _SOLVER
+/*#ifndef _SOLVER
 #define _SOLVER
 #include "BasicRestriction.h"
 #include "objects.h"
@@ -187,3 +187,4 @@ void  Solve_2(MyFunction *f, Segment &S) { // S2SANGLE
 };
 
 #endif
+*/
