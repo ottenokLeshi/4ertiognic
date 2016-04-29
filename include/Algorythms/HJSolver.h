@@ -20,8 +20,8 @@ Array<double> explore(MyFunction *f, Array <double> x, double h) {
 		double result = x[i];
 		bool fixed = 0;
 		// check if param is fixed
-		for (size_t j = 0; j < indexFixedPar(f).size(); ++j)
-			if (indexFixedPar(f)[j] == i) { 
+		for (size_t j = 0; j < f->indexFixedPar().size(); ++j)
+			if (f->indexFixedPar()[j] == i) { 
 				fixed = 1;
 				res[i] = result;
 			}

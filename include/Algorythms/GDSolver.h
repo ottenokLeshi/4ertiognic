@@ -19,28 +19,20 @@ void FixedLength(Array <double> &X, MyFunction *fun) {
 
 }
 
-Array <double> indexFixedPar(MyFunction *fun) {
-	Array <double*> FixParam;
-	Array <double> indexFixedParam;
-//	for (size_t j = 0; j < fun->getSizeR(); ++j) FixParam.Connect(fun->getRestr(j)->getFixP());
-	for (size_t j = 0; j < FixParam.size(); ++j)
-		for (size_t k = 0; k < fun->getSizeP(); ++k)
-			if (fun->getParam(k) == FixParam[j]) indexFixedParam.push_back(k);
-
-	return indexFixedParam;
-}
-
-
 Array < double > diff(MyFunction *fun, const Array <double> x0) {
 	Array < double > var_ = x0, RES_;
 	const double DELTA = 1e-5;
 
 	for (size_t i = 0; i < x0.size(); ++i) {
 		bool _b = 0;
-		for (size_t j = 0; j < indexFixedPar(fun).size(); ++j)	if (indexFixedPar(fun)[j] == i) { _b = 1; RES_.push_back(0); }
+		for (size_t j = 0; j < f->indexFixedPar().size(); ++j)	
+			if (f->indexFixedPar()[j] == i) { 
+				_b = 1; 
+				RES_.push_back(0); 
+			}
 		if (_b) continue;
 		var_ = x0;
-//		var_[i]  = x0[i] + DELTA;
+		//var_[i]  = x0[i] + DELTA;
 		//cout << "Const_vector (  "; for (size_t i = 0; i < x0.size() - 1; ++i) cout << x0[i] << " ; " << x0[i + 1]; cout << "  ); " << endl;
 		//cout << "Variable_vector (  "; for (size_t i = 0; i < x0.size() - 1; ++i) cout << var_[i] << " ; " << var_[i + 1]; cout << "  ); " << endl;
 		//cout << "The increment of the argument: " << x0[i] << " + " << DELTA << " = " << var_[i] << endl;
@@ -66,7 +58,7 @@ public:
 		int MMark = 0;
 
 
-		for (int Iterations = 1; Iterations <= NUM_OF_ITER; ++Iterations) {
+		for (int iterations = 1; iterations <= NUM_OF_ITER; ++iterations) {
 			// Data
 			prevX = x0;
 			DIFF = diff(f, x0);
@@ -75,7 +67,8 @@ public:
 //				x0.Set_el(i, x0[i] - Lam*DIFF[i]); //New value of function 
 			}
 			Square = 0;
-			for (size_t j = 0; j<DIFF.size(); ++j) Square += DIFF[j] * DIFF[j];
+			for (size_t j = 0; j<DIFF.size(); ++j) 
+				Square += DIFF[j] * DIFF[j];
 
 			while ((*f)(x0)>(*f)(prevX) - 0.1*Lam*Square) {
 				Lam = Lam*DELM; // New Lambda
@@ -85,12 +78,14 @@ public:
 
 			double Stop = abs((*f)(x0) - (*f)(prevX));
 			if (Stop <= EPS) {
-				for (size_t i = 0; i < x0.size(); ++i) cout << "Dot1[" << i << "] = " << x0[i] << endl;
+				for (size_t i = 0; i < x0.size(); ++i) 
+					cout << "Dot1[" << i << "] = " << x0[i] << endl;
 				cout << "Volat: " << (*f)(x0);
 				return;
 			}
 		}
-		for (size_t i = 0; i < x0.size(); ++i) cout << "Dot[" << i << "] = " << x0[i] << endl;
+		for (size_t i = 0; i < x0.size(); ++i) 
+			cout << "Dot[" << i << "] = " << x0[i] << endl;
 		cout << "Volat: " << (*f)(x0);
 		cout << endl;
 	}

@@ -19,7 +19,18 @@ public:
 	size_t getSizeP() { return _pparams.size(); }
 	friend Array <double> indexFixedPar(MyFunction*);
 
-
+	Array <size_t> indexFixedPar() {
+		Array <double*> fixParam;
+		Array <size_t> indexFixedParam;
+		for (size_t j = 0; j < this->getSizeR(); ++j)
+			fixParam.Connect(this->getRestr(j)->getFixP());
+		for (size_t j = 0; j < fixParam.size(); ++j)
+			for (size_t k = 0; k < this->getSizeP(); ++k)
+				if (this->getParam(k) == fixParam[j])
+					indexFixedParam.push_back(k);
+		return indexFixedParam;
+	}
+	
 	double operator()(const Array<double> x) {
 		double sum = 0;
 		for (size_t i = 0; i < x.size(); ++i) {
