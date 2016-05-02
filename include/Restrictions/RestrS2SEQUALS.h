@@ -14,6 +14,7 @@ public:
 	virtual ~RestrS2SEQUALS(){ }
 	virtual RestrictType get_type()const{return RT_S2SEQUALS;};
 	virtual double violation()const { return _S1->getLength() - _S2->getLength(); }
+	virtual double diff(size_t par) { return 0; }
 private:
 	Segment *_S1;
 	Segment *_S2;

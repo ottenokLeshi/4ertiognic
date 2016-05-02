@@ -12,6 +12,7 @@ public:
 	virtual ~RestrS2SPARAL() {}
 	virtual RestrictType get_type() const { return RT_S2SPARAL; }
 	virtual double violation() const { return _S1->Angle(_S2); }
+	virtual double diff(size_t par) { return 0; }
 };
 
 #endif

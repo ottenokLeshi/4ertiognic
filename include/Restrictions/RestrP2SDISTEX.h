@@ -28,6 +28,7 @@ public:
 				return *_min - sqrt(vec2x*vec2x + vec2y*vec2y);
 		}
 	}
+	virtual double diff(size_t par) { return 0; }
 private:
 	Point *_beg;
 	Point *_end;

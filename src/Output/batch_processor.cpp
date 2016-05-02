@@ -11,7 +11,7 @@ bool BatchProcessor::generateCode() {
 		Array<double> par;
 		char c;
 
-		double x = 0, y = 0, x1 = 0, y1 = 0, x2 = 0, y2 = 0, x3 = 0, y3 = 0, r = 0;
+		double x = 0, y = 0, x1 = 0, y1 = 0, x2 = 0, y2 = 1, x3 = 2, y3 = 2, r = 1;
 		switch (type) {
 
 		case 'p': // add point

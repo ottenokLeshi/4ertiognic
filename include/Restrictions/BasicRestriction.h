@@ -2,7 +2,7 @@
 #define _BASIC_RESTRICTION_H
 
 #include "restrict_types.h"
-
+#include <cmath>
 class BasicRestriction
  {
 	public:

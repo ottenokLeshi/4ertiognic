@@ -13,7 +13,7 @@
 #include "RestrS2SEQUALS.h"
 #include "RestrS2SPARAL.h"
 #include "ResrtS2SORTHO.h"
-
+#include "HJSolver.h"
 
 class Core {
 public:
