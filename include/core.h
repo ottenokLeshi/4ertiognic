@@ -16,11 +16,11 @@
 #include "HJSolver.h"
 
 class Core {
-public:
 	List<GraphPrimitive*> objects;
 	List<BasicRestriction*> restrictions;
 	List<GraphPrimitive*> backupObjects;
-
+public:
+	Array<double*> params;
 	Core() {}
 	~Core() {}
 	void addPrimitive(int type, const Array<double> &params) {}; // need to check are the parameters valid
@@ -39,6 +39,11 @@ public:
 			mar.move_next();
 		}
 	}
+
+	unsigned sizeListObj() { return objects.sizeList(); }
+	unsigned sizeListRestr() { return restrictions.sizeList(); }
+	unsigned sizeListBackUpObj() { return backupObjects.sizeList(); }
+	pair<Array<Primitive_Type>*, Array <Array<double>>*> getInfoObj();
 
 };
 
