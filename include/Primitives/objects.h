@@ -18,7 +18,7 @@ public:
 		(*_x) = x;
 		(*_y) = y;
 	}
-	//Point (double *x, double *y): _x(x), _y(y){}
+	Point (double *x, double *y): _x(x), _y(y){}
 	virtual ~Point() {}
 
 	double getX() const { return *_x; }
@@ -68,8 +68,8 @@ public:
 	Segment(Point *t1, Point *t2) : _length(new double) {
 		_t1 = t1;
 		_t2 = t2;
-		ch_Coef();
-		ch_Dist();
+		_refreshCoeff();
+		_refreshLength();
 		if (_A < 0) {
 			_A *= -1;
 			_B *= -1;
@@ -80,7 +80,9 @@ public:
 	virtual ~Segment() {}
 
 
-	double *getLength() { return _length; }
+	double *getLength() { 
+		_refreshLength();
+	return _length; }
 
 	double x1() { return _t1->getX(); }
 	double y1() { return _t1->getY(); }
@@ -122,6 +124,8 @@ public:
 			_t1 = p1;
 			_t2 = p2;
 		}
+		_refreshLength();
+		_refreshCoeff();
 	}
 
 	double Angle(Segment *S2) {
@@ -186,8 +190,12 @@ public:
 		else return 0;
 	}
 
-	void ch_Dist() { (*_length) = sqrt((_t1->getX() - _t2->getX())*(_t1->getX() - _t1->getX()) + (_t1->getY() - _t2->getY())*(_t1->getY() - _t2->getY())); }
-	void ch_Coef() {
+	void _refreshLength() {
+		double x = (_t1->getX() - _t2->getX());
+		double y = (_t1->getY() - _t2->getY());
+		(*_length) = sqrt(x*x + y*y);
+	}
+	void _refreshCoeff() {
 		_A = _t1->getY() - _t2->getY();
 		_B = _t2->getX() - _t1->getX();
 		_C = _t1->getX()*_t2->getY() - _t2->getX()*_t1->getY();
