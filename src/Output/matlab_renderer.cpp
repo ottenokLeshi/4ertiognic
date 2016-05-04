@@ -1,15 +1,15 @@
 #include "matlab_renderer.h"
 
-void MatlabRenderer::drawSketch(Array<Primitive_Type> *objType, Array <Array<double>> *parametrs) {
+void MatlabRenderer::drawSketch( Array <Array<double>> *parametrs) {
 
-	for (size_t i = 0;i < objType->size();i++) 
-			drawPrimitive((*objType)[i], (*parametrs)[i], _markersize);
+	for (size_t i = 0;i < parametrs->size();i++) 
+			drawPrimitive( (*parametrs)[i], _markersize);
 	
 }
 
 
 
-bool MatlabRenderer::drawPrimitive(Primitive_Type type, Array<double> &parametrs, size_t markersize) {
+bool MatlabRenderer::drawPrimitive( Array<double> &parametrs, size_t markersize) {
 	fstream f;
 	f.open(_filename);
 	if (!f.is_open()) return false;

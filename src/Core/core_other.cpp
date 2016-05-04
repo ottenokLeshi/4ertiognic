@@ -37,8 +37,7 @@ void Core::backupState() {
 	}
 }
 
-pair<Array<Primitive_Type>*, Array <Array<double>>*> Core::getInfoObj() {
-	Array<Primitive_Type> *objType = new Array<Primitive_Type>;
+Array <Array<double>>* Core::getInfoObj() {
 	Array <Array<double>> *parametrs = new Array <Array<double>>;
 	List<GraphPrimitive*>::Marker mar(objects);
 	Point * newp = 0; Circle *newc = 0; Segment * news = 0;
@@ -66,9 +65,9 @@ pair<Array<Primitive_Type>*, Array <Array<double>>*> Core::getInfoObj() {
 			par.push_back(newc->getRadius());
 			break;
 		}
-		objType->push_back(mar.get_current()->object_type());
+		
 		parametrs->push_back(par);
 		mar.move_next();
 	}
-	return make_pair(objType, parametrs);
+	return  parametrs;
 }

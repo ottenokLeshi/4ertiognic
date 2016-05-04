@@ -160,7 +160,7 @@ bool BatchProcessor::generateCode() {
 	//(mb it should create enums GUI_types)
 	if (_gui == "matlab") {
 		MatlabRenderer matlab(_resultfilename, 10);
-		matlab.drawSketch(_core->getInfoObj().first, _core->getInfoObj().second);
+		matlab.drawSketch( _core->getInfoObj());
 	}
 	/*
 	... other gui

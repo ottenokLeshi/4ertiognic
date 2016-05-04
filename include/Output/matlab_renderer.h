@@ -5,7 +5,6 @@
 #include <string>
 #include "GUI.h"
 #include "GUI_types.h"
-#include "objects.h"
 #include "MArray.h"
 
 using namespace std;
@@ -18,9 +17,9 @@ public:
 		_filename = filename;
 		_markersize = markersize;
 	}
-	virtual void drawSketch(Array<Primitive_Type> *objType, Array <Array<double>> *parametrs);
+	virtual void drawSketch(Array <Array<double>> *parametrs);
 
-	virtual bool drawPrimitive(Primitive_Type type, Array<double> &parametrs, size_t markersize);
+	virtual bool drawPrimitive( Array<double> &parametrs, size_t markersize);
 	virtual  GUIType getTypeGUI() {
 		return MATLAB;
 	}

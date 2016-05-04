@@ -43,7 +43,7 @@ public:
 	unsigned sizeListObj() { return objects.sizeList(); }
 	unsigned sizeListRestr() { return restrictions.sizeList(); }
 	unsigned sizeListBackUpObj() { return backupObjects.sizeList(); }
-	pair<Array<Primitive_Type>*, Array <Array<double>>*> getInfoObj();
+	Array <Array<double>>* getInfoObj();
 
 };
 
