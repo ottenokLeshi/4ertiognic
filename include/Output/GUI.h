@@ -7,7 +7,7 @@ class GUI {
 public:
 	GUI() {}
 	virtual ~GUI() {}
-	virtual void drawSketch() = 0;
+	virtual void drawSketch(Array<Primitive_Type> *objType, Array <Array<double>> *parametrs) = 0;
 
 	virtual bool drawPrimitive(Primitive_Type type, Array<double> &parametrs, size_t markersize) = 0;
 	virtual  GUIType getTypeGUI() = 0;

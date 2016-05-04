@@ -1,9 +1,8 @@
 #include "matlab_renderer.h"
 
-void MatlabRenderer::drawSketch() {
-	Array<Primitive_Type> *objType = _core->getInfoObj().first;
-	Array <Array<double>> *parametrs = _core->getInfoObj().second;
-	for (size_t i = 0;i < _core->sizeListObj();i++) 
+void MatlabRenderer::drawSketch(Array<Primitive_Type> *objType, Array <Array<double>> *parametrs) {
+
+	for (size_t i = 0;i < objType->size();i++) 
 			drawPrimitive((*objType)[i], (*parametrs)[i], _markersize);
 	
 }
@@ -32,32 +31,25 @@ bool MatlabRenderer::drawPrimitive(Primitive_Type type, Array<double> &parametrs
 		f << "figure; hold on" << endl;
 	}
 
-	switch (type) {
-
-	case IsPoint:
+	
 		if (parametrs.size() == 2) {
 			double x = parametrs[0], y = parametrs[1];
 			f << "plot([" << x << " " << x << "],[" << y <<
 				" " << y << "], 'LineWidth', 2, 'Marker', '.', 'MarkerSize', " << markersize << ")" << endl;
 		}
-		break;
 
-	case IsSegment:
 		if (parametrs.size() == 4) {
 			double x1 = parametrs[0], y1 = parametrs[1], x2 = parametrs[2], y2 = parametrs[3];
 			f << "plot([" << x1 << " " << x2 << "],[" << y1 <<
 				" " << y2 << "], 'LineWidth', 2, 'Marker', '.', 'MarkerSize', " << markersize << ")" << endl;
 		}
-		break;
-
-	case IsCircle:
+	
 		if (parametrs.size() == 3) {
 			double x = parametrs[0], y = parametrs[1], rad = parametrs[2];
 			f << "plot(" << x << " + " << rad << " * cos(0:0.001 : 2 * pi), " << y << " + " << rad <<
 				" * sin(0:0.001 : 2 * pi), 'LineWidth', 2, 'Marker', '.', 'MarkerSize', " << markersize << ")" << endl;
 		}
-		break;
-	}
+	
 
 	f.close();
 	return true;
