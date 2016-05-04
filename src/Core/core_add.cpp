@@ -8,6 +8,8 @@ void Core::addObject(const Array<double> &parametrs, Primitive_Type type) {
 	case IsSegment: if (parametrs.size() == 4) {
 		Point *t1 = new Point(parametrs[0], parametrs[1]);
 		Point *t2 = new Point(parametrs[2], parametrs[3]);
+		objects.push_back(t1);
+		objects.push_back(t2);
 		newobj = new Segment(t1, t2);
 	}
 	case IsCircle: if (parametrs.size() == 3) {
@@ -21,6 +23,7 @@ void Core::addObject(const Array<double> &parametrs, Primitive_Type type) {
 
 
 bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType type) {
+	*parametr = +0.001;
 	List<GraphPrimitive*> id_obj;
 	BasicRestriction* newrest = 0;
 	List<GraphPrimitive*>::Marker mar1(objects);
@@ -34,7 +37,7 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 		mar1.move_next();
 	}
 
-	Array<double*> params;
+	
 	List<GraphPrimitive*>::Marker mar(id_obj);
 	switch (type) {
 
@@ -188,6 +191,11 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 	CHJSolver solv;
 	MyFunction f1(params);
 	f1.addRestr(newrest);
+	List<BasicRestriction*>::Marker res_mar(restrictions);
+	for (size_t i = 0;i < restrictions.sizeList();i++) {
+		f1.addRestr(res_mar.get_current());
+		res_mar.move_next();
+	}
 	if (solv.solve(&f1, params)) {
 		restrictions.push_back(newrest);
 		return true;

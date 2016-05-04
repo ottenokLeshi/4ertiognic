@@ -17,7 +17,7 @@ Array<double> explore(MyFunction *f, Array <double> x, double h) {
 		v2 = res;
 		v2[i] = res[i] - h;
 		// if f(v1) < f(v2)
-		if (min((*f)(v1), (*f)(v2)) == (*f)(v1)) {
+		if ((*f)(v1)<(*f)(v2)) {
 			// if f(v1) < f(x)
 			if ((*f)(v1) < (*f)(x)) {
 				result = res[i] + h;
@@ -63,7 +63,7 @@ bool CHJSolver::solve(MyFunction *f, Array <double*> &x) {
 			}
 		}
 		else {
-			if (h < EPS) {
+			if (h < EPS || abs((*f)(x0)) < EPS) {
 				flag = 0;
 				break;
 			}

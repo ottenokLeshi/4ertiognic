@@ -1,40 +1,16 @@
 #include "matlab_renderer.h"
 
 void MatlabRenderer::drawSketch() {
-	List<GraphPrimitive*>::Marker mar(_core->objects);
-	Point * newp = 0; Circle *newc = 0; Segment * news = 0;
-	for (size_t i = 0;i < _core->objects.sizeList();i++) {
-		Array<double> par;
-
-		switch (mar.get_current()->object_type()) {
-
-		case IsPoint:
-			newp = dynamic_cast<Point*>(mar.get_current());
-			par.push_back(newp->getX());par.push_back(newp->getY());
-			break;
-
-		case IsSegment:
-			news = dynamic_cast<Segment*>(mar.get_current());
-			par.push_back(news->x1());par.push_back(news->y1());
-			par.push_back(news->x2());par.push_back(news->y2());
-			break;
-
-		case IsCircle:
-			newc = dynamic_cast<Circle*>(mar.get_current());
-			Point t = newc->getCenter();
-			par.push_back(t.getX()); 
-			par.push_back(t.getY());
-			par.push_back(newc->getRadius());
-			break;
-		}
-		drawPrimitive(mar.get_current()->object_type(), par, _markersize);
-		mar.move_next();
-	}
+	Array<Primitive_Type> *objType = _core->getInfoObj().first;
+	Array <Array<double>> *parametrs = _core->getInfoObj().second;
+	for (size_t i = 0;i < _core->sizeListObj();i++) 
+			drawPrimitive((*objType)[i], (*parametrs)[i], _markersize);
+	
 }
 
 
 
-bool MatlabRenderer::drawPrimitive(Primitive_Type type, const Array<double> &parametrs, size_t markersize) {
+bool MatlabRenderer::drawPrimitive(Primitive_Type type, Array<double> &parametrs, size_t markersize) {
 	fstream f;
 	f.open(_filename);
 	if (!f.is_open()) return false;
