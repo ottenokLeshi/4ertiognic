@@ -14,6 +14,7 @@ void Core::addObject(const Array<double> &parametrs, Primitive_Type type) {
 	}
 	case IsCircle: if (parametrs.size() == 3) {
 		Point *t1 = new Point(parametrs[0], parametrs[1]);
+		objects.push_back(t1); // otherwise we won't have access to that point by id
 		newobj = new Circle(t1, parametrs[2]);
 	}
 	}
@@ -23,7 +24,7 @@ void Core::addObject(const Array<double> &parametrs, Primitive_Type type) {
 
 
 bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType type) {
-	*parametr = +0.001;
+	if (*parametr == 0.0) *parametr = 1e-5;
 	List<GraphPrimitive*> id_obj;
 	BasicRestriction* newrest = 0;
 	List<GraphPrimitive*>::Marker mar1(objects);

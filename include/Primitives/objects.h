@@ -62,8 +62,10 @@ class Segment :public GraphPrimitive {
 	double _A, _B, _C;
 public:
 	// friend ostream& operator<<(ostream& ost, Segment &S);
-	Segment()
-		: _t1(0), _t2(0), _A(0), _B(0), _C(0) {}
+	Segment() : _t1(new Point), _t2(new Point), _length(new double) {
+		_refreshCoeff();
+		_refreshLength();
+	}
 
 	Segment(Point *t1, Point *t2) : _length(new double) {
 		_t1 = t1;
@@ -82,7 +84,8 @@ public:
 
 	double *getLength() { 
 		_refreshLength();
-	return _length; }
+		return _length; 
+	}
 
 	double x1() { return _t1->getX(); }
 	double y1() { return _t1->getY(); }
@@ -213,7 +216,7 @@ class Circle : public GraphPrimitive {
 
 public:
 	Circle() :
-		_center(0), _radius(0) {};
+		_center(new Point), _radius(0) {};
 	Circle(Point *center, double radius)
 		: _center(center), _radius(radius) {};
 	virtual ~Circle() {}

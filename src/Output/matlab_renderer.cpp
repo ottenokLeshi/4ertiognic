@@ -28,7 +28,7 @@ bool MatlabRenderer::drawPrimitive( Array<double> &parametrs, size_t markersize)
 	}
 		f << "function res = " << namefunc << "()" << endl;
 		f << "res = 0" << endl;
-		f << "figure; hold on" << endl;
+		f << "figure; hold on; axis equal;" << endl;
 	}
 
 	

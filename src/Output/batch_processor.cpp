@@ -9,8 +9,6 @@ bool BatchProcessor::generateCode() {
 	while (!fin.eof()) {
 		fin >> type;
 		Array<double> par;
-		char c;
-
 		double x = 0, y = 0, x1 = 0, y1 = 0, x2 = 0, y2 = 1, x3 = 2, y3 = 2, r = 1;
 		switch (type) {
 
@@ -84,7 +82,8 @@ bool BatchProcessor::generateCode() {
 				unsigned id1, id2;
 				double par;
 				fin >> id1 >> id2 >> par;
-				idObj->push_back(id1);idObj->push_back(id2);
+				idObj->push_back(id1);
+				idObj->push_back(id2);
 				_core->addRestriction(idObj, &par, RT_P2PDIST);
 				delete idObj;
 			}
@@ -93,7 +92,9 @@ bool BatchProcessor::generateCode() {
 				unsigned id1, id2, id3;
 				double par;
 				fin >> id1 >> id2 >> id3 >> par;
-				idObj->push_back(id1);idObj->push_back(id2); idObj->push_back(id3);
+				idObj->push_back(id1);
+				idObj->push_back(id2);
+				idObj->push_back(id3);
 				_core->addRestriction(idObj, &par, RT_P2SDIST);
 				delete idObj;
 			}
@@ -102,7 +103,9 @@ bool BatchProcessor::generateCode() {
 				unsigned id1, id2, id3;
 				double par;
 				fin >> id1 >> id2 >> id3 >> par;
-				idObj->push_back(id1);idObj->push_back(id2); idObj->push_back(id3);
+				idObj->push_back(id1);
+				idObj->push_back(id2);
+				idObj->push_back(id3);
 				_core->addRestriction(idObj, &par, RT_P2SDISTEX);
 				delete idObj;
 			}
@@ -110,8 +113,9 @@ bool BatchProcessor::generateCode() {
 			if (rest == "ass") {
 				unsigned id1, id2;
 				double par = 0;
-				fin >> id1 >> id2>>par;
-				idObj->push_back(id1);idObj->push_back(id2); idObj->push_back(par);
+				fin >> id1 >> id2;
+				idObj->push_back(id1);
+				idObj->push_back(id2);
 				_core->addRestriction(idObj, &par, RT_S2SANGLE);
 				delete idObj;
 			}
@@ -120,7 +124,8 @@ bool BatchProcessor::generateCode() {
 				unsigned id1, id2;
 				double par = 0;
 				fin >> id1 >> id2;
-				idObj->push_back(id1);idObj->push_back(id2);
+				idObj->push_back(id1);
+				idObj->push_back(id2);
 				_core->addRestriction(idObj, &par, RT_S2SORTHO);
 				delete idObj;
 			}
@@ -129,7 +134,8 @@ bool BatchProcessor::generateCode() {
 				unsigned id1, id2;
 				double par = 0;
 				fin >> id1 >> id2;
-				idObj->push_back(id1);idObj->push_back(id2);
+				idObj->push_back(id1);
+				idObj->push_back(id2);
 				_core->addRestriction(idObj, &par, RT_S2SPARAL);
 				delete idObj;
 			}
@@ -138,7 +144,8 @@ bool BatchProcessor::generateCode() {
 				unsigned id1, id2;
 				double par = 0;
 				fin >> id1 >> id2;
-				idObj->push_back(id1);idObj->push_back(id2);
+				idObj->push_back(id1);
+				idObj->push_back(id2);
 				_core->addRestriction(idObj, &par, RT_S2SEQUALS);
 				delete idObj;
 			}

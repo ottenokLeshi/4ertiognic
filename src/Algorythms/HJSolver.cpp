@@ -80,6 +80,6 @@ bool CHJSolver::solve(MyFunction *f, Array <double*> &x) {
 	return 1;
 }
 
-void CHJSolver::getSolution(Array<double*> &x) {
+void CHJSolver::getSolution(Array<double> &x, MyFunction *f) {
 
 }

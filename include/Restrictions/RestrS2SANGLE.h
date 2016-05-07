@@ -11,13 +11,26 @@ public:
 		_S2 = S2;
 		_angle = angle;
 
-		_p1x = _S1->getP1()->getX(), _p2x = _S1->getP2()->getX(), _p3x = _S2->getP1()->getX(), _p4x = _S2->getP2()->getX(),
-		_p1y = _S1->getP1()->getY(), _p2y = _S1->getP2()->getY(), _p3y = _S2->getP1()->getY(), _p4y = _S2->getP2()->getY();
+		_p1x = _S1->getP1()->getX();
+		_p2x = _S1->getP2()->getX();
+		_p3x = _S2->getP1()->getX();
+		_p4x = _S2->getP2()->getX();
+		_p1y = _S1->getP1()->getY();
+		_p2y = _S1->getP2()->getY();
+		_p3y = _S2->getP1()->getY();
+		_p4y = _S2->getP2()->getY();
 
 	};
 	virtual ~RestrS2SANGLE(){ }
-	virtual RestrictType get_type()const{return RT_S2SANGLE;};
-	virtual double violation()const { return *_angle - _S1->Angle(_S2); }
+	
+	virtual RestrictType get_type()const {
+		return RT_S2SANGLE;
+	};
+	
+	virtual double violation() const {
+		return *_angle - _S1->Angle(_S2);
+	}
+
 	virtual double diff(size_t par) {
 		double skalyar = (_p1x - _p2x)*(_p3x - _p4x) + (_p1y - _p2y)*(_p3y - _p4y);
 		double arccos = (-1) / sqrt(1 - pow(_S1->cosAngle(_S2), 2));
