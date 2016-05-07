@@ -113,7 +113,7 @@ bool BatchProcessor::generateCode() {
 			if (rest == "ass") {
 				unsigned id1, id2;
 				double par = 0;
-				fin >> id1 >> id2;
+				fin >> id1 >> id2 >> par;
 				idObj->push_back(id1);
 				idObj->push_back(id2);
 				_core->addRestriction(idObj, &par, RT_S2SANGLE);
