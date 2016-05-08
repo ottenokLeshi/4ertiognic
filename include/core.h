@@ -39,7 +39,13 @@ public:
 			mar.move_next();
 		}
 	}
-
+	BasicRestriction* searchIDRestr(int index) {
+		List<BasicRestriction*>::Marker mar(restrictions);
+		for (size_t i = 0; i < restrictions.sizeList(); i++) {
+			if (mar.get_current()->showId() == index) return mar.get_current();
+			mar.move_next();
+		}
+	}
 	unsigned sizeListObj() { return objects.sizeList(); }
 	unsigned sizeListRestr() { return restrictions.sizeList(); }
 	unsigned sizeListBackUpObj() { return backupObjects.sizeList(); }

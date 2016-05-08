@@ -96,6 +96,7 @@
     <ClCompile Include="..\..\..\4ertiognic\src\Output\matlab_renderer.cpp" />
     <ClCompile Include="..\..\..\4ertiognic\tests\BatchProcessor_test\Source.cpp" />
     <ClCompile Include="..\..\src\Algorythms\HJSolver.cpp" />
+    <ClCompile Include="..\..\src\BasicRestriction.cpp" />
     <ClCompile Include="..\..\src\graphPrimitive.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
