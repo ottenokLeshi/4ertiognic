@@ -5,6 +5,13 @@
 const double EPS = 1e-10;
 using namespace std;
 
+
+int GraphPrimitive::static_id = 0;
+int BasicRestriction::static_id = 1;
+extern "C" __declspec(dllexport) ISolver* getMethod() {
+	return new CHJSolver;
+}
+
 Array<double> explore(MyFunction *f, Array <double> x, double h) {
 	Array <double> res = x;
 	for (size_t i = 0; i < res.size(); ++i) {
@@ -75,11 +82,10 @@ bool CHJSolver::solve(MyFunction *f, Array <double*> &x) {
 	}
 
 	if ((*f)(x0) > EPS) return 0;
-	for (size_t i = 0; i < x.size(); ++i)
-		*x[i] = x0[i];
+	for (size_t i = 0; i < x.size(); ++i)	*x[i] = x0[i];
 	return 1;
 }
 
-void CHJSolver::getSolution(Array<double> &x, MyFunction *f) {
 
-}
+void CHJSolver::getSolution(Array<double*> &x, MyFunction *f) {solve(f, x);}
+

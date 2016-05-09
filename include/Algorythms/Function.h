@@ -3,9 +3,6 @@
 
 #include "MArray.h"
 #include "BasicRestriction.h"
-#include "objects.h"
-#include "RestrP2PDIST.h"
-#include "RestrS2SANGLE.h"
 
 class MyFunction {
 	Array <BasicRestriction*> _restrictions;

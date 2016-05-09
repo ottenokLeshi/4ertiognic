@@ -5,7 +5,8 @@
 class CHJSolver : public ISolver {
 public:
 	virtual bool solve(MyFunction *f, Array <double*> &x);
-	virtual void getSolution(Array<double> &x, MyFunction *f);
+	virtual void getSolution(Array<double*> &x, MyFunction *f);
+
 };
 
 #endif
