@@ -13,8 +13,7 @@
 #include "RestrS2SEQUALS.h"
 #include "RestrS2SPARAL.h"
 #include "ResrtS2SORTHO.h"
-#include "HJSolver.h"
-
+#include "ISolver.h"
 class Core {
 	List<GraphPrimitive*> objects;
 	List<BasicRestriction*> restrictions;
@@ -27,7 +26,7 @@ public:
 	List<unsigned>* selectByRect(double x1, double y1, double x2, double y2);
 	unsigned selectByPoint(Point p);
 	void addObject(const Array<double> &parametrs, Primitive_Type type);
-	bool addRestriction(List<unsigned>* id, double* parametr, RestrictType type);
+	bool addRestriction(List<unsigned>* id, double* parametr, RestrictType type, ISolver* F);
 	void addObjectID(GraphPrimitive* obj) {
 		objects.push_back(obj);
 	}

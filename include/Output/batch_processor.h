@@ -3,6 +3,8 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <stdio.h> 
+#include <windows.h> 
 #include "core.h"
 #include "matlab_renderer.h"
 using namespace std;
