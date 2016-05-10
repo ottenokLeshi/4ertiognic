@@ -14,11 +14,12 @@ bool BatchProcessor::generateCode() {
 		double x = 0, y = 0, x1 = 0, y1 = 0, x2 = 0, y2 = 1, x3 = 2, y3 = 2, r = 1;
 		HINSTANCE hinstLib;
 		PROCFUN Func;
-		BOOL fFreeResult, fRunTimeLinkSuccess = FALSE;
+		BOOL fFreeResult, fRunTimeLinkSuccess;
 
 		switch (type) {
 		
 		case 'G':
+			fRunTimeLinkSuccess = FALSE;
 			hinstLib = LoadLibrary(TEXT("GDdll.dll"));
 			if (hinstLib != nullptr) {
 				cout << "Lib Load" << endl;
@@ -38,7 +39,9 @@ bool BatchProcessor::generateCode() {
 				system("pause");
 				return 0;
 			}
+			break;
 		case 'H':
+			fRunTimeLinkSuccess = FALSE;
 				hinstLib = LoadLibrary(TEXT("HJdll.dll"));
 			if (hinstLib != nullptr) {
 				cout << "Lib Load" << endl;
@@ -59,7 +62,7 @@ bool BatchProcessor::generateCode() {
 				system("pause");
 				return 0;
 			}
-
+			break;
 		case 'p': // add point
 				fin >> x >> y;	
                 par.push_back(x); par.push_back(y);

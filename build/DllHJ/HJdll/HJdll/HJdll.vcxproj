@@ -97,7 +97,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;HJDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\proj\4ertiognic\include\Restrictions;C:\proj\4ertiognic\include\Primitives;C:\proj\4ertiognic\include\Containers;C:\proj\4ertiognic\include\Algorythms;C:\proj\4ertiognic\src\Algorythms;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include\Algorythms;..\..\..\..\include\Containers;..\..\..\..\include\Output;..\..\..\..\include\Primitives;..\..\..\..\include\Restrictions;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
