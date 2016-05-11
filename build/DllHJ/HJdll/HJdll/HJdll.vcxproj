@@ -82,6 +82,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\1\Desktop\4ertiognic\include\Algorythms;C:\Users\1\Desktop\4ertiognic\include\Containers;C:\Users\1\Desktop\4ertiognic\include\Primitives;C:\Users\1\Desktop\4ertiognic\include\Restrictions;C:\Users\1\Desktop\4ertiognic\src\Algorythms;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -96,7 +97,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;HJDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\proj\4ertiognic\include\Restrictions;C:\proj\4ertiognic\include\Primitives;C:\proj\4ertiognic\include\Containers;C:\proj\4ertiognic\include\Algorythms;C:\proj\4ertiognic\src\Algorythms;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include\Algorythms;..\..\..\..\include\Containers;..\..\..\..\include\Output;..\..\..\..\include\Primitives;..\..\..\..\include\Restrictions;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -23,7 +23,7 @@ void Core::addObject(const Array<double> &parametrs, Primitive_Type type) {
 }
 
 
-bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType type) {
+bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType type, ISolver* F) {
 	if (*parametr == 0.0) *parametr = 1e-5;
 	List<GraphPrimitive*> id_obj;
 	BasicRestriction* newrest = 0;
@@ -189,7 +189,6 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 	
 	
 	if (!params.size()) return false;
-	CHJSolver solv;
 	MyFunction f1(params);
 	f1.addRestr(newrest);
 	List<BasicRestriction*>::Marker res_mar(restrictions);
@@ -197,7 +196,7 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 		f1.addRestr(res_mar.get_current());
 		res_mar.move_next();
 	}
-	if (solv.solve(&f1, params)) {
+	if (F->solve(&f1, params)) {
 		restrictions.push_back(newrest);
 		return true;
 	}

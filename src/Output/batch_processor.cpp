@@ -1,17 +1,68 @@
 #include "batch_processor.h"
 
+typedef ISolver* (_cdecl *PROCFUN)(void);
+
 bool BatchProcessor::generateCode() {
 	fstream fin;
 	fin.open(_batchfilename);
 	if (!fin.is_open()) return false;
 	char type;
-
+	ISolver* SOLVE;
 	while (!fin.eof()) {
 		fin >> type;
 		Array<double> par;
 		double x = 0, y = 0, x1 = 0, y1 = 0, x2 = 0, y2 = 1, x3 = 2, y3 = 2, r = 1;
-		switch (type) {
+		HINSTANCE hinstLib;
+		PROCFUN Func;
+		BOOL fFreeResult, fRunTimeLinkSuccess;
 
+		switch (type) {
+		
+		case 'G':
+			fRunTimeLinkSuccess = FALSE;
+			hinstLib = LoadLibrary(TEXT("GDdll.dll"));
+			if (hinstLib != nullptr) {
+				cout << "Lib Load" << endl;
+				Func = (PROCFUN)GetProcAddress(hinstLib, "getMethod");
+
+				if (nullptr != Func)
+				{
+					fRunTimeLinkSuccess = TRUE;
+					cout << "O.K." << endl;
+					SOLVE = Func();
+				}
+
+			}
+			if (!fRunTimeLinkSuccess) {
+				fFreeResult = FreeLibrary(hinstLib);
+				cout << "404 not found" << endl;
+				system("pause");
+				return 0;
+			}
+			break;
+		case 'H':
+			fRunTimeLinkSuccess = FALSE;
+				hinstLib = LoadLibrary(TEXT("HJdll.dll"));
+			if (hinstLib != nullptr) {
+				cout << "Lib Load" << endl;
+				Func = (PROCFUN)GetProcAddress(hinstLib, "getMethod");
+
+				if (nullptr != Func)
+				{
+					fRunTimeLinkSuccess = TRUE;
+					cout << "O.K." << endl;
+
+					SOLVE = Func();
+				}
+
+			}
+			if (!fRunTimeLinkSuccess) {
+				fFreeResult = FreeLibrary(hinstLib);
+				cout  << "Hook J: 404 not found" << endl;
+				system("pause");
+				return 0;
+			}
+			break;
 		case 'p': // add point
 				fin >> x >> y;	
                 par.push_back(x); par.push_back(y);
@@ -65,13 +116,13 @@ bool BatchProcessor::generateCode() {
 						fin >> id;
 						idObj->push_back(id);
 					}
-					_core->addRestriction(idObj, 0, RT_FIX);
+					_core->addRestriction(idObj, 0, RT_FIX, SOLVE);
 				}
 
 				if (fix == "all") {
 					for (unsigned int i = 0;i < _core->sizeListObj();i++)
 						idObj->push_back(i);
-					_core->addRestriction(idObj, 0, RT_FIX);
+					_core->addRestriction(idObj, 0, RT_FIX, SOLVE);
 				}
 				
 				delete idObj;
@@ -84,7 +135,7 @@ bool BatchProcessor::generateCode() {
 				fin >> id1 >> id2 >> par;
 				idObj->push_back(id1);
 				idObj->push_back(id2);
-				_core->addRestriction(idObj, &par, RT_P2PDIST);
+				_core->addRestriction(idObj, &par, RT_P2PDIST, SOLVE);
 				delete idObj;
 			}
 
@@ -95,7 +146,7 @@ bool BatchProcessor::generateCode() {
 				idObj->push_back(id1);
 				idObj->push_back(id2);
 				idObj->push_back(id3);
-				_core->addRestriction(idObj, &par, RT_P2SDIST);
+				_core->addRestriction(idObj, &par, RT_P2SDIST, SOLVE);
 				delete idObj;
 			}
 
@@ -106,7 +157,7 @@ bool BatchProcessor::generateCode() {
 				idObj->push_back(id1);
 				idObj->push_back(id2);
 				idObj->push_back(id3);
-				_core->addRestriction(idObj, &par, RT_P2SDISTEX);
+				_core->addRestriction(idObj, &par, RT_P2SDISTEX, SOLVE);
 				delete idObj;
 			}
 
@@ -116,7 +167,7 @@ bool BatchProcessor::generateCode() {
 				fin >> id1 >> id2 >> par;
 				idObj->push_back(id1);
 				idObj->push_back(id2);
-				_core->addRestriction(idObj, &par, RT_S2SANGLE);
+				_core->addRestriction(idObj, &par, RT_S2SANGLE, SOLVE);
 				delete idObj;
 			}
 
@@ -126,7 +177,7 @@ bool BatchProcessor::generateCode() {
 				fin >> id1 >> id2;
 				idObj->push_back(id1);
 				idObj->push_back(id2);
-				_core->addRestriction(idObj, &par, RT_S2SORTHO);
+				_core->addRestriction(idObj, &par, RT_S2SORTHO, SOLVE);
 				delete idObj;
 			}
 
@@ -136,7 +187,7 @@ bool BatchProcessor::generateCode() {
 				fin >> id1 >> id2;
 				idObj->push_back(id1);
 				idObj->push_back(id2);
-				_core->addRestriction(idObj, &par, RT_S2SPARAL);
+				_core->addRestriction(idObj, &par, RT_S2SPARAL, SOLVE);
 				delete idObj;
 			}
 
@@ -146,7 +197,7 @@ bool BatchProcessor::generateCode() {
 				fin >> id1 >> id2;
 				idObj->push_back(id1);
 				idObj->push_back(id2);
-				_core->addRestriction(idObj, &par, RT_S2SEQUALS);
+				_core->addRestriction(idObj, &par, RT_S2SEQUALS, SOLVE);
 				delete idObj;
 			}
 		}
