@@ -67,8 +67,9 @@ public:
 		return 0;
 	}
 
-	
-
+	double getAngl() const {
+		return _S1->Angle(_S2);
+	}
 
 private:
 	Segment *_S1;

@@ -15,5 +15,9 @@ public:
 		return  (1.5707963267949 - _S1->Angle(_S2)); //1.5707963267949 - 90 in radian
 	}
 	virtual double diff(size_t par) { return 0; }
+
+	double getAngl() const {
+		return  _S1->Angle(_S2);
+	}
 };
 #endif
