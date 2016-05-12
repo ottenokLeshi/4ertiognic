@@ -5,9 +5,6 @@
 const double EPS = 1e-10;
 using namespace std;
 
-
-int GraphPrimitive::static_id = 0;
-int BasicRestriction::static_id = 1;
 extern "C" __declspec(dllexport) ISolver* getMethod() {
 	return new CHJSolver;
 }

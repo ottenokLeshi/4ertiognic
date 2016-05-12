@@ -40,6 +40,11 @@ public:
 		}
 		return 0;
 	}
+
+	double getDist() const {
+		return _A->distanceToPoint(_B->getX(), _B->getY());
+	}
+
 private:
 	Point *_A;
 	Point *_B;

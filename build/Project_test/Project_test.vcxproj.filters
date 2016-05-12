@@ -78,6 +78,9 @@
     <ClInclude Include="..\..\..\4ertiognic\include\Restrictions\RestrS2SPARAL.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Restrictions\parametr.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\graphPrimitive.cpp">

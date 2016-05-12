@@ -46,7 +46,7 @@ public:
 			}
 			else return;
 		}
-		T get_current() {
+		T& get_current() {
 			return current->data;
 		}
 

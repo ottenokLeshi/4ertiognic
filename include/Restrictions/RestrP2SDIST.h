@@ -90,8 +90,16 @@ public:
 					break;
 			}
 		return 0;
-		
 	}
+	double getDist() const {
+		if (_beg->getX() == _end->getX()) {
+			double k = (_beg->getX() - _end->getX()) / (_beg->getY() - _end->getY()), b = _end->getX() - k*_end->getY();
+			return (abs((k*_t->getY() - _t->getX() + b) / sqrt(k*k + 1)));
+		}
+		double k = (_beg->getY() - _end->getY()) / (_beg->getX() - _end->getX()), b = _end->getY() - k*_end->getX();
+		return (abs((k*_t->getX() - _t->getY() + b) / sqrt(k*k + 1)));
+	}
+
 private:
 	Point *_beg;
 	Point *_end;

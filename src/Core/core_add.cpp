@@ -47,7 +47,7 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			mar.get_current()->fix(1);
 			mar.move_next();
 		}
-		restrictions.push_back(newrest);
+		//restrictions.push_back(newrest);
 		return true;
 		break;
 
@@ -57,9 +57,11 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			mar.move_next();
 			Point *p2 = dynamic_cast<Point*> (mar.get_current());
 			newrest = new RestrP2PDIST(p1, p2, parametr);
-			if (!p1->isFixed() && !p2->isFixed()) {
+			if (!p1->isFixed()) {
 				params.push_back(p1->x());
 				params.push_back(p1->y());
+			}
+			if (!p2->isFixed()) {
 				params.push_back(p2->x());
 				params.push_back(p2->y());
 			}
@@ -75,11 +77,15 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			mar.move_next();
 			Point *p3 = dynamic_cast<Point*> (mar.get_current());
 			newrest = new RestrP2SDIST(p1, p2, p3, parametr);
-			if (!p1->isFixed() && !p2->isFixed() && !p3->isFixed()) {
+			if (!p1->isFixed()) {
 				params.push_back(p1->x());
 				params.push_back(p1->y());
+			}
+			if (!p2->isFixed()) {
 				params.push_back(p2->x());
 				params.push_back(p2->y());
+			}
+			if (!p3->isFixed()) {
 				params.push_back(p3->x());
 				params.push_back(p3->y());
 			}
@@ -95,11 +101,15 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			mar.move_next();
 			Point *p3 = dynamic_cast<Point*> (mar.get_current());
 			newrest = new RestrP2SDISTEX(p1, p2, p3, parametr);
-			if (!p1->isFixed() && !p2->isFixed() && !p3->isFixed()) {
+			if (!p1->isFixed()) {
 				params.push_back(p1->x());
 				params.push_back(p1->y());
+			}
+			if (!p2->isFixed()) {
 				params.push_back(p2->x());
 				params.push_back(p2->y());
+			}
+			if (!p3->isFixed()) {
 				params.push_back(p3->x());
 				params.push_back(p3->y());
 			}
@@ -113,15 +123,25 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			mar.move_next();
 			Segment *p2 = dynamic_cast<Segment*> (mar.get_current());
 			newrest = new RestrS2SANGLE(p1, p2, parametr);
-			if (!p1->isFixed() && !p2->isFixed()) {
-				params.push_back(p1->getP1()->x());
-				params.push_back(p1->getP1()->y());
-				params.push_back(p1->getP2()->x());
-				params.push_back(p1->getP2()->y());
-				params.push_back(p2->getP1()->x());
-				params.push_back(p2->getP1()->y());
-				params.push_back(p2->getP2()->x());
-				params.push_back(p2->getP2()->y());
+			if (!p1->isFixed()) {
+				if (!p1->getP1()->isFixed()) {
+					params.push_back(p1->getP1()->x());
+					params.push_back(p1->getP1()->y());
+				}
+				if (!p1->getP2()->isFixed()) {
+					params.push_back(p1->getP2()->x());
+					params.push_back(p1->getP2()->y());
+				}
+			}
+			if (!p2->isFixed()) {
+				if (!p2->getP1()->isFixed()) {
+					params.push_back(p2->getP1()->x());
+					params.push_back(p2->getP1()->y());
+				}
+				if (!p2->getP2()->isFixed()) {
+					params.push_back(p2->getP2()->x());
+					params.push_back(p2->getP2()->y());
+				}
 			}
 		}
 		break;
@@ -133,15 +153,25 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			mar.move_next();
 			Segment *p2 = dynamic_cast<Segment*> (mar.get_current());
 			newrest = new RestrS2SEQUALS(p1, p2);
-			if (!p1->isFixed() && !p2->isFixed()) {
-				params.push_back(p1->getP1()->x());
-				params.push_back(p1->getP1()->y());
-				params.push_back(p1->getP2()->x());
-				params.push_back(p1->getP2()->y());
-				params.push_back(p2->getP1()->x());
-				params.push_back(p2->getP1()->y());
-				params.push_back(p2->getP2()->x());
-				params.push_back(p2->getP2()->y());
+			if (!p1->isFixed()) {
+				if (!p1->getP1()->isFixed()) {
+					params.push_back(p1->getP1()->x());
+					params.push_back(p1->getP1()->y());
+				}
+				if (!p1->getP2()->isFixed()) {
+					params.push_back(p1->getP2()->x());
+					params.push_back(p1->getP2()->y());
+				}
+			}
+			if (!p2->isFixed()) {
+				if (!p2->getP1()->isFixed()) {
+					params.push_back(p2->getP1()->x());
+					params.push_back(p2->getP1()->y());
+				}
+				if (!p2->getP2()->isFixed()) {
+					params.push_back(p2->getP2()->x());
+					params.push_back(p2->getP2()->y());
+				}
 			}
 		}
 		break;
@@ -153,15 +183,25 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			mar.move_next();
 			Segment *p2 = dynamic_cast<Segment*> (mar.get_current());
 			newrest = new RestrS2SPARAL(p1, p2);
-			if (!p1->isFixed() && !p2->isFixed()) {
-				params.push_back(p1->getP1()->x());
-				params.push_back(p1->getP1()->y());
-				params.push_back(p1->getP2()->x());
-				params.push_back(p1->getP2()->y());
-				params.push_back(p2->getP1()->x());
-				params.push_back(p2->getP1()->y());
-				params.push_back(p2->getP2()->x());
-				params.push_back(p2->getP2()->y());
+			if (!p1->isFixed()) {
+				if (!p1->getP1()->isFixed()) {
+					params.push_back(p1->getP1()->x());
+					params.push_back(p1->getP1()->y());
+				}
+				if (!p1->getP2()->isFixed()) {
+					params.push_back(p1->getP2()->x());
+					params.push_back(p1->getP2()->y());
+				}
+			}
+			if (!p2->isFixed()) {
+				if (!p2->getP1()->isFixed()) {
+					params.push_back(p2->getP1()->x());
+					params.push_back(p2->getP1()->y());
+				}
+				if (!p2->getP2()->isFixed()) {
+					params.push_back(p2->getP2()->x());
+					params.push_back(p2->getP2()->y());
+				}
 			}
 		}
 		break;
@@ -173,15 +213,25 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			mar.move_next();
 			Segment *p2 = dynamic_cast<Segment*> (mar.get_current());
 			newrest = new RestrS2SORTHO(p1, p2);
-			if (!p1->isFixed() && !p2->isFixed()) {
-				params.push_back(p1->getP1()->x());
-				params.push_back(p1->getP1()->y());
-				params.push_back(p1->getP2()->x());
-				params.push_back(p1->getP2()->y());
-				params.push_back(p2->getP1()->x());
-				params.push_back(p2->getP1()->y());
-				params.push_back(p2->getP2()->x());
-				params.push_back(p2->getP2()->y());
+			if (!p1->isFixed()) {
+				if (!p1->getP1()->isFixed()) {
+					params.push_back(p1->getP1()->x());
+					params.push_back(p1->getP1()->y());
+				}
+				if (!p1->getP2()->isFixed()) {
+					params.push_back(p1->getP2()->x());
+					params.push_back(p1->getP2()->y());
+				}
+			}
+			if (!p2->isFixed()) {
+				if (!p2->getP1()->isFixed()) {
+					params.push_back(p2->getP1()->x());
+					params.push_back(p2->getP1()->y());
+				}
+				if (!p2->getP2()->isFixed()) {
+					params.push_back(p2->getP2()->x());
+					params.push_back(p2->getP2()->y());
+				}
 			}
 		}
 		break;

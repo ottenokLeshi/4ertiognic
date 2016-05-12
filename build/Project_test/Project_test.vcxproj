@@ -86,6 +86,7 @@
     <ClInclude Include="..\..\include\core.h" />
     <ClInclude Include="..\..\include\Output\GUI.h" />
     <ClInclude Include="..\..\include\Output\GUI_types.h" />
+    <ClInclude Include="..\..\include\Restrictions\parametr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\4ertiognic\src\Core\core_add.cpp" />
@@ -95,6 +96,10 @@
     <ClCompile Include="..\..\..\4ertiognic\src\Output\matlab_renderer.cpp" />
     <ClCompile Include="..\..\..\4ertiognic\tests\BatchProcessor_test\Source.cpp" />
     <ClCompile Include="..\..\src\Algorythms\FunctionSrc.cpp" />
+<<<<<<< HEAD
+    <ClCompile Include="..\..\src\Algorythms\HJSolver.cpp" />
+=======
+>>>>>>> 1820dc8c9c2b576892cbf88107719704508c7ffa
     <ClCompile Include="..\..\src\BasicRestriction.cpp" />
     <ClCompile Include="..\..\src\graphPrimitive.cpp" />
   </ItemGroup>
