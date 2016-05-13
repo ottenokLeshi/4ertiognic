@@ -45,6 +45,7 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 	case RT_FIX:
 		for (size_t i = 0; i < id_obj.sizeList(); i++) {
 			mar.get_current()->fix(1);
+			//if (mar.get_current()->object_type() == IsSegment) {}
 			fixedObjects.push_back(mar.get_current());
 			mar.move_next();
 		}
