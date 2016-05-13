@@ -18,6 +18,10 @@ bool BatchProcessor_test() {
 
 
 int main() {
-	BatchProcessor_test();
+//BatchProcessor_test();
+
+	Core _Core;
+	_Core.getSOLVE(1);
+	system("pause");
 	return 0;
 }
