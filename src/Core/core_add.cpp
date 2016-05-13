@@ -28,6 +28,7 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 	List<GraphPrimitive*> id_obj;
 	BasicRestriction* newrest = 0;
 	List<GraphPrimitive*>::Marker mar1(objects);
+	List<GraphPrimitive*>::Marker fixedObjectsMarker(fixedObjects);
 	for (size_t i = 0; i < objects.sizeList();i++) {
 		List<unsigned>::Marker mar_id(*id);
 		for (size_t j = 0;j < id->sizeList();j++) {
@@ -44,12 +45,26 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 	case RT_FIX:
 		for (size_t i = 0; i < id_obj.sizeList(); i++) {
 			mar.get_current()->fix(1);
+			fixedObjects.push_back(mar.get_current());
 			mar.move_next();
 		}
 		//restrictions.push_back(newrest);
 		return true;
 		break;
 
+	case RT_UNFIX:
+		for (size_t i = 0; i < id_obj.sizeList(); i++) {
+			mar.get_current()->fix(0);
+			for (size_t j = 0; j < fixedObjects.sizeList(); j++) {
+				if (fixedObjectsMarker.get_current()->showId() == mar.get_current()->showId()) {
+					fixedObjects.deleteElem(fixedObjectsMarker);
+				}
+				fixedObjectsMarker.move_next();
+			}
+			mar.move_next();
+		}
+		return true;
+		break;
 	case RT_P2PDIST:
 		if (id_obj.sizeList() == 2) {
 			Point *p1 = dynamic_cast<Point*> (mar.get_current());

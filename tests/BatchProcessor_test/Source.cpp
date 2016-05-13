@@ -5,6 +5,8 @@
 
 using namespace std;
 
+typedef ISolver* (_cdecl *PROCFUN)(void);
+
 bool BatchProcessor_test() {
 	string input, output;
 	cout << "Enter batchfile ";
@@ -18,7 +20,7 @@ bool BatchProcessor_test() {
 
 
 int main() {
-//BatchProcessor_test();
+	//BatchProcessor_test();
 
 	Core _Core;
 	_Core.getSOLVE(1);

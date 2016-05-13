@@ -10,7 +10,8 @@ enum RestrictType{
 	RT_S2SANGLE, // Угол между отрезками
 	RT_S2SORTHO, // Отрезки ортогональны
 	RT_S2SPARAL, // Отрезки параллельны
-	RT_S2SEQUALS // Равенство длин отрезков	
+	RT_S2SEQUALS, // Равенство длин отрезков	
+	RT_UNFIX
 };
 
 

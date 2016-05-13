@@ -19,6 +19,7 @@ class Core {
 	List<GraphPrimitive*> objects;
 	List<BasicRestriction*> restrictions;
 	List<GraphPrimitive*> backupObjects;
+	List<GraphPrimitive*> fixedObjects;
 public:
 	Array<double*> params;
 	Core() {}
@@ -44,6 +45,14 @@ public:
 		List<BasicRestriction*>::Marker mar(restrictions);
 		for (size_t i = 0; i < restrictions.sizeList(); i++) {
 			if (mar.get_current()->showId() == index) return mar.get_current();
+			mar.move_next();
+		}
+	}
+
+	void ShowFixed() {
+		List<GraphPrimitive*>::Marker mar(fixedObjects);
+		for (size_t i = 0; i < fixedObjects.sizeList(); ++i) {
+			cout << mar.get_current()->showId() << " ";
 			mar.move_next();
 		}
 	}
