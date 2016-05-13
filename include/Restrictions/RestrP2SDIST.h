@@ -26,7 +26,7 @@ public:
 		double k = (_p1y - _p2y) / (_p1x - _p2x), b = _p2y - k*_p2x;
 		return (*_dist - abs((k*_p3x-_p3y+b)/sqrt(k*k+1)));
 	}
-
+//	virtual Array<double>* diff() {}
 	virtual double diff(size_t par) {
 		if (par == 7)
 			return 1;

@@ -28,8 +28,8 @@ public:
 				return *_min - sqrt(vec2x*vec2x + vec2y*vec2y);
 		}
 	}
-	virtual double diff(size_t par) { 
-		virtual double diff(size_t par) {
+	
+	virtual double diff(size_t par) {
 			double x1 = _beg->getX(), x2 = _end->getX(), y1 = _beg->getY(), y2 = _end->getY(), xt = _t->getX(), yt = _t->getY();
 			if (((x1 - xt)*(x1 - x2) + (y1 - yt)*(x2 - y2))*((x2 - xt)*(x1 - x2) + (y2 - yt)*(x2 - y2)) < 0) {
 				if (x1 > x2 && y1 != y2) {
@@ -259,7 +259,6 @@ public:
 				}
 			}
 		}
-	}
 
 	double getDist() const {
 			double x1 = _beg->getX(), x2 = _end->getX(), y1 = _beg->getY(), y2 = _end->getY(), xt = _t->getX(), yt = _t->getY();
