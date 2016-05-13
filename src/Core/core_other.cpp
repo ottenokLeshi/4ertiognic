@@ -1,5 +1,40 @@
 #include "core.h"
+#include <stdio.h> 
+#include <windows.h> 
 
+typedef ISolver* (_cdecl *PROCFUN)(void);
+
+void Core::getSOLVE(bool _bSolve) {
+	ISolver* SOLVE;
+
+	HINSTANCE hinstLib;
+	PROCFUN Func;
+	BOOL fFreeResult, fRunTimeLinkSuccess;
+	fRunTimeLinkSuccess = FALSE;
+
+	if (_bSolve)	hinstLib = LoadLibrary(TEXT("GDdll.dll"));
+	else hinstLib = LoadLibrary(TEXT("HJdll.dll"));
+
+	if (hinstLib != nullptr) {
+		cout << "Lib Load" << endl;
+		Func = (PROCFUN)GetProcAddress(hinstLib, "getMethod");
+
+		if (nullptr != Func)
+		{
+			fRunTimeLinkSuccess = TRUE;
+			cout << "O.K." << endl;
+			SOLVE = Func();
+		}
+
+	}
+	if (!fRunTimeLinkSuccess) {
+		fFreeResult = FreeLibrary(hinstLib);
+		cout << "404 not found" << endl;
+		system("pause");
+		SOLVE = nullptr;
+		return;
+	}
+}
 void Core::backupState() {
 	backupObjects.deleteAll();
 	List<GraphPrimitive*>::Marker mar(objects);
