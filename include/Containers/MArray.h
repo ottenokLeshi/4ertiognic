@@ -111,6 +111,16 @@ public:
 		_data = newData;
 		_size++;
 	}
+	
+	// push back if item is not in array
+	void union_with(const T& newItem) {
+		for (size_t i = 0; i < _size; i++) {
+			if (_data[i] == newItem)
+				return;
+		}
+		push_back(newItem);
+	}
+
 	Array <T> & operator=(const Array <T> &arr) {
 		if (this == &arr)
 			return *this;

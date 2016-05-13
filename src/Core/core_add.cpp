@@ -24,6 +24,8 @@ void Core::addObject(const Array<double> &parametrs, Primitive_Type type) {
 
 
 bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType type, ISolver* F) {
+	List<GraphPrimitive*>::Marker myMar1(objects);
+
 	if (*parametr == 0.0) *parametr = 1e-5;
 	List<GraphPrimitive*> id_obj;
 	BasicRestriction* newrest = 0;
@@ -42,30 +44,45 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 	List<GraphPrimitive*>::Marker mar(id_obj);
 	switch (type) {
 
-	case RT_FIX:
+	case RT_FIX: {
+		Array<double *> newParams;
 		for (size_t i = 0; i < id_obj.sizeList(); i++) {
-			mar.get_current()->fix(1);
-			//if (mar.get_current()->object_type() == IsSegment) {}
+			auto fixedObject = mar.get_current();
+			fixedObject->fix(1);
 			fixedObjects.push_back(mar.get_current());
-			mar.move_next();
-		}
-		//restrictions.push_back(newrest);
-		return true;
-		break;
 
-	case RT_UNFIX:
-		for (size_t i = 0; i < id_obj.sizeList(); i++) {
-			mar.get_current()->fix(0);
-			for (size_t j = 0; j < fixedObjects.sizeList(); j++) {
-				if (fixedObjectsMarker.get_current()->showId() == mar.get_current()->showId()) {
-					fixedObjects.deleteElem(fixedObjectsMarker);
+			if (fixedObject->object_type() == IsPoint) {
+				auto fixedPoint = dynamic_cast<Point*> (fixedObject);
+				for (size_t j = 0; j < params.size(); j++) {
+					if (params[j] != fixedPoint->x() && params[j] != fixedPoint->y())
+						newParams.union_with(params[j]);
 				}
-				fixedObjectsMarker.move_next();
+				params = newParams;
+			}
+			else if (fixedObject->object_type() == IsSegment) {
+				auto fixedSegment = dynamic_cast<Segment*> (fixedObject);
+				for (size_t j = 0; j < params.size(); j++) {
+					if (params[j] != fixedSegment->getP1()->x() && params[j] != fixedSegment->getP1()->y())
+						if (params[j] != fixedSegment->getP2()->x() && params[j] != fixedSegment->getP2()->y())
+							newParams.union_with(params[j]);
+				}
+				params = newParams;
+			}
+
+			else if (fixedObject->object_type() == IsCircle) {
+				auto fixedCircle = dynamic_cast<Circle*> (fixedObject);
+				for (size_t j = 0; j < params.size(); j++) {
+					if (params[j] != fixedCircle->getCenter().x() && params[j] != fixedCircle->getCenter().y())
+						newParams.union_with(params[j]);
+				}
+				params = newParams;
 			}
 			mar.move_next();
 		}
 		return true;
-		break;
+	}
+	break;
+
 	case RT_P2PDIST:
 		if (id_obj.sizeList() == 2) {
 			Point *p1 = dynamic_cast<Point*> (mar.get_current());
@@ -73,12 +90,12 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			Point *p2 = dynamic_cast<Point*> (mar.get_current());
 			newrest = new RestrP2PDIST(p1, p2, parametr);
 			if (!p1->isFixed()) {
-				params.push_back(p1->x());
-				params.push_back(p1->y());
+				params.union_with(p1->x());
+				params.union_with(p1->y());
 			}
 			if (!p2->isFixed()) {
-				params.push_back(p2->x());
-				params.push_back(p2->y());
+				params.union_with(p2->x());
+				params.union_with(p2->y());
 			}
 		}
 		break;
@@ -93,16 +110,16 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			Point *p3 = dynamic_cast<Point*> (mar.get_current());
 			newrest = new RestrP2SDIST(p1, p2, p3, parametr);
 			if (!p1->isFixed()) {
-				params.push_back(p1->x());
-				params.push_back(p1->y());
+				params.union_with(p1->x());
+				params.union_with(p1->y());
 			}
 			if (!p2->isFixed()) {
-				params.push_back(p2->x());
-				params.push_back(p2->y());
+				params.union_with(p2->x());
+				params.union_with(p2->y());
 			}
 			if (!p3->isFixed()) {
-				params.push_back(p3->x());
-				params.push_back(p3->y());
+				params.union_with(p3->x());
+				params.union_with(p3->y());
 			}
 		}
 		break;
@@ -117,16 +134,16 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			Point *p3 = dynamic_cast<Point*> (mar.get_current());
 			newrest = new RestrP2SDISTEX(p1, p2, p3, parametr);
 			if (!p1->isFixed()) {
-				params.push_back(p1->x());
-				params.push_back(p1->y());
+				params.union_with(p1->x());
+				params.union_with(p1->y());
 			}
 			if (!p2->isFixed()) {
-				params.push_back(p2->x());
-				params.push_back(p2->y());
+				params.union_with(p2->x());
+				params.union_with(p2->y());
 			}
 			if (!p3->isFixed()) {
-				params.push_back(p3->x());
-				params.push_back(p3->y());
+				params.union_with(p3->x());
+				params.union_with(p3->y());
 			}
 		}
 		break;
@@ -140,22 +157,22 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			newrest = new RestrS2SANGLE(p1, p2, parametr);
 			if (!p1->isFixed()) {
 				if (!p1->getP1()->isFixed()) {
-					params.push_back(p1->getP1()->x());
-					params.push_back(p1->getP1()->y());
+					params.union_with(p1->getP1()->x());
+					params.union_with(p1->getP1()->y());
 				}
 				if (!p1->getP2()->isFixed()) {
-					params.push_back(p1->getP2()->x());
-					params.push_back(p1->getP2()->y());
+					params.union_with(p1->getP2()->x());
+					params.union_with(p1->getP2()->y());
 				}
 			}
 			if (!p2->isFixed()) {
 				if (!p2->getP1()->isFixed()) {
-					params.push_back(p2->getP1()->x());
-					params.push_back(p2->getP1()->y());
+					params.union_with(p2->getP1()->x());
+					params.union_with(p2->getP1()->y());
 				}
 				if (!p2->getP2()->isFixed()) {
-					params.push_back(p2->getP2()->x());
-					params.push_back(p2->getP2()->y());
+					params.union_with(p2->getP2()->x());
+					params.union_with(p2->getP2()->y());
 				}
 			}
 		}
@@ -170,22 +187,22 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			newrest = new RestrS2SEQUALS(p1, p2);
 			if (!p1->isFixed()) {
 				if (!p1->getP1()->isFixed()) {
-					params.push_back(p1->getP1()->x());
-					params.push_back(p1->getP1()->y());
+					params.union_with(p1->getP1()->x());
+					params.union_with(p1->getP1()->y());
 				}
 				if (!p1->getP2()->isFixed()) {
-					params.push_back(p1->getP2()->x());
-					params.push_back(p1->getP2()->y());
+					params.union_with(p1->getP2()->x());
+					params.union_with(p1->getP2()->y());
 				}
 			}
 			if (!p2->isFixed()) {
 				if (!p2->getP1()->isFixed()) {
-					params.push_back(p2->getP1()->x());
-					params.push_back(p2->getP1()->y());
+					params.union_with(p2->getP1()->x());
+					params.union_with(p2->getP1()->y());
 				}
 				if (!p2->getP2()->isFixed()) {
-					params.push_back(p2->getP2()->x());
-					params.push_back(p2->getP2()->y());
+					params.union_with(p2->getP2()->x());
+					params.union_with(p2->getP2()->y());
 				}
 			}
 		}
@@ -200,22 +217,22 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			newrest = new RestrS2SPARAL(p1, p2);
 			if (!p1->isFixed()) {
 				if (!p1->getP1()->isFixed()) {
-					params.push_back(p1->getP1()->x());
-					params.push_back(p1->getP1()->y());
+					params.union_with(p1->getP1()->x());
+					params.union_with(p1->getP1()->y());
 				}
 				if (!p1->getP2()->isFixed()) {
-					params.push_back(p1->getP2()->x());
-					params.push_back(p1->getP2()->y());
+					params.union_with(p1->getP2()->x());
+					params.union_with(p1->getP2()->y());
 				}
 			}
 			if (!p2->isFixed()) {
 				if (!p2->getP1()->isFixed()) {
-					params.push_back(p2->getP1()->x());
-					params.push_back(p2->getP1()->y());
+					params.union_with(p2->getP1()->x());
+					params.union_with(p2->getP1()->y());
 				}
 				if (!p2->getP2()->isFixed()) {
-					params.push_back(p2->getP2()->x());
-					params.push_back(p2->getP2()->y());
+					params.union_with(p2->getP2()->x());
+					params.union_with(p2->getP2()->y());
 				}
 			}
 		}
@@ -230,29 +247,29 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			newrest = new RestrS2SORTHO(p1, p2);
 			if (!p1->isFixed()) {
 				if (!p1->getP1()->isFixed()) {
-					params.push_back(p1->getP1()->x());
-					params.push_back(p1->getP1()->y());
+					params.union_with(p1->getP1()->x());
+					params.union_with(p1->getP1()->y());
 				}
 				if (!p1->getP2()->isFixed()) {
-					params.push_back(p1->getP2()->x());
-					params.push_back(p1->getP2()->y());
+					params.union_with(p1->getP2()->x());
+					params.union_with(p1->getP2()->y());
 				}
 			}
 			if (!p2->isFixed()) {
 				if (!p2->getP1()->isFixed()) {
-					params.push_back(p2->getP1()->x());
-					params.push_back(p2->getP1()->y());
+					params.union_with(p2->getP1()->x());
+					params.union_with(p2->getP1()->y());
 				}
 				if (!p2->getP2()->isFixed()) {
-					params.push_back(p2->getP2()->x());
-					params.push_back(p2->getP2()->y());
+					params.union_with(p2->getP2()->x());
+					params.union_with(p2->getP2()->y());
 				}
 			}
 		}
 		break;
 	}
-	
-	
+
+
 	if (!params.size()) return false;
 	MyFunction f1(params);
 	f1.addRestr(newrest);
@@ -267,4 +284,3 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 	}
 	return false;
 }
-
