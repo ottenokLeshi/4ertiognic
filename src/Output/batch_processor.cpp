@@ -134,7 +134,7 @@ bool BatchProcessor::generateCode() {
 				}
 
 				if (fix == "all") {
-					for (unsigned int i = 0;i < _core->sizeListObj();i++)
+					for (unsigned int i = 0; i < _core->sizeListObj(); i++)
 						objId.push_back(i);
 					_core->addRestriction(&objId, &zero, RT_FIX, SOLVE);
 				}

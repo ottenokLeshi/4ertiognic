@@ -78,7 +78,13 @@ bool CHJSolver::solve(MyFunction *f, Array <double*> &x) {
 		}
 	}
 
-	if ((*f)(x0) > EPS) return 0;
+	if ((*f)(x0) > EPS) {
+		Array <double> xe;
+		for (size_t i = 0; i < x.size(); ++i)
+			xe.push_back(*x[i]);
+		(*f)(xe);
+		return 0;
+	}
 	for (size_t i = 0; i < x.size(); ++i)	*x[i] = x0[i];
 	return 1;
 }
