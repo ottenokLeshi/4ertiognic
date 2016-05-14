@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>addOb.png</file>
+        <file>addRestr.png</file>
+        <file>cir.png</file>
+        <file>circle.png</file>
+        <file>cursor.png</file>
+        <file>delete.png</file>
+        <file>fix.png</file>
+        <file>icons.qrc</file>
+        <file>P.png</file>
+        <file>parametrs.png</file>
+        <file>point.png</file>
+        <file>point1.png</file>
+        <file>question-mark.png</file>
+        <file>restr.png</file>
+        <file>search.png</file>
+        <file>seg.png</file>
+        <file>segment.png</file>
+        <file>select.png</file>
+    </qresource>
+</RCC>

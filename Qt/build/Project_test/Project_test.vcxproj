@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CA5837A2-FB61-46B7-9472-73F2FD9940BF}</ProjectGuid>
+    <RootNamespace>Project_test</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\include\Algorythms;..\..\include\Primitives;..\..\include;..\..\include\Output;..\..\include\Restrictions;..\..\include\Containers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\4ertiognic\include\Containers\List.h" />
+    <ClInclude Include="..\..\..\4ertiognic\include\Containers\MArray.h" />
+    <ClInclude Include="..\..\..\4ertiognic\include\Output\batch_processor.h" />
+    <ClInclude Include="..\..\..\4ertiognic\include\Output\matlab_renderer.h" />
+    <ClInclude Include="..\..\..\4ertiognic\include\Primitives\graphPrimitive.h" />
+    <ClInclude Include="..\..\..\4ertiognic\include\Primitives\objects.h" />
+    <ClInclude Include="..\..\..\4ertiognic\include\Primitives\primitive_type.h" />
+    <ClInclude Include="..\..\..\4ertiognic\include\Restrictions\BasicRestriction.h" />
+    <ClInclude Include="..\..\..\4ertiognic\include\Restrictions\ResrtS2SORTHO.h" />
+    <ClInclude Include="..\..\..\4ertiognic\include\Restrictions\restrict_types.h" />
+    <ClInclude Include="..\..\..\4ertiognic\include\Restrictions\RestrP2PDIST.h" />
+    <ClInclude Include="..\..\..\4ertiognic\include\Restrictions\RestrP2SDIST.h" />
+    <ClInclude Include="..\..\..\4ertiognic\include\Restrictions\RestrP2SDISTEX.h" />
+    <ClInclude Include="..\..\..\4ertiognic\include\Restrictions\RestrS2SANGLE.h" />
+    <ClInclude Include="..\..\..\4ertiognic\include\Restrictions\RestrS2SEQUALS.h" />
+    <ClInclude Include="..\..\..\4ertiognic\include\Restrictions\RestrS2SPARAL.h" />
+    <ClInclude Include="..\..\include\Algorythms\HJSolver.h" />
+    <ClInclude Include="..\..\include\Algorythms\ISolver.h" />
+    <ClInclude Include="..\..\include\Algorythms\MyFunction.h" />
+    <ClInclude Include="..\..\include\core.h" />
+    <ClInclude Include="..\..\include\Output\GUI.h" />
+    <ClInclude Include="..\..\include\Output\GUI_types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\4ertiognic\src\Core\core_add.cpp" />
+    <ClCompile Include="..\..\..\4ertiognic\src\Core\core_other.cpp" />
+    <ClCompile Include="..\..\..\4ertiognic\src\Core\core_select.cpp" />
+    <ClCompile Include="..\..\..\4ertiognic\src\Output\batch_processor.cpp" />
+    <ClCompile Include="..\..\..\4ertiognic\src\Output\matlab_renderer.cpp" />
+    <ClCompile Include="..\..\..\4ertiognic\tests\BatchProcessor_test\Source.cpp" />
+    <ClCompile Include="..\..\src\Algorythms\HJSolver.cpp" />
+    <ClCompile Include="..\..\src\BasicRestriction.cpp" />
+    <ClCompile Include="..\..\src\graphPrimitive.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

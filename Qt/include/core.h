@@ -1,35 +1,36 @@
 #ifndef _CORE_H
 #define _CORE_H
-#include "objects.h"
-#include "MArray.h"
-#include "primitive_type.h"
-#include "List.h"
-#include "restrict_types.h"
-#include "BasicRestriction.h"
-#include "RestrP2PDIST.h"
-#include "RestrP2SDIST.h"
-#include "RestrP2SDISTEX.h"
-#include "RestrS2SANGLE.h"
-#include "RestrS2SEQUALS.h"
-#include "RestrS2SPARAL.h"
-#include "ResrtS2SORTHO.h"
-#include "ISolver.h"
+#include "../include/Primitives/objects.h"
+#include "../include/Containers/MArray.h"
+#include "../include/Primitives/primitive_type.h"
+#include "../include/Containers/List.h"
+#include "../include/Restrictions/restrict_types.h"
+#include "../include/Restrictions/BasicRestriction.h"
+#include "../include/Restrictions/RestrP2PDIST.h"
+#include "../include/Restrictions/RestrP2SDIST.h"
+#include "../include/Restrictions/RestrP2SDISTEX.h"
+#include "../include/Restrictions/RestrS2SANGLE.h"
+#include "../include/Restrictions/RestrS2SEQUALS.h"
+#include "../include/Restrictions/RestrS2SPARAL.h"
+#include "../include/Restrictions/ResrtS2SORTHO.h"
+#include "../include/Algorythms/HJSolver.h"
+
+
 class Core {
-	ISolver* SOLVE = nullptr;
-	List<GraphPrimitive*> objects;
-	List<BasicRestriction*> restrictions;
+
+
 	List<GraphPrimitive*> backupObjects;
-	List<GraphPrimitive*> fixedObjects;
 public:
+    List<GraphPrimitive*> objects;
+    List<BasicRestriction*> restrictions;
 	Array<double*> params;
 	Core() {}
 	~Core() {}
-	void getSOLVE(bool _bSolve);
-	void addPrimitive(int type, const Array<double> &params) {}; // need to check are the parameters valid
+
 	List<unsigned>* selectByRect(double x1, double y1, double x2, double y2);
 	unsigned selectByPoint(Point p);
 	void addObject(const Array<double> &parametrs, Primitive_Type type);
-	bool addRestriction(List<unsigned>* id, double* parametr, RestrictType type, ISolver* F);
+	bool addRestriction(List<unsigned>* id, double* parametr, RestrictType type);
 	void addObjectID(GraphPrimitive* obj) {
 		objects.push_back(obj);
 	}
@@ -48,18 +49,10 @@ public:
 			mar.move_next();
 		}
 	}
-
-	void ShowFixed() {
-		List<GraphPrimitive*>::Marker mar(fixedObjects);
-		for (size_t i = 0; i < fixedObjects.sizeList(); ++i) {
-			cout << mar.get_current()->showId() << " ";
-			mar.move_next();
-		}
-	}
 	unsigned sizeListObj() { return objects.sizeList(); }
 	unsigned sizeListRestr() { return restrictions.sizeList(); }
 	unsigned sizeListBackUpObj() { return backupObjects.sizeList(); }
-	Array <Array<double>>* getInfoObj();
+   Array < Array<double> >* getInfoObj();
 
 };
 
