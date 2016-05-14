@@ -44,7 +44,7 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 	List<GraphPrimitive*>::Marker mar(id_obj);
 	switch (type) {
 
-	case RT_FIX: {
+	case RT_FIX: 
 		Array<double *> newParams;
 		for (size_t i = 0; i < id_obj.sizeList(); i++) {
 			auto fixedObject = mar.get_current();
@@ -80,8 +80,7 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			mar.move_next();
 		}
 		return true;
-	}
-	break;
+		break;
 	case RT_UNFIX:
 		for (size_t i = 0; i < id_obj.sizeList(); i++) {
 			mar.get_current()->fix(0);
@@ -94,7 +93,6 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 			mar.move_next();
 		}
 		return true;
-		break;
 		break;
 	case RT_P2PDIST:
 		if (id_obj.sizeList() == 2) {

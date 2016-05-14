@@ -20,6 +20,6 @@ bool BatchProcessor_test() {
 
 
 int main() {
-	
+	BatchProcessor_test();
 	return 0;
 }
