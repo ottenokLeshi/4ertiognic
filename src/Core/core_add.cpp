@@ -40,12 +40,12 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 		}
 		mar1.move_next();
 	}
-
+	Array<double *> newParams;
 	List<GraphPrimitive*>::Marker mar(id_obj);
 	switch (type) {
 
 	case RT_FIX: 
-		Array<double *> newParams;
+		
 		for (size_t i = 0; i < id_obj.sizeList(); i++) {
 			auto fixedObject = mar.get_current();
 			fixedObject->fix(1);
