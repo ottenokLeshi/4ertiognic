@@ -82,7 +82,20 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 		return true;
 	}
 	break;
-
+	case RT_UNFIX:
+		for (size_t i = 0; i < id_obj.sizeList(); i++) {
+			mar.get_current()->fix(0);
+			for (size_t j = 0; j < fixedObjects.sizeList(); j++) {
+				if (fixedObjectsMarker.get_current()->showId() == mar.get_current()->showId()) {
+					fixedObjects.deleteElem(fixedObjectsMarker);
+				}
+				fixedObjectsMarker.move_next();
+			}
+			mar.move_next();
+		}
+		return true;
+		break;
+		break;
 	case RT_P2PDIST:
 		if (id_obj.sizeList() == 2) {
 			Point *p1 = dynamic_cast<Point*> (mar.get_current());
