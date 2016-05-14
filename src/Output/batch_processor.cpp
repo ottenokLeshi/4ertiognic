@@ -25,7 +25,7 @@ bool BatchProcessor::generateCode() {
 		
 		case 'G':
 			fRunTimeLinkSuccess = FALSE;
-			hinstLib = LoadLibrary(TEXT("GDdll.dll"));
+			hinstLib = LoadLibrary(TEXT("dllGD.dll"));
 			if (hinstLib != nullptr) {
 				cout << "Lib Load" << endl;
 				Func = (PROCFUN)GetProcAddress(hinstLib, "getMethod");
