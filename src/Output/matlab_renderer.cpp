@@ -15,7 +15,7 @@ bool MatlabRenderer::drawPrimitive( Array<double> &parametrs, size_t markersize)
 	if (!f.is_open()) return false;
 	long file_size;
 	f.seekg(0, ios::end);
-	file_size = f.tellg(); // checking empty file
+	file_size = (long)f.tellg(); // checking empty file
 	if (file_size == 0) {
 		string namefunc = "";
 		size_t t = 0;

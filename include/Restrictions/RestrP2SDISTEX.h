@@ -258,6 +258,7 @@ public:
 					break;
 				}
 			}
+			return 0;
 		}
 
 	double getDist() const {

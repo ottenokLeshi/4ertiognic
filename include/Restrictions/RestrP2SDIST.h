@@ -20,12 +20,11 @@ public:
 	virtual ~RestrP2SDIST() {}
 	virtual RestrictType get_type() const { return RT_P2SDIST; }
 	virtual double violation() const {
-		if (_p1x == _p2x) {
-			double k = (_p1x - _p2x) / (_p1y - _p2y), b = _p2x - k*_p2y;
-			return (*_dist - abs((k*_p3y - _p3x + b) / sqrt(k*k + 1)));
-		}
-		double k = (_p1y - _p2y) / (_p1x - _p2x), b = _p2y - k*_p2x;
-		return (*_dist - abs((k*_p3x-_p3y+b)/sqrt(k*k+1)));
+		double a = _p1y - _p2y;
+		double b = _p2x - _p1x;
+		double c = _p1x*_p2y - _p2x*_p1y;
+		double k = sqrt(a*a + b*b);
+		return *_dist - abs(a*_p3x + b*_p3y + c) / k;
 	}
 //	virtual Array<double>* diff() {}
 	virtual double diff(size_t par) {

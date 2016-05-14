@@ -1,16 +1,46 @@
 #include "batch_processor.h"
+#include <algorithm>
+#include <cctype>
 
 typedef ISolver* (_cdecl *PROCFUN)(void);
+
+bool space(char c) {
+	return (std::isspace(c) ? true : false);
+}
+bool notspace(char c) {
+	return !std::isspace(c);
+}
+
+Array<std::string> stringSplit(const std::string& s) {
+	typedef std::string::const_iterator iter;
+	Array<std::string> words;
+	iter word_start = s.begin();
+	while (word_start != s.end()) {
+		word_start = std::find_if(word_start, s.end(), notspace);
+		iter word_stop = std::find_if(word_start, s.end(), space);
+		if (word_start != s.end()) {
+			words.push_back(std::string(word_start, word_stop));
+			word_start = word_stop;
+		}
+	}
+	return words;
+}
 
 bool BatchProcessor::generateCode() {
 	fstream fin;
 	fin.open(_batchfilename);
 	if (!fin.is_open()) return false;
 	char type;
-	ISolver* SOLVE;
+	ISolver* SOLVE = nullptr;
+	string command; // every line in batch.txt
+	Array<string> tokens; // splitted command
+
 	while (!fin.eof()) {
-		type = '\0';
-		fin >> type;
+		std::getline(fin, command);
+		if (command.length() == 0)
+			break;
+		tokens = stringSplit(command);
+
 		Array<double> objParams; // parameters to create objects
 		double x = 0, y = 0, x1 = 0, y1 = 0, x2 = 0, y2 = 1, x3 = 2, y3 = 2, r = 1;
 
@@ -21,17 +51,24 @@ bool BatchProcessor::generateCode() {
 		PROCFUN Func;
 		BOOL fFreeResult, fRunTimeLinkSuccess;
 
+		if (tokens[0].length() != 1) {
+			std::cout << "Error while parsing batch:" << std::endl;
+			std::cout << "   " << command << std::endl;
+			std::cout << "Type of operation must be one symbol" << std::endl;
+			system("pause");
+			exit(1);
+		}
+		type = tokens[0][0];
+
 		switch (type) {
-		
-		case 'G':
+		case 'G': {
 			fRunTimeLinkSuccess = FALSE;
 			hinstLib = LoadLibrary(TEXT("dllGD.dll"));
 			if (hinstLib != nullptr) {
 				cout << "Lib Load" << endl;
 				Func = (PROCFUN)GetProcAddress(hinstLib, "getMethod");
 
-				if (nullptr != Func)
-				{
+				if (nullptr != Func) {
 					fRunTimeLinkSuccess = TRUE;
 					cout << "O.K." << endl;
 					SOLVE = Func();
@@ -40,20 +77,19 @@ bool BatchProcessor::generateCode() {
 			}
 			if (!fRunTimeLinkSuccess) {
 				fFreeResult = FreeLibrary(hinstLib);
-				cout << "404 not found" << endl;
+				cout << "Grad D: 404 not found" << endl;
 				system("pause");
 				return 0;
 			}
-			break;
-		case 'H':
+		} break;
+		case 'H': {
 			fRunTimeLinkSuccess = FALSE;
-				hinstLib = LoadLibrary(TEXT("HJdll.dll"));
+			hinstLib = LoadLibrary(TEXT("HJdll.dll"));
 			if (hinstLib != nullptr) {
 				cout << "Lib Load" << endl;
 				Func = (PROCFUN)GetProcAddress(hinstLib, "getMethod");
 
-				if (nullptr != Func)
-				{
+				if (nullptr != Func) {
 					fRunTimeLinkSuccess = TRUE;
 					cout << "O.K." << endl;
 
@@ -63,81 +99,140 @@ bool BatchProcessor::generateCode() {
 			}
 			if (!fRunTimeLinkSuccess) {
 				fFreeResult = FreeLibrary(hinstLib);
-				cout  << "Hook J: 404 not found" << endl;
+				cout << "Hook J: 404 not found" << endl;
 				system("pause");
 				return 0;
 			}
-			break;
-		case 'p': // add point
-				fin >> x >> y;	
-				objParams.push_back(x);
-				objParams.push_back(y);
-				_core->addObject(objParams, IsPoint);
-			break;
+		} break;
 
-		case 'P': // add point
+		case 'p': {
+			try {
+				x = stod(tokens[1]);
+				y = stod(tokens[2]);
+			}
+			catch (exception) {
+				std::cout << "Error while parsing batch:" << std::endl;
+				std::cout << "   " << command << std::endl;
+				std::cout << "Point arguments must be 2 doubles" << std::endl;
+				system("pause");
+				exit(1);
+			}
 			objParams.push_back(x);
 			objParams.push_back(y);
 			_core->addObject(objParams, IsPoint);
-			break;
+		} break;
 
-		case 's':
-			fin >> x1 >> y1 >> x2 >> y2;
+		case 'P': {
+			objParams.push_back(x);
+			objParams.push_back(y);
+			_core->addObject(objParams, IsPoint);
+		} break;
+
+		case 's': {
+			try {
+				x1 = stod(tokens[1]);
+				y1 = stod(tokens[2]);
+				x2 = stod(tokens[3]);
+				y2 = stod(tokens[4]);
+			}
+			catch (exception) {
+				std::cout << "Error while parsing batch:" << std::endl;
+				std::cout << "   " << command << std::endl;
+				std::cout << "Segment arguments must be 4 doubles" << std::endl;
+				system("pause");
+				exit(1);
+			}
 			objParams.push_back(x1);
 			objParams.push_back(y1);
 			objParams.push_back(x2);
 			objParams.push_back(y2);
 			_core->addObject(objParams, IsSegment);
-			break;
+		} break;
 
-		case 'S':
+		case 'S': {
 			objParams.push_back(x1);
 			objParams.push_back(y1);
 			objParams.push_back(x2);
 			objParams.push_back(y2);
 			_core->addObject(objParams, IsSegment);
-			break;
+		} break;
 
-		case 'c':
-				fin >> x3 >> y3 >> r;
-				objParams.push_back(x3);
-				objParams.push_back(y3);
-				objParams.push_back(r);
-			_core->addObject(objParams, IsCircle);
-			break;
-
-		case 'C':
+		case 'c': {
+			try {
+				x3 = stod(tokens[1]);
+				y3 = stod(tokens[2]);
+				r = stod(tokens[3]);
+			}
+			catch (exception) {
+				std::cout << "Error while parsing batch:" << std::endl;
+				std::cout << "   " << command << std::endl;
+				std::cout << "Circle arguments must be 3 doubles" << std::endl;
+				system("pause");
+				exit(1);
+			}
 			objParams.push_back(x3);
 			objParams.push_back(y3);
 			objParams.push_back(r);
 			_core->addObject(objParams, IsCircle);
-			break;
+		} break;
 
-		case 'r':
-			string rest = "   ";
-			fin >> rest[0] >> rest[1] >> rest[2];
+		case 'C': {
+			objParams.push_back(x3);
+			objParams.push_back(y3);
+			objParams.push_back(r);
+			_core->addObject(objParams, IsCircle);
+		} break;
 
+		case 'r': {
+			string rest = tokens[1];
 			objId.deleteAll(); // every restriction needs empty objId
 
 			if (rest == "fix") {
-				string fix = "   ";
+				string fix = tokens[2];
 				double zero = 0;
-				fin >> fix[0] >> fix[1] >> fix[2];
 
 				if (fix == "obj") {
-					unsigned count, id;
-					fin >> count;
-					for (size_t i = 0;i < count; i++) {
-						fin >> id;
+					unsigned id, count;
+					try {
+						count = stoi(tokens[3]);
+					}
+					catch (exception) {
+						std::cout << "Error while parsing batch:" << std::endl;
+						std::cout << "   " << command << std::endl;
+						std::cout << "Count of objects must be an integer" << std::endl;
+						system("pause");
+						exit(1);
+					}
+
+					for (size_t i = 4; i < count; i++) {
+						try {
+							id = stoi(tokens[i]);
+						}
+						catch (exception) {
+							std::cout << "Error while parsing batch:" << std::endl;
+							std::cout << "   " << command << std::endl;
+							std::cout << "ID of object must be an integer" << std::endl;
+							system("pause");
+							exit(1);
+						}
+
 						objId.push_back(id);
 					}
 					_core->addRestriction(&objId, &zero, RT_FIX, SOLVE);
 				}
 
-				if (fix == "all") {
-					for (unsigned int i = 1; i <= _core->sizeListObj(); i++)
+				else if (fix == "all") {
+					for (size_t i = 1; i <= _core->sizeListObj(); i++)
 						objId.push_back(i);
 					_core->addRestriction(&objId, &zero, RT_FIX, SOLVE);
+				}
+
+				else {
+					std::cout << "Error while parsing batch:" << std::endl;
+					std::cout << "   " << command << std::endl;
+					std::cout << "Fix argument must be 'obj' or 'all'" << std::endl;
+					system("pause");
+					exit(1);
 				}
 			}
 
@@ -145,61 +240,143 @@ bool BatchProcessor::generateCode() {
 			if (rest == "dpp") {
 				unsigned id1, id2;
 				restrParams.push_back(new double);
-				fin >> id1 >> id2 >> *(restrParams[restrParams.size() - 1]);
+
+				try {
+					id1 = stoi(tokens[2]);
+					id2 = stoi(tokens[3]);
+					*(restrParams[restrParams.size() - 1]) = stod(tokens[4]);
+				}
+				catch (exception) {
+					std::cout << "Error while parsing batch:" << std::endl;
+					std::cout << "   " << command << std::endl;
+					std::cout << "ID of objects(2) must be an integer, distance must be a double" << std::endl;
+					system("pause");
+					exit(1);
+				}
+
 				objId.push_back(id1);
 				objId.push_back(id2);
 				_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_P2PDIST, SOLVE);
-				
+
 			}
 
 			if (rest == "dpl") {
 				unsigned id1, id2, id3;
 				restrParams.push_back(new double);
-				fin >> id1 >> id2 >> id3 >> *(restrParams[restrParams.size() - 1]);
+
+				try {
+					id1 = stoi(tokens[2]);
+					id2 = stoi(tokens[3]);
+					id3 = stoi(tokens[4]);
+					*(restrParams[restrParams.size() - 1]) = stod(tokens[5]);
+				}
+				catch (exception) {
+					std::cout << "Error while parsing batch:" << std::endl;
+					std::cout << "   " << command << std::endl;
+					std::cout << "ID of objects(3) must be an integer, distance must be a double" << std::endl;
+					system("pause");
+					exit(1);
+				}
+
 				objId.push_back(id1);
 				objId.push_back(id2);
 				objId.push_back(id3);
-				std::cout << restrParams[restrParams.size() - 1] << std::endl;
-				std::cout << *restrParams[restrParams.size() - 1] << std::endl;
 				_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_P2SDIST, SOLVE);
-				
+
 			}
 
 			if (rest == "dps") {
 				unsigned id1, id2, id3;
 				restrParams.push_back(new double);
-				fin >> id1 >> id2 >> id3 >> *(restrParams[restrParams.size() - 1]);
+
+				try {
+					id1 = stoi(tokens[2]);
+					id2 = stoi(tokens[3]);
+					id3 = stoi(tokens[4]);
+					*(restrParams[restrParams.size() - 1]) = stod(tokens[5]);
+				}
+				catch (exception) {
+					std::cout << "Error while parsing batch:" << std::endl;
+					std::cout << "   " << command << std::endl;
+					std::cout << "ID of objects(3) must be an integer, distance must be a double" << std::endl;
+					system("pause");
+					exit(1);
+				}
+
 				objId.push_back(id1);
 				objId.push_back(id2);
 				objId.push_back(id3);
 				_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_P2SDISTEX, SOLVE);
-				
+
 			}
 
 			if (rest == "ass") {
 				unsigned id1, id2;
 				restrParams.push_back(new double);
-				fin >> id1 >> id2 >> *(restrParams[restrParams.size() - 1]);
+
+				try {
+					id1 = stoi(tokens[2]);
+					id2 = stoi(tokens[3]);
+					*(restrParams[restrParams.size() - 1]) = stod(tokens[4]);
+					if (stod(tokens[4]) > 3.14) {
+						std::cout << "Warning:" << std::endl;
+						std::cout << "   " << command << std::endl;
+						std::cout << "Angle should be in radians, from 0 to 3.14" << endl;
+						system("pause");
+					}
+				}
+				catch (exception) {
+					std::cout << "Error while parsing batch:" << std::endl;
+					std::cout << "   " << command << std::endl;
+					std::cout << "ID of objects(2) must be an integer, distance must be a double" << std::endl;
+					system("pause");
+					exit(1);
+				}
+
 				objId.push_back(id1);
 				objId.push_back(id2);
 				_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_S2SANGLE, SOLVE);
-				
+
 			}
 
 			if (rest == "oss") {
 				unsigned id1, id2;
 				restrParams.push_back(new double(0));
-				fin >> id1 >> id2;
+
+				try {
+					id1 = stoi(tokens[2]);
+					id2 = stoi(tokens[3]);
+				}
+				catch (exception) {
+					std::cout << "Error while parsing batch:" << std::endl;
+					std::cout << "   " << command << std::endl;
+					std::cout << "ID of objects(2) must be an integer" << std::endl;
+					system("pause");
+					exit(1);
+				}
+
 				objId.push_back(id1);
 				objId.push_back(id2);
 				_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_S2SORTHO, SOLVE);
-				
+
 			}
 
 			if (rest == "pss") {
 				unsigned id1, id2;
 				restrParams.push_back(new double(0));
-				fin >> id1 >> id2;
+
+				try {
+					id1 = stoi(tokens[2]);
+					id2 = stoi(tokens[3]);
+				}
+				catch (exception) {
+					std::cout << "Error while parsing batch:" << std::endl;
+					std::cout << "   " << command << std::endl;
+					std::cout << "ID of objects(2) must be an integer" << std::endl;
+					system("pause");
+					exit(1);
+				}
+
 				objId.push_back(id1);
 				objId.push_back(id2);
 				_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_S2SPARAL, SOLVE);
@@ -208,21 +385,33 @@ bool BatchProcessor::generateCode() {
 			if (rest == "ess") {
 				unsigned id1, id2;
 				restrParams.push_back(new double(0));
-				fin >> id1 >> id2;
+
+				try {
+					id1 = stoi(tokens[2]);
+					id2 = stoi(tokens[3]);
+				}
+				catch (exception) {
+					std::cout << "Error while parsing batch:" << std::endl;
+					std::cout << "   " << command << std::endl;
+					std::cout << "ID of objects(2) must be an integer" << std::endl;
+					system("pause");
+					exit(1);
+				}
+
 				objId.push_back(id1);
 				objId.push_back(id2);
 				_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_S2SEQUALS, SOLVE);
 			}
+		} break;
 		}
-		char str[255];
-		fin.getline(str, 255);
 	}
+
 	fin.close();
 	size_t i = _batchfilename.size() - 1;
-	for (; i != 0;i--)
+	for (; i != 0; i--)
 		if (_batchfilename[i] == '.') break;
 	string _resultfilename = "";
-	for (size_t t = 0; t < i;t++)
+	for (size_t t = 0; t < i; t++)
 		_resultfilename += _batchfilename[t];
 	_resultfilename += ".m";
 	ofstream out(_resultfilename);
@@ -231,7 +420,7 @@ bool BatchProcessor::generateCode() {
 	//(mb it should create enums GUI_types)
 	if (_gui == "matlab") {
 		MatlabRenderer matlab(_resultfilename, 10);
-		matlab.drawSketch( _core->getInfoObj());
+		matlab.drawSketch(_core->getInfoObj());
 	}
 	/*
 	... other gui
