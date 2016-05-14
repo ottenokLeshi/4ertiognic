@@ -31,9 +31,9 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 	BasicRestriction* newrest = 0;
 	List<GraphPrimitive*>::Marker mar1(objects);
 	List<GraphPrimitive*>::Marker fixedObjectsMarker(fixedObjects);
-	for (size_t i = 0; i < objects.sizeList();i++) {
+	for (size_t i = 0; i < objects.sizeList(); i++) {
 		List<unsigned>::Marker mar_id(*id);
-		for (size_t j = 0;j < id->sizeList();j++) {
+		for (size_t j = 0; j < id->sizeList(); j++) {
 			if (mar1.get_current()->showId() == mar_id.get_current())
 				id_obj.push_back(mar1.get_current());
 			mar_id.move_next();
@@ -44,8 +44,8 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 	List<GraphPrimitive*>::Marker mar(id_obj);
 	switch (type) {
 
-	case RT_FIX: 
-		
+	case RT_FIX:
+
 		for (size_t i = 0; i < id_obj.sizeList(); i++) {
 			auto fixedObject = mar.get_current();
 			fixedObject->fix(1);
@@ -282,16 +282,22 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 
 
 	if (!params.size()) return false;
-	MyFunction f1(params);
-	f1.addRestr(newrest);
-	List<BasicRestriction*>::Marker res_mar(restrictions);
-	for (size_t i = 0;i < restrictions.sizeList();i++) {
-		f1.addRestr(res_mar.get_current());
-		res_mar.move_next();
-	}
-	if (F->solve(&f1, params)) {
-		restrictions.push_back(newrest);
-		return true;
-	}
-	return false;
+
+	backupState();
+		if (!params.size()) return false;
+		MyFunction f1(params);
+		f1.addRestr(newrest);
+		List<BasicRestriction*>::Marker res_mar(restrictions);
+		for (size_t i = 0; i < restrictions.sizeList(); i++) {
+			f1.addRestr(res_mar.get_current());
+			res_mar.move_next();
+		}
+		if (F->solve(&f1, params)) {
+			restrictions.push_back(newrest);
+			return true;
+		}
+
+		toBackupState();
+		return false;
+	
 }

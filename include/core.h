@@ -20,6 +20,7 @@ class Core {
 	List<BasicRestriction*> restrictions;
 	List<GraphPrimitive*> backupObjects;
 	List<GraphPrimitive*> fixedObjects;
+	Array<Array<double>>* backupParametrs;
 public:
 	Array<double*> params;
 	Core() {}
@@ -56,10 +57,19 @@ public:
 			mar.move_next();
 		}
 	}
+
+	void ShowRestr() {
+		List<BasicRestriction*>::Marker mar(restrictions);
+		for (size_t i = 0; i < restrictions.sizeList(); ++i) {
+			cout << mar.get_current()->showId() << " ";
+			mar.move_next();
+		}
+	}
 	unsigned sizeListObj() { return objects.sizeList(); }
 	unsigned sizeListRestr() { return restrictions.sizeList(); }
 	unsigned sizeListBackUpObj() { return backupObjects.sizeList(); }
 	Array <Array<double>>* getInfoObj();
+	void toBackupState();
 
 };
 

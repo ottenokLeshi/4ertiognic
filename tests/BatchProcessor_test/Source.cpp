@@ -14,6 +14,7 @@ bool BatchProcessor_test() {
 	Core core;
 	BatchProcessor newbatch(input, &core, "matlab");
 	newbatch.generateCode();
+	core.ShowRestr();
 	return true;
 }
 
@@ -21,5 +22,6 @@ bool BatchProcessor_test() {
 
 int main() {
 	BatchProcessor_test();
+	system("pause");
 	return 0;
 }
