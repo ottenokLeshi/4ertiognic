@@ -7,6 +7,7 @@
 class RestrP2SDIST : public BasicRestriction {
 public:
 	RestrP2SDIST( Point *beg, Point *end, Point *t, double *dist){
+		_dist = dist;
 		_beg = beg; _end = end; _t = t;
 		_p1x = _beg->getX();
 		_p2x = _end->getX();

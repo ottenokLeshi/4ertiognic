@@ -9,6 +9,7 @@ bool BatchProcessor::generateCode() {
 	char type;
 	ISolver* SOLVE;
 	while (!fin.eof()) {
+		type = '\0';
 		fin >> type;
 		Array<double> objParams; // parameters to create objects
 		double x = 0, y = 0, x1 = 0, y1 = 0, x2 = 0, y2 = 1, x3 = 2, y3 = 2, r = 1;
@@ -158,6 +159,8 @@ bool BatchProcessor::generateCode() {
 				objId.push_back(id1);
 				objId.push_back(id2);
 				objId.push_back(id3);
+				std::cout << restrParams[restrParams.size() - 1] << std::endl;
+				std::cout << *restrParams[restrParams.size() - 1] << std::endl;
 				_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_P2SDIST, SOLVE);
 				
 			}
