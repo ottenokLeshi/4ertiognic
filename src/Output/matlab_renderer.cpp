@@ -21,11 +21,11 @@ bool MatlabRenderer::drawPrimitive( Array<double> &parametrs, size_t markersize)
 		size_t t = 0;
 		for (t = _filename.size();t != 0;t--)
 			if (_filename[t - 1] == '/') break;
-		for (size_t i = t;;i++){
+		for (size_t i = t;;i++) {
 			if (_filename[i] != '.')
 				namefunc += _filename[i];
 			else break;
-	}
+		}
 		f << "function res = " << namefunc << "()" << endl;
 		f << "res = 0" << endl;
 		f << "figure; hold on; axis equal;" << endl;

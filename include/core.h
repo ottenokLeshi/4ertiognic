@@ -56,6 +56,7 @@ public:
 			cout << mar.get_current()->showId() << " ";
 			mar.move_next();
 		}
+		cout << endl;
 	}
 
 	void ShowRestr() {
@@ -64,6 +65,7 @@ public:
 			cout << mar.get_current()->showId() << " ";
 			mar.move_next();
 		}
+		cout << endl;
 	}
 	unsigned sizeListObj() { return objects.sizeList(); }
 	unsigned sizeListRestr() { return restrictions.sizeList(); }

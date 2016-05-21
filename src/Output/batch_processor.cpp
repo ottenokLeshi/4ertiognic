@@ -38,9 +38,10 @@ bool BatchProcessor::generateCode() {
 	while (!fin.eof()) {
 		std::getline(fin, command);
 		if (command.length() == 0)
-			break;
+			continue;
 		tokens = stringSplit(command);
-
+		if (tokens[0] == "//")
+			continue;
 		Array<double> objParams; // parameters to create objects
 		double x = 0, y = 0, x1 = 0, y1 = 0, x2 = 0, y2 = 1, x3 = 2, y3 = 2, r = 1;
 
@@ -204,9 +205,9 @@ bool BatchProcessor::generateCode() {
 						exit(1);
 					}
 
-					for (size_t i = 4; i < count; i++) {
+					for (size_t i = 0; i < count; i++) {
 						try {
-							id = stoi(tokens[i]);
+							id = stoi(tokens[i+4]);
 						}
 						catch (exception) {
 							std::cout << "Error while parsing batch:" << std::endl;

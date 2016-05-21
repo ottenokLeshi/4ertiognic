@@ -18,9 +18,6 @@
     <ClInclude Include="..\..\include\Algorythms\ISolver.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Algorythms\MyFunction.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\core.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -79,6 +76,9 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Restrictions\parametr.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Algorythms\Function.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

@@ -284,20 +284,19 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 	if (!params.size()) return false;
 
 	backupState();
-		if (!params.size()) return false;
-		MyFunction f1(params);
-		f1.addRestr(newrest);
-		List<BasicRestriction*>::Marker res_mar(restrictions);
-		for (size_t i = 0; i < restrictions.sizeList(); i++) {
-			f1.addRestr(res_mar.get_current());
-			res_mar.move_next();
-		}
-		if (F->solve(&f1, params)) {
-			restrictions.push_back(newrest);
-			return true;
-		}
-
-		toBackupState();
-		return false;
+	if (!params.size()) return false;
+	MyFunction f1(params);
+	f1.addRestr(newrest);
+	List<BasicRestriction*>::Marker res_mar(restrictions);
+	for (size_t i = 0; i < restrictions.sizeList(); i++) {
+		f1.addRestr(res_mar.get_current());
+		res_mar.move_next();
+	}
+	// something has to be done with this
+	F->solve(&f1, params);
+	restrictions.push_back(newrest);
+	return true;
+	//toBackupState();
+	//return false;
 	
 }
