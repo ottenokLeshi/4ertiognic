@@ -1,5 +1,6 @@
-H
-// House
+H 
+// Ezh
+// Body (square)
 s 1 1 5 1
 s 2 3 2 5
 s 1 7 9 7
@@ -17,26 +18,22 @@ r ess 6 9
 r dpp 2 8 4
 r fix obj 2 8 9
 r dpp 8 10 0
+r oss 9 12
+r ess 9 12
+r fix obj 2 8 9
 r fix obj 1 10
 r dpp 2 11 0
 r fix obj 2 11 12
-S
-S
-p 3 8
-r fix obj 1 19
-r dpp 13 19 0
-r dpp 17 19 0
-p 5 5
-p 1 5
-r fix obj 2 20 21
-r dpp 16 20 0
-r dpp 14 21 0
-p 1 1
-p 5 1
-r fix obj 2 22 23
-S
-S
-r dpp 22 24 0
-r dpp 25 20 0
-r dpp 21 27 0
-r dpp 23 28 0
+// Head
+s 1 1 5 1
+s 2 3 2 8
+r dpp 13 1 0
+r fix obj 1 13
+r dpp 13 14 2
+r dpp 2 14 6
+r fix obj 1 14
+
+r dpp 14 16 0
+r fix obj 1 15
+r dpp 17 7 0
+c 0.5 1.7 0.2

@@ -18,8 +18,7 @@ public:
 		_markersize = markersize;
 	}
 	virtual void drawSketch(Array <Array<double>> *parametrs);
-
-	virtual bool drawPrimitive( Array<double> &parametrs, size_t markersize);
+	virtual bool drawPrimitive( Array<double> &parametrs, size_t markersize, std::fstream *f);
 	virtual  GUIType getTypeGUI() {
 		return MATLAB;
 	}

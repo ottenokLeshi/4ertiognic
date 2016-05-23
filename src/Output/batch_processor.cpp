@@ -30,6 +30,14 @@ bool BatchProcessor::generateCode() {
 	fstream fin;
 	fin.open(_batchfilename);
 	if (!fin.is_open()) return false;
+	fin.seekg(0, ios::end);
+	long file_size = (long)fin.tellg();
+	if (file_size == 0) {
+		std::cout << "Batch file is empty." << std:: endl;
+		system("pause");
+		exit(1);
+	}
+	fin.seekg(0, ios::beg);
 	char type;
 	ISolver* SOLVE = nullptr;
 	string command; // every line in batch.txt
@@ -40,12 +48,13 @@ bool BatchProcessor::generateCode() {
 		if (command.length() == 0)
 			continue;
 		tokens = stringSplit(command);
-		if (tokens[0] == "//")
+		if (tokens[0][0] == '/' && tokens[0][1] == '/')
 			continue;
 		Array<double> objParams; // parameters to create objects
 		double x = 0, y = 0, x1 = 0, y1 = 0, x2 = 0, y2 = 1, x3 = 2, y3 = 2, r = 1;
 
 		List<unsigned> objId;
+
 		Array< double* > restrParams; // parameters to create restrictions
 
 		HINSTANCE hinstLib;

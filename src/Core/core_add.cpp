@@ -14,11 +14,12 @@ void Core::addObject(const Array<double> &parametrs, Primitive_Type type) {
 	}
 	case IsCircle: if (parametrs.size() == 3) {
 		Point *t1 = new Point(parametrs[0], parametrs[1]);
-		objects.push_back(t1); // otherwise we won't have access to that point by id
+		objects.push_back(t1); 
 		newobj = new Circle(t1, parametrs[2]);
 	}
 	}
 	objects.push_back(newobj);
+	backupState();
 	return;
 }
 
@@ -280,10 +281,6 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 		break;
 	}
 
-
-	if (!params.size()) return false;
-
-	backupState();
 	if (!params.size()) return false;
 	MyFunction f1(params);
 	f1.addRestr(newrest);
@@ -293,7 +290,14 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 		res_mar.move_next();
 	}
 	// something has to be done with this
-	F->solve(&f1, params);
+	if (F->solve(&f1, params) == 0) {
+		toBackupState();
+		F->solve(&f1, params);
+		restrictions.push_back(newrest);
+		return true;
+	}
+
+	//F->solve(&f1, params);
 	restrictions.push_back(newrest);
 	return true;
 	//toBackupState();

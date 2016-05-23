@@ -26,7 +26,7 @@ public:
 
 	RestrictType get_type() const { return RT_S2SORTHO; };
 	double violation()const {
-		return  (1.5707963267949 - _S1->Angle(_S2)); //1.5707963267949 - 90 in radian
+		return  (1.57079632 - _S1->Angle(_S2)); //1.5707963267949 - 90 in radian
 	}
 	//virtual Array<double>* diff();
 	virtual double diff(size_t par) {
