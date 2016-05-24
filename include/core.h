@@ -15,7 +15,7 @@
 #include "ResrtS2SORTHO.h"
 #include "ISolver.h"
 class Core {
-	ISolver* SOLVE = nullptr;
+	ISolver* SOLVE;
 	List<GraphPrimitive*> objects;
 	List<BasicRestriction*> restrictions;
 	List<GraphPrimitive*> backupObjects;
@@ -23,7 +23,7 @@ class Core {
 	Array<Array<double>>* backupParametrs;
 public:
 	Array<double*> params;
-	Core() {}
+	Core() { SOLVE = nullptr;}
 	~Core() {}
 	void getSOLVE(bool _bSolve);
 	void addPrimitive(int type, const Array<double> &params) {}; // need to check are the parameters valid
