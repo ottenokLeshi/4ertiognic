@@ -2,8 +2,8 @@
 #define _CONSOLE_H_ 
 #include <iostream>
 #include <stdlib.h>
-#include <algorithm>
 #include "core.h"
+#include "string_extensions.h"
 
 using namespace std;
 

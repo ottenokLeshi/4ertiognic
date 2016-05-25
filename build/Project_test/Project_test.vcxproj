@@ -84,8 +84,10 @@
     <ClInclude Include="..\..\include\Algorythms\ISolver.h" />
     <ClInclude Include="..\..\include\Algorythms\Function.h" />
     <ClInclude Include="..\..\include\core.h" />
+    <ClInclude Include="..\..\include\Output\console.h" />
     <ClInclude Include="..\..\include\Output\GUI.h" />
     <ClInclude Include="..\..\include\Output\GUI_types.h" />
+    <ClInclude Include="..\..\include\Output\string_extensions.h" />
     <ClInclude Include="..\..\include\Restrictions\parametr.h" />
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +100,7 @@
     <ClCompile Include="..\..\src\BasicRestriction.cpp" />
     <ClCompile Include="..\..\src\graphPrimitive.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\Output\console.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

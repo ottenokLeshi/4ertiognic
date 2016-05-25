@@ -21,8 +21,8 @@ class Core {
 	List<GraphPrimitive*> backupObjects;
 	List<GraphPrimitive*> fixedObjects;
 	Array<Array<double>>* backupParametrs;
-public:
 	Array<double*> params;
+public:
 	Core() { SOLVE = nullptr;}
 	~Core() {}
 	void getSOLVE(bool _bSolve);
@@ -41,6 +41,7 @@ public:
 			if (mar.get_current()->showId() == index) return mar.get_current();
 			mar.move_next();
 		}
+		return nullptr;
 	}
 	BasicRestriction* searchIDRestr(int index) {
 		List<BasicRestriction*>::Marker mar(restrictions);
@@ -48,6 +49,7 @@ public:
 			if (mar.get_current()->showId() == index) return mar.get_current();
 			mar.move_next();
 		}
+		return nullptr;
 	}
 
 	void ShowFixed() {

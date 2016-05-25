@@ -141,7 +141,7 @@ bool CHJSolver::solve(MyFunction *f, Array <double*> &x) {
 	}
 
 	if ((*f)(oldx) > 0.1) {
-		std::cout << "..." << std::endl;
+		//std::cout << "..." << std::endl;
 		//(*f)(xe);
 		return 0;
 	}

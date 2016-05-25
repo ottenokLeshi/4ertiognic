@@ -3,87 +3,194 @@
 #include "console.h"
 #include <iostream>
 #include <stdlib.h>
+#include <string>
 #include "matlab_renderer.h"
+using namespace std;
 
 typedef ISolver* (_cdecl *PROCFUN)(void);
+
 
 bool Console::screen() {
 	ISolver* SOLVE = nullptr;
 	HINSTANCE hinstLib;
 	PROCFUN Func;
 	BOOL fFreeResult, fRunTimeLinkSuccess;
-	string c;
-	Core Cor;
+	Core core;
+
+	string c; // every line in batch.txt
+	Array<string> tokens; // splitted command
+	char cmd_type;
+
 	while (true) {
 		system("cls");
+		outputAll(core);
 		cout << "a. Add graph primitive" << endl;
 		cout << "b. Add restriction" << endl;
 		cout << "c. Choose your side of the darkness!" << endl;
 		cout << "d. Matlab file" << endl;
-		cout << "<. UNDO" << endl;
 		cout << "q. Exit" << endl;
-		getline(cin, c);
 
-switch (c[0]) {
+		do {
+			getline(cin, c);
+		} while (c.length() != 1);
+
+		cmd_type = c[0];
+		List<unsigned> objId; // List to store objects
+		Array< double* > restrParams;
+
+		switch (cmd_type) {
 		case 'q':
 			return 0;
 		case 'a': {
 			system("cls");
+			outputAll(core);
 			cout << "a. Point" << endl;
 			cout << "b. Segment" << endl;
 			cout << "c. Circle" << endl;
 			cout << "q. Cancel" << endl;
 
-			getline(cin, c);
+			do {
+				getline(cin, c);
+			} while (c.length() != 1);
 
-			switch (c[0]) {
+			cmd_type = c[0];
 
+			switch (cmd_type) {
 			case 'a': {
 				system("cls");
-				outputAll(Cor);
+				outputAll(core);
 				cout << "Write coordinates: x and y" << endl;
+				cout << "(q to cancel)" << endl;
 				double x, y;
-				cin >> x >> y;
-				Array <double> Arr(0);
+
+				bool flag;
+				do {
+					flag = true;
+					getline(cin, c);
+					tokens = stringSplit(c);
+					if (tokens.size() != 2)
+						flag = false;
+					try {
+						if (tokens[0] == "q")
+							break;
+						x = stod(tokens[0]);
+						y = stod(tokens[1]);
+					}
+					catch (exception) {
+						std::cout << "Error: point coordinates must be 2 doubles" << std::endl;
+						flag = false;
+					}
+				} while (!flag);
+
+				if (tokens[0] == "q")
+					break;
+
+				Array <double> Arr;
 				Arr.push_back(x);
 				Arr.push_back(y);
-				Cor.addObject(Arr, IsPoint);
-				break;
-			}
+				core.addObject(Arr, IsPoint);
+			} break;
+
 			case 'b': {
 				system("cls");
-				outputAll(Cor);
+				outputAll(core);
 				cout << "Write coordinates: x1, y1, x2 and y2" << endl;
+				cout << "(q to cancel)" << endl;
 				double x1, y1, x2, y2;
-				cin >> x1 >> y1 >> x2 >> y2;
-				Array <double> Arr(0);
+
+				bool flag;
+				do {
+					flag = true;
+					getline(cin, c);
+					tokens = stringSplit(c);
+					if (tokens.size() != 4)
+						flag = false;
+					try {
+						if (tokens[0] == "q")
+							break;
+						x1 = stod(tokens[0]);
+						y1 = stod(tokens[1]);
+						x2 = stod(tokens[2]);
+						y2 = stod(tokens[3]);
+					}
+					catch (exception) {
+						std::cout << "Error: segment coordinates must be 4 doubles" << std::endl;
+						flag = false;
+					}
+				} while (!flag);
+
+				if (tokens[0] == "q")
+					break;
+
+				Array <double> Arr;
 				Arr.push_back(x1);
 				Arr.push_back(y1);
 				Arr.push_back(x2);
 				Arr.push_back(y2);
-				Cor.addObject(Arr, IsSegment);
-				break;
-			}
+				core.addObject(Arr, IsSegment);
+			} break;
+
 			case 'c': {
 				system("cls");
-				outputAll(Cor);
+				outputAll(core);
 				cout << "Write coordinates: x1, y1 and radius" << endl;
+				cout << "(q to cancel)" << endl;
 				double x, y, r;
-				cin >> x >> y >> r;
-				Array <double> Arr(0);
+
+				bool flag;
+				do {
+					flag = true;
+					getline(cin, c);
+					tokens = stringSplit(c);
+					if (tokens.size() != 3)
+						flag = false;
+					try {
+						if (tokens[0] == "q")
+							break;
+						x = stod(tokens[0]);
+						y = stod(tokens[1]);
+						r = stod(tokens[2]);
+					}
+					catch (exception) {
+						std::cout << "Error: circle coordinates must be 2 doubles, s"
+							"radius must be double" << std::endl;
+						flag = false;
+					}
+				} while (!flag);
+
+				if (tokens[0] == "q")
+					break;
+
+				Array <double> Arr;
 				Arr.push_back(x);
 				Arr.push_back(y);
 				Arr.push_back(r);
-				Cor.addObject(Arr, IsCircle);
-				break;
-				}
+				core.addObject(Arr, IsCircle);
+			} break;
+
+			default: {
+				cout << "Invalid command." << endl;
 			}
-			Cor.backupState();
-			break;
-		}//end of addition
+			}
+			core.backupState();
+		} break; //end of addition
 
 		case 'b': {
+
+			if (SOLVE == nullptr) {
+				system("cls");
+				outputAll(core);
+				cout << endl;
+				cout << "Choose your side first!" << endl;
+				system("pause");
+				break;
+			}
+
+			objId.deleteAll();
+
 			system("cls");
+			outputAll(core);
+
 			cout << "a. RT_FIX" << endl;
 			cout << "b. RT_P2PDIST" << endl;
 			cout << "c. RT_P2SDIST" << endl;
@@ -98,118 +205,304 @@ switch (c[0]) {
 			switch (c[0]) {
 			case 'a': {
 				system("cls");
-				int id;
-				double d = 1;
+				outputAll(core);
+				unsigned id;
+				double d = 0;
 				cout << "Write id of point" << endl;
-				cin >> id;
-				List <unsigned> List_;
-				List_.push_back(id);
-				Cor.addRestriction(&List_, &d, RT_FIX, SOLVE);
-				break;
-			}
+				cout << "(q to cancel)" << endl;
+
+				bool flag;
+				do {
+					flag = true;
+					getline(cin, c);
+					tokens = stringSplit(c);
+					if (tokens.size() != 1)
+						flag = false;
+					try {
+						if (tokens[0] == "q")
+							break;
+						id = stoi(tokens[0]);
+					}
+					catch (exception) {
+						std::cout << "Error: id of a point must be an integer" << std::endl;
+						flag = false;
+					}
+				} while (!flag);
+
+				if (tokens[0] == "q")
+					break;
+
+				objId.push_back(id);
+				core.addRestriction(&objId, &d, RT_FIX, SOLVE);
+			} break;
 			case 'b': {
 				system("cls");
-				outputAll(Cor);
-				int id1, id2;
-				double d;
+				outputAll(core);
+				unsigned id1, id2;
 				cout << "Point:" << endl;
 				cout << "Write id of 2 points and distance" << endl;
-				List <unsigned> List_;
-				cin >> id1 >> id2 >> d;
-				List_.push_back(id1);
-				List_.push_back(id2);
-				Cor.addRestriction(&List_, &d, RT_P2PDIST, SOLVE);
-				break;
-			}
+				cout << "(q to cancel)" << endl;
+
+				restrParams.push_back(new double);
+				bool flag;
+				do {
+					flag = true;
+					getline(cin, c);
+					tokens = stringSplit(c);
+					if (tokens.size() != 3)
+						flag = false;
+					try {
+						if (tokens[0] == "q")
+							break;
+						id1 = stoi(tokens[0]);
+						id2 = stoi(tokens[1]);
+						*(restrParams[restrParams.size() - 1]) = stod(tokens[2]);
+					}
+					catch (exception) {
+						std::cout << "Error: id of a point must be an integer, "
+							"distance must be double" << std::endl;
+						flag = false;
+					}
+				} while (!flag);
+
+				if (tokens[0] == "q")
+					break;
+
+				objId.push_back(id1);
+				objId.push_back(id2);
+				core.addRestriction(&objId, restrParams[restrParams.size() - 1], RT_P2PDIST, SOLVE);
+			} break;
 			case 'c': {
 				system("cls");
-				outputAll(Cor);
-				int id1, id2;
-				double d;
+				outputAll(core);
+				unsigned id1, id2, id3;
 				cout << "Points:" << endl;
 				cout << "Segment:" << endl;
-				List <unsigned> List_;
-				cout << "Write id of point, segment and distance" << endl;
-				cin >> id1 >> id2 >> d;
-				List_.push_back(id1);
-				List_.push_back(id2);
-				Cor.addRestriction(&List_, &d, RT_P2SDIST, SOLVE);
-				break;
-			}
+				cout << "Write id of 3 points and distance" << endl;
+				cout << "(q to cancel)" << endl;
+
+				restrParams.push_back(new double);
+				bool flag;
+				do {
+					flag = true;
+					getline(cin, c);
+					tokens = stringSplit(c);
+					if (tokens.size() != 4)
+						flag = false;
+					try {
+						if (tokens[0] == "q")
+							break;
+						id1 = stoi(tokens[0]);
+						id2 = stoi(tokens[1]);
+						id3 = stoi(tokens[2]);
+						*(restrParams[restrParams.size() - 1]) = stod(tokens[3]);
+					}
+					catch (exception) {
+						std::cout << "Error: id of a point and segment must be an integer, "
+							"distance must be double" << std::endl;
+						flag = false;
+					}
+				} while (!flag);
+
+				if (tokens[0] == "q")
+					break;
+
+				objId.push_back(id1);
+				objId.push_back(id2);
+				objId.push_back(id3);
+				core.addRestriction(&objId, restrParams[restrParams.size() - 1], RT_P2SDIST, SOLVE);
+			} break;
 			case 'd': {
 				system("cls");
-				outputAll(Cor);
-				int id1, id2;
-				double d;
+				outputAll(core);
+				unsigned id1, id2, id3;
 				cout << "Segment:" << endl;
-				List <unsigned> List_;
-				cout << "Write id of two segments and distance" << endl;
-				cin >> id1 >> id2 >> d;
-				List_.push_back(id1);
-				List_.push_back(id2);
-				Cor.addRestriction(&List_, &d, RT_P2SDISTEX, SOLVE);
-				break;
-			}
+				cout << "Write id of 3 points and distance" << endl;
+				cout << "(q to cancel)" << endl;
+
+				restrParams.push_back(new double);
+				bool flag;
+				do {
+					flag = true;
+					getline(cin, c);
+					tokens = stringSplit(c);
+					if (tokens.size() != 4)
+						flag = false;
+					try {
+						if (tokens[0] == "q")
+							break;
+						id1 = stoi(tokens[0]);
+						id2 = stoi(tokens[1]);
+						id3 = stoi(tokens[2]);
+						*(restrParams[restrParams.size() - 1]) = stod(tokens[3]);
+					}
+					catch (exception) {
+						std::cout << "Error: id of point must be an integer, "
+							"distance must be double" << std::endl;
+						flag = false;
+					}
+				} while (!flag);
+
+				if (tokens[0] == "q")
+					break;
+
+				objId.push_back(id1);
+				objId.push_back(id2);
+				objId.push_back(id3);
+				core.addRestriction(&objId, restrParams[restrParams.size() - 1], RT_P2SDISTEX, SOLVE);
+			} break;
 			case 'e': {
 				system("cls");
-				outputAll(Cor);
+				outputAll(core);
 				int id1, id2;
-				double d;
 				cout << "Segment:" << endl;
-				List <unsigned> List_;
 				cout << "Write id of two segments and angle" << endl;
-				cin >> id1 >> id2 >> d;
-				List_.push_back(id1);
-				List_.push_back(id2);
-				Cor.addRestriction(&List_, &d, RT_S2SANGLE, SOLVE);
-				break;
-			}
+				cout << "(q to cancel)" << endl;
+
+				restrParams.push_back(new double);
+				bool flag;
+				do {
+					flag = true;
+					getline(cin, c);
+					tokens = stringSplit(c);
+					if (tokens.size() != 3)
+						flag = false;
+					try {
+						if (tokens[0] == "q")
+							break;
+						id1 = stoi(tokens[0]);
+						id2 = stoi(tokens[1]);
+						*(restrParams[restrParams.size() - 1]) = stod(tokens[2]);
+					}
+					catch (exception) {
+						std::cout << "Error: id of segment must be an integer, "
+							"angle must be in radians" << std::endl;
+						flag = false;
+					}
+				} while (!flag);
+
+				if (tokens[0] == "q")
+					break;
+
+				objId.push_back(id1);
+				objId.push_back(id2);
+				core.addRestriction(&objId, restrParams[restrParams.size() - 1], RT_S2SANGLE, SOLVE);
+			} break;
 			case 'f': {
 				system("cls");
-				outputAll(Cor);
+				outputAll(core);
+				double d = 0;
 				int id1, id2;
 				cout << "Segment:" << endl;
-				List <unsigned> List_;
 				cout << "Write id of two segments" << endl;
-				cin >> id1 >> id2;
-				List_.push_back(id1);
-				List_.push_back(id2);
-				Cor.addRestriction(&List_, 0, RT_S2SEQUALS, SOLVE);
-				break;
-			}
+				cout << "(q to cancel)" << endl;
+
+				restrParams.push_back(new double);
+				bool flag;
+				do {
+					flag = true;
+					getline(cin, c);
+					tokens = stringSplit(c);
+					if (tokens.size() != 2)
+						flag = false;
+					try {
+						if (tokens[0] == "q")
+							break;
+						id1 = stoi(tokens[0]);
+						id2 = stoi(tokens[1]);
+					}
+					catch (exception) {
+						std::cout << "Error: id of segment must be an integer" << std::endl;
+						flag = false;
+					}
+				} while (!flag);
+
+				if (tokens[0] == "q")
+					break;
+
+				objId.push_back(id1);
+				objId.push_back(id2);
+				core.addRestriction(&objId, &d, RT_S2SEQUALS, SOLVE);
+			} break;
 			case 'g': {
 				system("cls");
-				outputAll(Cor);
+				outputAll(core);
 				int id1, id2;
+				double d = 0;
 				cout << "Segment:" << endl;
-				List <unsigned> List_;
 				cout << "Write id of two segments" << endl;
-				cin >> id1 >> id2;
-				List_.push_back(id1);
-				List_.push_back(id2);
-				Cor.addRestriction(&List_, 0, RT_S2SPARAL, SOLVE);
-				break;
-			}
+				cout << "(q to cancel)" << endl;
+
+				restrParams.push_back(new double);
+				bool flag;
+				do {
+					flag = true;
+					getline(cin, c);
+					tokens = stringSplit(c);
+					if (tokens.size() != 2)
+						flag = false;
+					try {
+						if (tokens[0] == "q")
+							break;
+						id1 = stoi(tokens[0]);
+						id2 = stoi(tokens[1]);
+					}
+					catch (exception) {
+						std::cout << "Error: id of segment must be an integer" << std::endl;
+						flag = false;
+					}
+				} while (!flag);
+
+				if (tokens[0] == "q")
+					break;
+
+				objId.push_back(id1);
+				objId.push_back(id2);
+				core.addRestriction(&objId, &d, RT_S2SPARAL, SOLVE);
+			} break;
 			case 'h': {
 				system("cls");
-				outputAll(Cor);
+				outputAll(core);
 				int id1, id2;
+				double d = 0;
 				cout << "Segment:" << endl;
-				List <unsigned> List_;
 				cout << "Write id of two segments" << endl;
-				cin >> id1 >> id2;
-				List_.push_back(id1);
-				List_.push_back(id2);
-				Cor.addRestriction(&List_, 0, RT_S2SORTHO, SOLVE);
-				break;
+				cout << "(q to cancel)" << endl;
+
+				restrParams.push_back(new double);
+				bool flag;
+				do {
+					flag = true;
+					getline(cin, c);
+					tokens = stringSplit(c);
+					if (tokens.size() != 2)
+						flag = false;
+					try {
+						if (tokens[0] == "q")
+							break;
+						id1 = stoi(tokens[0]);
+						id2 = stoi(tokens[1]);
+					}
+					catch (exception) {
+						std::cout << "Error: id of segment must be an integer" << std::endl;
+						flag = false;
+					}
+				} while (!flag);
+
+				if (tokens[0] == "q")
+					break;
+
+				objId.push_back(id1);
+				objId.push_back(id2);
+				core.addRestriction(&objId, &d, RT_S2SORTHO, SOLVE);
+			} break;
 			}
-			Cor.backupState();
-			}
-			break;
-		}
-		
+		} break;
+
 		case 'c': {
 			system("cls");
+			outputAll(core);
+			cout << endl;
 			cout << "Write type of solver H or G" << endl;
 			getline(cin, c);
 			switch (c[0]) {
@@ -223,7 +516,7 @@ switch (c[0]) {
 					if (nullptr != Func) {
 						fRunTimeLinkSuccess = TRUE;
 						cout << "O.K." << endl;
-
+						system("pause");
 						SOLVE = Func();
 					}
 
@@ -234,8 +527,7 @@ switch (c[0]) {
 					system("pause");
 					return 0;
 				}
-				break;
-			}
+			} break;
 			case 'G': {
 				fRunTimeLinkSuccess = FALSE;
 				hinstLib = LoadLibrary(TEXT("dllGD.dll"));
@@ -246,6 +538,7 @@ switch (c[0]) {
 					if (nullptr != Func) {
 						fRunTimeLinkSuccess = TRUE;
 						cout << "O.K." << endl;
+						system("pause");
 						SOLVE = Func();
 					}
 
@@ -256,53 +549,95 @@ switch (c[0]) {
 					system("pause");
 					return 0;
 				}
-				break;
+			} break;
+			default: {
+				cout << "Choose your side!" << endl;
 			}
 			}
-			break;
-		}
-		
+		} break;
+
 		case'd': {
 			system("cls");
 			string _resultfilename = "Batch.m";
 			ofstream out(_resultfilename);
 			out.close();
 			MatlabRenderer matlab(_resultfilename, 10);
-			matlab.drawSketch(Cor.getInfoObj());
-			break;
+			matlab.drawSketch(core.getInfoObj());
+			cout << "Your state is saved to .m file." << endl;
+			system("pause");
+		} break;
+
+		default: {
+			cout << "Invalid command" << endl;
+			system("pause");
 		}
-		
-		case'<': {
-			Cor.toBackupState();
 		}
-}
+
+	}
 
 }
 
-}
-
-void Console::outputAll(Core &Cor)
+void Console::outputAll(Core &core)
 {
-	for (int i = 1; i <= Cor.sizeListObj(); ++i) {
+	cout << "OBJECTS:" << endl;
+	if (core.sizeListObj() == 0)
+		cout << "	No objects yet." << endl;
+	for (size_t i = 1; i <= core.sizeListObj(); ++i) {
 		Point * newp = 0; Circle *newc = 0; Segment * news = 0;
-		switch (Cor.searchID(i)->object_type()) {
+		switch (core.searchID(i)->object_type()) {
 
-		case IsPoint:
-			newp = dynamic_cast<Point*>(Cor.searchID(i));
-			cout << "ID: " << newp->showId() << "   X: " << newp->getX() << "   Y: " << newp->getY() << endl;
-			break;
-
-		case IsSegment:
-			news = dynamic_cast<Segment*>(Cor.searchID(i));
-			cout << "ID: " << news->showId() << "   X1: " << news->getP1()->getX() << "   Y1: " << news->getP1()->getY() << "   X2: " << news->getP2()->getX() << "   Y2: " << news->getP2()->getY() << endl;
-			break;
-
-		case IsCircle:
-			newc = dynamic_cast<Circle*>(Cor.searchID(i));
+		case IsPoint: {
+			newp = dynamic_cast<Point*>(core.searchID(i));
+			cout << "	POINT " << " ID: " << newp->showId() << "   X: " << newp->getX() << "   Y: " << newp->getY() << endl;
+		} break;
+		case IsSegment: {
+			news = dynamic_cast<Segment*>(core.searchID(i));
+			cout << "	SEGMENT " << " ID: " << news->showId() << "   X1: " << news->getP1()->getX() << "   Y1: " << news->getP1()->getY() << "   X2: " << news->getP2()->getX() << "   Y2: " << news->getP2()->getY() << endl;
+		} break;
+		case IsCircle: {
+			newc = dynamic_cast<Circle*>(core.searchID(i));
 			Point t = newc->getCenter();
-			cout << "ID: " << newc->showId() << "   X: " << newc->getCenter().getX() << "   Y: " << newc->getCenter().getY() 
+			cout << "	CIRCLE " << " ID: " << newc->showId() << "   X: " << newc->getCenter().getX() << "   Y: " << newc->getCenter().getY()
 				<< "   Radius: " << newc->getRadius() << endl;
-			break;
+		} break;
 		}
 	}
+	cout << "RESTRICTIONS:" << endl;
+	if (core.sizeListRestr() == 0)
+		cout << "	No restrictions yet." << endl;
+	for (size_t i = 1; i <= core.sizeListRestr(); ++i) {
+		BasicRestriction * restr;
+		switch (core.searchIDRestr(i)->get_type()) {
+
+		case RT_P2PDIST: {
+			restr = dynamic_cast<RestrP2PDIST*>(core.searchIDRestr(i));
+			cout << "	P2PDIST " << " ID: " << restr->showId() << " violation: " << restr->violation() << endl;
+		} break;
+		case RT_P2SDIST: {
+			restr = dynamic_cast<RestrP2SDIST*>(core.searchIDRestr(i));
+			cout << "	P2SDIST " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
+		} break;
+		case RT_P2SDISTEX: {
+			restr = dynamic_cast<RestrP2SDISTEX*>(core.searchIDRestr(i));
+			cout << "	P2SDISTEX " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
+		} break;
+		case RT_S2SANGLE: {
+			restr = dynamic_cast<RestrS2SANGLE*>(core.searchIDRestr(i));
+			cout << "	S2SANGLE " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
+		} break;
+		case RT_S2SORTHO: {
+			restr = dynamic_cast<RestrS2SORTHO*>(core.searchIDRestr(i));
+			cout << "	S2SORTHO " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
+		} break;
+		case RT_S2SPARAL: {
+			restr = dynamic_cast<RestrS2SPARAL*>(core.searchIDRestr(i));
+			cout << "	S2SPARAL " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
+		} break;
+		case RT_S2SEQUALS: {
+			restr = dynamic_cast<RestrS2SEQUALS*>(core.searchIDRestr(i));
+			cout << "	S2SEQUALS " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
+		} break;
+		}
+	}
+	core.ShowRestr();
 }

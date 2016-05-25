@@ -26,6 +26,9 @@ public:
 		double k = sqrt(a*a + b*b);
 		return *_dist - abs(a*_p3x + b*_p3y + c) / k;
 	}
+	double length(double x1, double y1, double x2, double y2) {
+		return sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
+	}
 //	virtual Array<double>* diff() {}
 	virtual double diff(size_t par) {
 		if (par == 7)
