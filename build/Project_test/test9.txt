@@ -1,0 +1,15 @@
+H
+s 1 2 3 4
+s 2 2 8 3
+s 3 2 2 0
+s 1 4 8 8
+s 4 6 2 7
+r fix obj 3 1 2 3
+r fix obj 3 7 8 9
+r dpp 2 4 0
+r ass 3 6 1
+r dpp 5 7 0
+r dpp 8 10 0
+r dpp 11 13 0
+r dpp 14 1 0
+r oss 6 9

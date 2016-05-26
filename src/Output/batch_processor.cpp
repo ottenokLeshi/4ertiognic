@@ -243,7 +243,12 @@ bool BatchProcessor::generateCode() {
 
 				objId.push_back(id1);
 				objId.push_back(id2);
-				_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_P2PDIST, SOLVE);
+				if (_core->searchID(id1) != nullptr && _core->searchID(id2) != nullptr) {
+					if (_core->searchID(id1)->object_type() == IsPoint && _core->searchID(id2)->object_type() == IsPoint)
+						_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_P2PDIST, SOLVE);
+					else std::cout << "Incorrect primitive type; restriction: dpp, objects ID: " << id1 << " " << id2 << std::endl;
+				}
+				else std::cout << "ID does not exist; restriction: dpp, objects ID: " << id1 << " " << id2 << std::endl;
 			}
 
 			if (rest == "dpl") {
@@ -267,8 +272,12 @@ bool BatchProcessor::generateCode() {
 				objId.push_back(id1);
 				objId.push_back(id2);
 				objId.push_back(id3);
-				_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_P2SDIST, SOLVE);
-
+				if (_core->searchID(id1) != nullptr && _core->searchID(id2) != nullptr && _core->searchID(id3) != nullptr) {
+					if (_core->searchID(id1)->object_type() == IsPoint && _core->searchID(id2)->object_type() == IsPoint && _core->searchID(id3)->object_type() == IsPoint)
+						_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_P2SDIST, SOLVE);
+					else std::cout << "Incorrect primitive type; restriction: dpl, objects ID: " << id1 << " " << id2 << " " << id3 << std::endl;
+				}
+				else std::cout << "ID does not exist; restriction: dpl, objects ID: " << id1 << " " << id2 << " " << id3 << std::endl;
 			}
 
 			if (rest == "dps") {
@@ -292,8 +301,11 @@ bool BatchProcessor::generateCode() {
 				objId.push_back(id1);
 				objId.push_back(id2);
 				objId.push_back(id3);
-				_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_P2SDISTEX, SOLVE);
-
+				if (_core->searchID(id1) != nullptr && _core->searchID(id2) != nullptr && _core->searchID(id3) != nullptr) {
+					if (_core->searchID(id1)->object_type() == IsPoint && _core->searchID(id2)->object_type() == IsPoint && _core->searchID(id3)->object_type() == IsPoint)
+						_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_P2SDISTEX, SOLVE);
+					else std::cout << "Incorrect primitive type; restriction: dps, objects ID: " << id1 << " " << id2 << " " << id3 << std::endl;
+				} else std::cout << "ID does not exist; restriction: dps, objects ID: " << id1 << " " << id2 << " " << id3 << std::endl;
 			}
 
 			if (rest == "ass") {
@@ -321,7 +333,12 @@ bool BatchProcessor::generateCode() {
 
 				objId.push_back(id1);
 				objId.push_back(id2);
-				_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_S2SANGLE, SOLVE);
+				if (_core->searchID(id1) != nullptr && _core->searchID(id2) != nullptr) {
+					if (_core->searchID(id1)->object_type() == IsSegment && _core->searchID(id2)->object_type() == IsSegment)
+						_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_S2SANGLE, SOLVE);
+					else std::cout << "Incorrect primitive type; restriction: ass, objects ID: " << id1 << " " << id2 << std::endl;
+				}
+				else std::cout << "ID does not exist; restriction: ass, objects ID: " << id1 << " " << id2 << std::endl;
 
 			}
 
@@ -343,7 +360,12 @@ bool BatchProcessor::generateCode() {
 
 				objId.push_back(id1);
 				objId.push_back(id2);
-				_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_S2SORTHO, SOLVE);
+				if (_core->searchID(id1) != nullptr && _core->searchID(id2) != nullptr) {
+					if (_core->searchID(id1)->object_type() == IsSegment && _core->searchID(id2)->object_type() == IsSegment)
+						_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_S2SORTHO, SOLVE);
+					else std::cout << "Incorrect primitive type; restriction: oss, objects ID: " << id1 << " " << id2 << std::endl;
+				}
+				else std::cout << "ID does not exist; restriction: oss, objects ID: " << id1 << " " << id2 << std::endl;
 
 			}
 
@@ -365,7 +387,13 @@ bool BatchProcessor::generateCode() {
 
 				objId.push_back(id1);
 				objId.push_back(id2);
-				_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_S2SPARAL, SOLVE);
+				if (_core->searchID(id1) != nullptr && _core->searchID(id2) != nullptr) {
+					if (_core->searchID(id1)->object_type() == IsSegment && _core->searchID(id2)->object_type() == IsSegment)
+						_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_S2SPARAL, SOLVE);
+					else std::cout << "Incorrect primitive type; restriction: pss, objects ID: " << id1 << " " << id2 << std::endl;
+				}
+				else std::cout << "ID does not exist; restriction: pss, objects ID: " << id1 << " " << id2 << std::endl;
+
 			}
 
 			if (rest == "ess") {
@@ -386,7 +414,13 @@ bool BatchProcessor::generateCode() {
 
 				objId.push_back(id1);
 				objId.push_back(id2);
-				_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_S2SEQUALS, SOLVE);
+				if (_core->searchID(id1) != nullptr && _core->searchID(id2) != nullptr) {
+					if (_core->searchID(id1)->object_type() == IsSegment && _core->searchID(id2)->object_type() == IsSegment)
+						_core->addRestriction(&objId, restrParams[restrParams.size() - 1], RT_S2SEQUALS, SOLVE);
+					else std::cout << "Incorrect primitive type; restriction: ess, objects ID: " << id1 << " " << id2 << std::endl;
+				}
+				else std::cout << "ID does not exist; restriction: ess, objects ID: " << id1 << " " << id2 << std::endl;
+
 			}
 		} break;
 		}

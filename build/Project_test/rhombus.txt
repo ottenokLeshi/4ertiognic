@@ -1,0 +1,12 @@
+H
+S
+S
+S
+S
+r dpp 1 4 0
+r dpp 8 11 0
+r ess 3 9
+r dpp 5 10 0
+r ess 3 6
+r ess 3 12
+r dpp 2 7 0

@@ -1,0 +1,33 @@
+H
+// Kitty
+c 0 0 1
+c 3 0 1
+s 1 -1 2 -1
+r fix all
+S
+S
+p 1.5 -2
+r fix obj 1 14
+r dpp 5 8 0
+r dpp 6 11 0
+r dpp 9 14 0
+r dpp 12 14 0
+r ess 7 10
+r ess 10 13
+r fix all
+S
+r dpp 14 15 0
+r dpp 15 16 1
+r oss 17 7
+s 0 -3 3 -3
+r fix all
+S
+S
+p -0.4 -2
+p 3.4 -2
+r fix obj 2 27 28
+r dpp 21 18 0
+r dpp 24 19 0
+r dpp 22 27 0
+r dpp 25 28 0
+r fix all

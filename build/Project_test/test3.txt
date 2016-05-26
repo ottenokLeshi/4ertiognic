@@ -1,0 +1,21 @@
+H
+// Trapezium
+s 0 0 10 0
+s 1 1 2 2
+s 3 4 5 6
+r fix obj 3 1 2 3
+r dpp 1 4 0
+r fix obj 1 4
+r ess 3 6
+r ass 3 6 2.09
+r dpp 5 2 17.3
+r fix obj 2 5 6
+r dpp 5 7 0
+r fix obj 1 7
+r ess 6 9
+r ass 6 9 2.09
+r dpp 8 1 17.3
+r fix obj 2 8 9
+S
+r dpp 8 10 0
+r dpp 2 11 0
