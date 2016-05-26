@@ -85,7 +85,7 @@ bool CHJSolver::solve(MyFunction *f, Array <double*> &x) {
 	}
 	double oldf = (*f)(newx);
 	double newf = oldf;
-	int maxiter = 1000;
+	int maxiter = 1800;
 	int iters = 0;
 	while (stepsize > EPS && newf > EPS)
 	{

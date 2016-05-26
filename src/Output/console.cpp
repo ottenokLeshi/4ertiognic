@@ -187,6 +187,15 @@ bool Console::screen() {
 				break;
 			}
 
+			if (core.sizeListObj() == 0) {
+				system("cls");
+				outputAll(core);
+				cout << endl;
+				cout << "No objects yet!" << endl;
+				system("pause");
+				break;
+			}
+
 			objId.deleteAll();
 
 			system("cls");
@@ -238,9 +247,18 @@ bool Console::screen() {
 			} break;
 			case 'b': {
 				system("cls");
+
+				if (core.sizeListObj() < 2) {
+					system("cls");
+					outputAll(core);
+					cout << endl;
+					cout << "Not enough objects!" << endl;
+					system("pause");
+					break;
+				}
+
 				outputAll(core);
 				unsigned id1, id2;
-				cout << "Point:" << endl;
 				cout << "Write id of 2 points and distance" << endl;
 				cout << "(q to cancel)" << endl;
 
@@ -279,10 +297,18 @@ bool Console::screen() {
 			} break;
 			case 'c': {
 				system("cls");
+
+				if (core.sizeListObj() < 3) {
+					system("cls");
+					outputAll(core);
+					cout << endl;
+					cout << "Not enough objects!" << endl;
+					system("pause");
+					break;
+				}
+
 				outputAll(core);
 				unsigned id1, id2, id3;
-				cout << "Points:" << endl;
-				cout << "Segment:" << endl;
 				cout << "Write id of 3 points and distance" << endl;
 				cout << "(q to cancel)" << endl;
 
@@ -323,9 +349,18 @@ bool Console::screen() {
 			} break;
 			case 'd': {
 				system("cls");
+
+				if (core.sizeListObj() < 3) {
+					system("cls");
+					outputAll(core);
+					cout << endl;
+					cout << "Not enough objects!" << endl;
+					system("pause");
+					break;
+				}
+
 				outputAll(core);
 				unsigned id1, id2, id3;
-				cout << "Segment:" << endl;
 				cout << "Write id of 3 points and distance" << endl;
 				cout << "(q to cancel)" << endl;
 
@@ -366,9 +401,18 @@ bool Console::screen() {
 			} break;
 			case 'e': {
 				system("cls");
+
+				if (core.sizeListObj() < 6) {
+					system("cls");
+					outputAll(core);
+					cout << endl;
+					cout << "Not enough objects!" << endl;
+					system("pause");
+					break;
+				}
+
 				outputAll(core);
 				int id1, id2;
-				cout << "Segment:" << endl;
 				cout << "Write id of two segments and angle" << endl;
 				cout << "(q to cancel)" << endl;
 
@@ -407,10 +451,20 @@ bool Console::screen() {
 			} break;
 			case 'f': {
 				system("cls");
+
+				if (core.sizeListObj() < 6) {
+					system("cls");
+					outputAll(core);
+					cout << endl;
+					cout << "Not enough objects!" << endl;
+					system("pause");
+					break;
+				}
+
 				outputAll(core);
 				double d = 0;
 				int id1, id2;
-				cout << "Segment:" << endl;
+
 				cout << "Write id of two segments" << endl;
 				cout << "(q to cancel)" << endl;
 
@@ -447,10 +501,19 @@ bool Console::screen() {
 			} break;
 			case 'g': {
 				system("cls");
+
+				if (core.sizeListObj() < 6) {
+					system("cls");
+					outputAll(core);
+					cout << endl;
+					cout << "Not enough objects!" << endl;
+					system("pause");
+					break;
+				}
+
 				outputAll(core);
 				int id1, id2;
 				double d = 0;
-				cout << "Segment:" << endl;
 				cout << "Write id of two segments" << endl;
 				cout << "(q to cancel)" << endl;
 
@@ -487,10 +550,19 @@ bool Console::screen() {
 			} break;
 			case 'h': {
 				system("cls");
+
+				if (core.sizeListObj() < 6) {
+					system("cls");
+					outputAll(core);
+					cout << endl;
+					cout << "Not enough objects!" << endl;
+					system("pause");
+					break;
+				}
+
 				outputAll(core);
 				int id1, id2;
 				double d = 0;
-				cout << "Segment:" << endl;
 				cout << "Write id of two segments" << endl;
 				cout << "(q to cancel)" << endl;
 
