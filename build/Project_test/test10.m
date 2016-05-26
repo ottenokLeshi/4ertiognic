@@ -1,0 +1,15 @@
+function res = test10()
+res = 0
+figure; hold on; axis equal;
+plot([-0.33201 -0.33201],[0.204704 0.204704], 'LineWidth', 2, 'Marker', '.', 'MarkerSize', 10)
+plot([-0.70524 -0.70524],[1.51056 1.51056], 'LineWidth', 2, 'Marker', '.', 'MarkerSize', 10)
+plot([-0.33201 -0.70524],[0.204704 1.51056], 'LineWidth', 2, 'Marker', '.', 'MarkerSize', 10)
+plot([-0.332 -0.332],[0.204707 0.204707], 'LineWidth', 2, 'Marker', '.', 'MarkerSize', 10)
+plot([1.01073 1.01073],[0.000656179 0.000656179], 'LineWidth', 2, 'Marker', '.', 'MarkerSize', 10)
+plot([-0.332 1.01073],[0.204707 0.000656179], 'LineWidth', 2, 'Marker', '.', 'MarkerSize', 10)
+plot([-0.705241 -0.705241],[1.51057 1.51057], 'LineWidth', 2, 'Marker', '.', 'MarkerSize', 10)
+plot([0.637486 0.637486],[1.30651 1.30651], 'LineWidth', 2, 'Marker', '.', 'MarkerSize', 10)
+plot([-0.705241 0.637486],[1.51057 1.30651], 'LineWidth', 2, 'Marker', '.', 'MarkerSize', 10)
+plot([1.01073 1.01073],[0.000665872 0.000665872], 'LineWidth', 2, 'Marker', '.', 'MarkerSize', 10)
+plot([0.637482 0.637482],[1.30652 1.30652], 'LineWidth', 2, 'Marker', '.', 'MarkerSize', 10)
+plot([1.01073 0.637482],[0.000665872 1.30652], 'LineWidth', 2, 'Marker', '.', 'MarkerSize', 10)

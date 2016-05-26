@@ -182,6 +182,12 @@ public:
 		_size--;
 	}
 
+	void deleteAll() {
+		if (_data)
+			delete[] _data;
+		_size = 0;
+	}
+
 	const T& front() const {
 		if (_size == 0)
 			throw std::out_of_range("Empty array");

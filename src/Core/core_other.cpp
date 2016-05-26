@@ -47,13 +47,16 @@ void Core::backupState() {
 
 		case IsPoint:
 			newp = dynamic_cast<Point*>(mar.get_current());
-			par.push_back(newp->getX()); par.push_back(newp->getY());
+			par.push_back(newp->getX()); 
+			par.push_back(newp->getY());
 			break;
 
 		case IsSegment:
 			news = dynamic_cast<Segment*>(mar.get_current());
-			par.push_back(news->x1()); par.push_back(news->y1());
-			par.push_back(news->x2()); par.push_back(news->y2());
+			par.push_back(news->x1()); 
+			par.push_back(news->y1());
+			par.push_back(news->x2()); 
+			par.push_back(news->y2());
 			break;
 
 		case IsCircle:
@@ -88,7 +91,6 @@ void Core::toBackupState()
 
 		case IsSegment:
 			news = dynamic_cast<Segment*>(mar.get_current());
-
 			news->getP1()->changePoint((*backupParametrs)[i][0], (*backupParametrs)[i][1]);
 			news->getP2()->changePoint((*backupParametrs)[i][2], (*backupParametrs)[i][3]);
 			break;
@@ -139,4 +141,15 @@ Array <Array<double>>* Core::getInfoObj() {
 		mar.move_next();
 	}
 	return  parametrs;
+}
+
+void Core::clearState() {
+	SOLVE = nullptr;
+	objects.deleteAll();
+	restrictions.deleteAll();
+	backupObjects.deleteAll();
+	fixedObjects.deleteAll();
+	if (backupParametrs)
+		backupParametrs->deleteAll();
+	params.deleteAll();
 }

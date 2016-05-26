@@ -28,6 +28,7 @@ bool Console::screen() {
 		cout << "b. Add restriction" << endl;
 		cout << "c. Choose your side of the darkness!" << endl;
 		cout << "d. Matlab file" << endl;
+		cout << "*. Clear state" << endl;
 		cout << "q. Exit" << endl;
 
 		do {
@@ -594,6 +595,10 @@ bool Console::screen() {
 			cout << "Your state is saved to .m file." << endl;
 			system("pause");
 		} break;
+		
+		case'*': {
+			core.clearState();
+		} break;
 
 		default: {
 			cout << "Invalid command" << endl;
@@ -610,21 +615,24 @@ void Console::outputAll(Core &core)
 	cout << "OBJECTS:" << endl;
 	if (core.sizeListObj() == 0)
 		cout << "	No objects yet." << endl;
-	for (size_t i = 1; i <= core.sizeListObj(); ++i) {
+	for (size_t i = 0; i < core.sizeListObj(); ++i) {
 		Point * newp = 0; Circle *newc = 0; Segment * news = 0;
-		switch (core.searchID(i)->object_type()) {
+		switch (core.searchID(core.getObjIDs()[i])->object_type()) {
 
 		case IsPoint: {
-			newp = dynamic_cast<Point*>(core.searchID(i));
+			newp = dynamic_cast<Point*>(core.searchID(core.getObjIDs()[i]));
+			newp->isFixed() ? cout << "(fixed)" : cout << "";
 			cout << "	POINT " << " ID: " << newp->showId() << "   X: " << newp->getX() << "   Y: " << newp->getY() << endl;
 		} break;
 		case IsSegment: {
-			news = dynamic_cast<Segment*>(core.searchID(i));
+			news = dynamic_cast<Segment*>(core.searchID(core.getObjIDs()[i]));
+			news->isFixed() ? cout << "(fixed)" : cout << "";
 			cout << "	SEGMENT " << " ID: " << news->showId() << "   X1: " << news->getP1()->getX() << "   Y1: " << news->getP1()->getY() << "   X2: " << news->getP2()->getX() << "   Y2: " << news->getP2()->getY() << endl;
 		} break;
 		case IsCircle: {
-			newc = dynamic_cast<Circle*>(core.searchID(i));
+			newc = dynamic_cast<Circle*>(core.searchID(core.getObjIDs()[i]));
 			Point t = newc->getCenter();
+			newc->isFixed() ? cout << "(fixed)" : cout << "";
 			cout << "	CIRCLE " << " ID: " << newc->showId() << "   X: " << newc->getCenter().getX() << "   Y: " << newc->getCenter().getY()
 				<< "   Radius: " << newc->getRadius() << endl;
 		} break;
@@ -633,36 +641,36 @@ void Console::outputAll(Core &core)
 	cout << "RESTRICTIONS:" << endl;
 	if (core.sizeListRestr() == 0)
 		cout << "	No restrictions yet." << endl;
-	for (size_t i = 1; i <= core.sizeListRestr(); ++i) {
+	for (size_t i = 0; i < core.sizeListRestr(); ++i) {
 		BasicRestriction * restr;
-		switch (core.searchIDRestr(i)->get_type()) {
+		switch (core.searchIDRestr(core.getRestrIDs()[i])->get_type()) {
 
 		case RT_P2PDIST: {
-			restr = dynamic_cast<RestrP2PDIST*>(core.searchIDRestr(i));
+			restr = dynamic_cast<RestrP2PDIST*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout << "	P2PDIST " << " ID: " << restr->showId() << " violation: " << restr->violation() << endl;
 		} break;
 		case RT_P2SDIST: {
-			restr = dynamic_cast<RestrP2SDIST*>(core.searchIDRestr(i));
+			restr = dynamic_cast<RestrP2SDIST*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout << "	P2SDIST " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
 		} break;
 		case RT_P2SDISTEX: {
-			restr = dynamic_cast<RestrP2SDISTEX*>(core.searchIDRestr(i));
+			restr = dynamic_cast<RestrP2SDISTEX*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout << "	P2SDISTEX " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
 		} break;
 		case RT_S2SANGLE: {
-			restr = dynamic_cast<RestrS2SANGLE*>(core.searchIDRestr(i));
+			restr = dynamic_cast<RestrS2SANGLE*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout << "	S2SANGLE " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
 		} break;
 		case RT_S2SORTHO: {
-			restr = dynamic_cast<RestrS2SORTHO*>(core.searchIDRestr(i));
+			restr = dynamic_cast<RestrS2SORTHO*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout << "	S2SORTHO " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
 		} break;
 		case RT_S2SPARAL: {
-			restr = dynamic_cast<RestrS2SPARAL*>(core.searchIDRestr(i));
+			restr = dynamic_cast<RestrS2SPARAL*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout << "	S2SPARAL " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
 		} break;
 		case RT_S2SEQUALS: {
-			restr = dynamic_cast<RestrS2SEQUALS*>(core.searchIDRestr(i));
+			restr = dynamic_cast<RestrS2SEQUALS*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout << "	S2SEQUALS " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
 		} break;
 		}

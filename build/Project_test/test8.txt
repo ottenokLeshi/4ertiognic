@@ -3,33 +3,42 @@ H
 s 1 1 5 1
 s 3 1 3 7
 r fix obj 3 1 2 3
+
 r dpp 2 4 0
 r fix obj 1 4
+
 r oss 6 3
 r dpp 5 4 10
 s 2 2 6 6
 r dpp 7 1 0
 r fix obj 1 7
+
 r dpp 8 5 0
 r fix obj 1 8
 r fix all
+
+
 s 5 1 10 1
 r dpp 2 10 0
 r fix obj 1 10
+
 r pss 12 3
 r dpp 10 11 8
 r fix all
+
 s 5 1 10 1
 r dpp 13 5 0
 r fix obj 1 13
-r oss 15 6
+
 r pss 15 12
 r ess 15 12
 r fix all
+
 s 1 5 10 1
 r dpp 16 14 0
 r fix obj 1 16
-r oss 18 15
+
 r dpp 17 11 0
+r oss 18 15
 r fix obj 1 11
-c 4.2 -4 0.5
+c 3.2 3 0.5

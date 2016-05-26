@@ -12,13 +12,14 @@ r dpp 5 8 0
 r dpp 6 11 0
 r dpp 9 14 0
 r dpp 12 14 0
-r ess 7 10
 r ess 10 13
 r fix all
 S
 r dpp 14 15 0
+r fix obj 1 15
 r dpp 15 16 1
 r oss 17 7
+r dpp 16 5 2.06
 s 0 -3 3 -3
 r fix all
 S

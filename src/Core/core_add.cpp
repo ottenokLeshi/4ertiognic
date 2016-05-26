@@ -289,18 +289,22 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 		f1.addRestr(res_mar.get_current());
 		res_mar.move_next();
 	}
-	// something has to be done with this
 	if (F->solve(&f1, params) == 0) {
 		toBackupState();
-		F->solve(&f1, params);
+		if (F->solve(&f1, params) == 0) {
+			toBackupState();
+			std::cout << "Can't find proper solution for this state." << std::endl;
+			return false;
+		}
+		else {
+			std::cout << "Restriction has been added successfully." << std::endl;
+			restrictions.push_back(newrest);
+			return true;
+		}
+	}
+	else {
+		std::cout << "Restriction has been added successfully." << std::endl;
 		restrictions.push_back(newrest);
 		return true;
 	}
-
-	//F->solve(&f1, params);
-	restrictions.push_back(newrest);
-	return true;
-	//toBackupState();
-	//return false;
-	
 }

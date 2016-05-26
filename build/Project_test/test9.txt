@@ -1,15 +1,39 @@
-H
-s 1 2 3 4
-s 2 2 8 3
-s 3 2 2 0
-s 1 4 8 8
-s 4 6 2 7
+H 
+// Ezh
+// Body (square)
+s 1 1 5 1
+s 2 3 2 5
+s 1 7 9 7
+s 7 9 7 3
 r fix obj 3 1 2 3
-r fix obj 3 7 8 9
-r dpp 2 4 0
-r ass 3 6 1
+r dpp 1 4 0
+r fix obj 1 4
+r oss 3 6
+r ess 3 6
+r fix obj 2 5 6
 r dpp 5 7 0
-r dpp 8 10 0
-r dpp 11 13 0
-r dpp 14 1 0
+r fix obj 1 7
 r oss 6 9
+r ess 6 9
+r dpp 2 8 4
+r fix obj 2 8 9
+r dpp 8 10 0
+r oss 9 12
+r ess 9 12
+r fix obj 2 8 9
+r fix obj 1 10
+r dpp 2 11 0
+r fix obj 2 11 12
+// Head
+s 1 1 5 1
+s 2 3 2 8
+r dpp 13 1 0
+r fix obj 1 13
+r dpp 13 14 2
+r dpp 2 14 6
+r fix obj 1 14
+
+r dpp 14 16 0
+r fix obj 1 15
+r dpp 17 7 0
+c 0.5 1.7 0.2

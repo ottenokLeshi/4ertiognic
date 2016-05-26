@@ -23,7 +23,7 @@ class Core {
 	Array<Array<double>>* backupParametrs;
 	Array<double*> params;
 public:
-	Core() { SOLVE = nullptr;}
+	Core() { SOLVE = nullptr; }
 	~Core() {}
 	void getSOLVE(bool _bSolve);
 	void addPrimitive(int type, const Array<double> &params) {}; // need to check are the parameters valid
@@ -69,12 +69,31 @@ public:
 		}
 		cout << endl;
 	}
+	Array <unsigned> getObjIDs() {
+		Array <unsigned> objIDs;
+		List<GraphPrimitive*>::Marker mar(objects);
+		for (size_t i = 0; i < objects.sizeList(); ++i) {
+			objIDs.push_back(mar.get_current()->showId());
+			mar.move_next();
+		}
+		return objIDs;
+	}
+
+	Array <unsigned> getRestrIDs() {
+		Array <unsigned> restrIDs;
+		List<BasicRestriction*>::Marker mar(restrictions);
+		for (size_t i = 0; i < restrictions.sizeList(); ++i) {
+			restrIDs.push_back(mar.get_current()->showId());
+			mar.move_next();
+		}
+		return restrIDs;
+	}
 	unsigned sizeListObj() { return objects.sizeList(); }
 	unsigned sizeListRestr() { return restrictions.sizeList(); }
 	unsigned sizeListBackUpObj() { return backupObjects.sizeList(); }
 	Array <Array<double>>* getInfoObj();
 	void toBackupState();
-
+	void clearState();
 };
 
 #endif
