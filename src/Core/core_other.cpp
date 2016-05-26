@@ -116,16 +116,18 @@ Array <Array<double>>* Core::getInfoObj() {
 		Array<double> par;
 
 		switch (mar.get_current()->object_type()) {
-
 		case IsPoint:
 			newp = dynamic_cast<Point*>(mar.get_current());
-			par.push_back(newp->getX());par.push_back(newp->getY());
+			par.push_back(newp->getX());
+			par.push_back(newp->getY());
 			break;
 
 		case IsSegment:
 			news = dynamic_cast<Segment*>(mar.get_current());
-			par.push_back(news->x1());par.push_back(news->y1());
-			par.push_back(news->x2());par.push_back(news->y2());
+			par.push_back(news->x1());
+			par.push_back(news->y1());
+			par.push_back(news->x2());
+			par.push_back(news->y2());
 			break;
 
 		case IsCircle:

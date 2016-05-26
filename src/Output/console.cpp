@@ -4,7 +4,9 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string>
+#include <iomanip>
 #include "matlab_renderer.h"
+#include "batch_processor.h"
 using namespace std;
 
 typedef ISolver* (_cdecl *PROCFUN)(void);
@@ -27,6 +29,7 @@ bool Console::screen() {
 		cout << "a. Add graph primitive" << endl;
 		cout << "b. Add restriction" << endl;
 		cout << "c. Choose your side of the darkness!" << endl;
+		cout << "l. Load from batch" << endl;
 		cout << "d. Matlab file" << endl;
 		cout << "*. Clear state" << endl;
 		cout << "q. Exit" << endl;
@@ -672,6 +675,23 @@ bool Console::screen() {
 			core.clearState();
 		} break;
 
+		case'l': {
+			system("cls");
+			outputAll(core);
+			if (core.sizeListObj() != 0) {
+				cout << endl << "Only initial state is supported." << endl;
+				system("pause");
+				break;
+			}
+			cout << endl;
+			string input;
+			cout << "Enter batch file" << endl;
+			cin >> input;
+			BatchProcessor newbatch(input, &core, "matlab");
+			newbatch.generateCode();
+			system("pause");
+		} break;
+
 		default: {
 			cout << "Invalid command" << endl;
 			system("pause");
@@ -690,23 +710,36 @@ void Console::outputAll(Core &core)
 	for (size_t i = 0; i < core.sizeListObj(); ++i) {
 		Point * newp = 0; Circle *newc = 0; Segment * news = 0;
 		switch (core.searchID(core.getObjIDs()[i])->object_type()) {
-
 		case IsPoint: {
 			newp = dynamic_cast<Point*>(core.searchID(core.getObjIDs()[i]));
-			newp->isFixed() ? cout << "(fixed)" : cout << "";
-			cout << "	POINT " << " ID: " << newp->showId() << "   X: " << newp->getX() << "   Y: " << newp->getY() << endl;
+			cout.precision(2);
+			cout << setw(8);
+			newp->isFixed() ? cout << "(fixed) " : cout << "";
+			cout << setw(8) << "POINT ";
+			cout << setw(3) << "ID: " << setw(2) << newp->showId();
+			cout << setw(6) << "X: " << setw(8) << newp->getX();
+			cout << setw(6) << "Y: " << setw(8) << newp->getY() << endl;
 		} break;
 		case IsSegment: {
 			news = dynamic_cast<Segment*>(core.searchID(core.getObjIDs()[i]));
-			news->isFixed() ? cout << "(fixed)" : cout << "";
-			cout << "	SEGMENT " << " ID: " << news->showId() << "   X1: " << news->getP1()->getX() << "   Y1: " << news->getP1()->getY() << "   X2: " << news->getP2()->getX() << "   Y2: " << news->getP2()->getY() << endl;
+			cout.precision(2);
+			cout << setw(8);
+			news->isFixed() ? cout << "(fixed) " : cout << "";
+			cout << setw(8) << "SEGMENT ";
+			cout << setw(3) << "ID: " << setw(2) << news->showId();
+			cout << setw(6) << news->getP1()->showId();
+			cout << "-----" << news->getP2()->showId() << endl << endl;
 		} break;
 		case IsCircle: {
 			newc = dynamic_cast<Circle*>(core.searchID(core.getObjIDs()[i]));
+			cout.precision(2);
+			cout << setw(8);
 			Point t = newc->getCenter();
-			newc->isFixed() ? cout << "(fixed)" : cout << "";
-			cout << "	CIRCLE " << " ID: " << newc->showId() << "   X: " << newc->getCenter().getX() << "   Y: " << newc->getCenter().getY()
-				<< "   Radius: " << newc->getRadius() << endl;
+			newc->isFixed() ? cout << "(fixed) " : cout << "";
+			cout << setw(8) << "CIRCLE ";
+			cout << setw(3) << "ID: " << setw(2) << newc->showId();
+			cout << setw(6) << "O: " << setw(8) << newc->getCenter().showId();
+			cout << setw(6) << "R: " << setw(8) << newc->getRadius() << endl << endl;
 		} break;
 		}
 	}
@@ -719,31 +752,45 @@ void Console::outputAll(Core &core)
 
 		case RT_P2PDIST: {
 			restr = dynamic_cast<RestrP2PDIST*>(core.searchIDRestr(core.getRestrIDs()[i]));
-			cout << "	P2PDIST " << " ID: " << restr->showId() << " violation: " << restr->violation() << endl;
+			cout.precision(2);
+			cout << setw(16) << "P2PDIST " << setw(3) << "ID: " << setw(2) << restr->showId();
+			cout << setw(13) << "violation: " << setw(8) << restr->violation() << endl;
 		} break;
 		case RT_P2SDIST: {
 			restr = dynamic_cast<RestrP2SDIST*>(core.searchIDRestr(core.getRestrIDs()[i]));
-			cout << "	P2SDIST " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
+			cout.precision(2);
+			cout << setw(16) << "P2SDIST " << setw(3) << "ID: " << setw(2) << restr->showId();
+			cout << setw(13) << "violation: " << setw(8) << restr->violation() << endl;
 		} break;
 		case RT_P2SDISTEX: {
 			restr = dynamic_cast<RestrP2SDISTEX*>(core.searchIDRestr(core.getRestrIDs()[i]));
-			cout << "	P2SDISTEX " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
+			cout.precision(2);
+			cout << setw(16) << "P2SDISTEX " << setw(3) << "ID: " << setw(2) << restr->showId();
+			cout << setw(13) << "violation: " << setw(8) << restr->violation() << endl;
 		} break;
 		case RT_S2SANGLE: {
 			restr = dynamic_cast<RestrS2SANGLE*>(core.searchIDRestr(core.getRestrIDs()[i]));
-			cout << "	S2SANGLE " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
+			cout.precision(2);
+			cout << setw(16) << "S2SANGLE " << setw(3) << "ID: " << setw(2) << restr->showId();
+			cout << setw(13) << "violation: " << setw(8) << restr->violation() << endl;
 		} break;
 		case RT_S2SORTHO: {
 			restr = dynamic_cast<RestrS2SORTHO*>(core.searchIDRestr(core.getRestrIDs()[i]));
-			cout << "	S2SORTHO " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
+			cout.precision(2);
+			cout << setw(16) << "S2SORTHO " << setw(3) << "ID: " << setw(2) << restr->showId();
+			cout << setw(13) << "violation: " << setw(8) << restr->violation() << endl;
 		} break;
 		case RT_S2SPARAL: {
 			restr = dynamic_cast<RestrS2SPARAL*>(core.searchIDRestr(core.getRestrIDs()[i]));
-			cout << "	S2SPARAL " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
+			cout.precision(2);
+			cout << setw(16) << "S2SPARAL " << setw(3) << "ID: " << setw(2) << restr->showId();
+			cout << setw(13) << "violation: " << setw(8) << restr->violation() << endl;
 		} break;
 		case RT_S2SEQUALS: {
 			restr = dynamic_cast<RestrS2SEQUALS*>(core.searchIDRestr(core.getRestrIDs()[i]));
-			cout << "	S2SEQUALS " << " ID: " << restr->showId() << "	violation: " << restr->violation() << endl;
+			cout.precision(2);
+			cout << setw(16) << "S2SEQUALS " << setw(3) << "ID: " << setw(2) << restr->showId();
+			cout << setw(13) << "violation: " << setw(8) << restr->violation() << endl;
 		} break;
 		}
 	}
