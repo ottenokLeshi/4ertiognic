@@ -208,7 +208,7 @@ bool Console::screen() {
 				outputAll(core);
 				unsigned id;
 				double d = 0;
-				cout << "Write id of point" << endl;
+				cout << "Write id of object" << endl;
 				cout << "(q to cancel)" << endl;
 
 				bool flag;
@@ -267,7 +267,11 @@ bool Console::screen() {
 
 				if (tokens[0] == "q")
 					break;
-
+				if (core.searchID(id1)->object_type() != 1 || core.searchID(id2)->object_type() != 1) {
+					cout << "It's not IDs of points" << endl;
+					system("pause");
+					break;
+				}
 				objId.push_back(id1);
 				objId.push_back(id2);
 				core.addRestriction(&objId, restrParams[restrParams.size() - 1], RT_P2PDIST, SOLVE);
@@ -306,7 +310,11 @@ bool Console::screen() {
 
 				if (tokens[0] == "q")
 					break;
-
+				if (core.searchID(id1)->object_type() != 1 || core.searchID(id2)->object_type() != 1 || core.searchID(id3)->object_type() != 1) {
+					cout << "It's not IDs of points" << endl;
+					system("pause");
+					break;
+				}
 				objId.push_back(id1);
 				objId.push_back(id2);
 				objId.push_back(id3);
@@ -345,7 +353,11 @@ bool Console::screen() {
 
 				if (tokens[0] == "q")
 					break;
-
+				if (core.searchID(id1)->object_type() != 1 || core.searchID(id2)->object_type() != 1 || core.searchID(id3)->object_type() != 1) {
+					cout << "It's not IDs of points" << endl;
+					system("pause");
+					break;
+				}
 				objId.push_back(id1);
 				objId.push_back(id2);
 				objId.push_back(id3);
@@ -383,7 +395,11 @@ bool Console::screen() {
 
 				if (tokens[0] == "q")
 					break;
-
+				if (core.searchID(id1)->object_type() != 2 || core.searchID(id2)->object_type() != 2) {
+					cout << "It's not IDs of segments" << endl;
+					system("pause");
+					break;
+				}
 				objId.push_back(id1);
 				objId.push_back(id2);
 				core.addRestriction(&objId, restrParams[restrParams.size() - 1], RT_S2SANGLE, SOLVE);
@@ -419,7 +435,11 @@ bool Console::screen() {
 
 				if (tokens[0] == "q")
 					break;
-
+				if (core.searchID(id1)->object_type() != 2 || core.searchID(id2)->object_type() != 2) {
+					cout << "It's not IDs of segments" << endl;
+					system("pause");
+					break;
+				}
 				objId.push_back(id1);
 				objId.push_back(id2);
 				core.addRestriction(&objId, &d, RT_S2SEQUALS, SOLVE);
@@ -455,7 +475,11 @@ bool Console::screen() {
 
 				if (tokens[0] == "q")
 					break;
-
+				if (core.searchID(id1)->object_type() != 2 || core.searchID(id2)->object_type() != 2) {
+					cout << "It's not IDs of segments" << endl;
+					system("pause");
+					break;
+				}
 				objId.push_back(id1);
 				objId.push_back(id2);
 				core.addRestriction(&objId, &d, RT_S2SPARAL, SOLVE);
@@ -491,7 +515,11 @@ bool Console::screen() {
 
 				if (tokens[0] == "q")
 					break;
-
+				if (core.searchID(id1)->object_type() != 2 || core.searchID(id2)->object_type() != 2) {
+					cout << "It's not IDs of segments" << endl;
+					system("pause");
+					break;
+				}
 				objId.push_back(id1);
 				objId.push_back(id2);
 				core.addRestriction(&objId, &d, RT_S2SORTHO, SOLVE);
