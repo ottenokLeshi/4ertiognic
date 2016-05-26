@@ -9,86 +9,49 @@ public:
 	RestrP2SDIST( Point *beg, Point *end, Point *t, double *dist){
 		_dist = dist;
 		_beg = beg; _end = end; _t = t;
-		_p1x = _beg->getX();
-		_p2x = _end->getX();
-		_p3x = _t->getX();
-		_p1y = _beg->getY();
-		_p2y = _end->getY();
-		_p3y = _t->getY();
+		x0 = _beg->getX();
+		xk = _end->getX();
+		xt = _t->getX();
+		y0 = _beg->getY();
+		yk = _end->getY();
+		yt = _t->getY();
+		len = sqrt((x0 - xk)*(x0 - xk) + (y0 - yk)*(y0 - yk)); // segment length
+		en = x0*yk - xk*y0 - yt*(x0 - xk) + xt*(y0 - yk); // enumerator
 	}
 
 	virtual ~RestrP2SDIST() {}
 	virtual RestrictType get_type() const { return RT_P2SDIST; }
 	virtual double violation() const {
-		double a = _p1y - _p2y;
-		double b = _p2x - _p1x;
-		double c = _p1x*_p2y - _p2x*_p1y;
-		double k = sqrt(a*a + b*b);
-		return *_dist - abs(a*_p3x + b*_p3y + c) / k;
+		double a = y0 - yk;
+		double b = xk - x0;
+		double c = x0*yk - xk*y0;
+		return *_dist - abs(a*xt + b*yt + c) / len;          
 	}
 //	virtual Array<double>* diff() {}
 	virtual double diff(size_t par) {
-		if (par == 7)
-			return 1;
-		if (_p1x*(_p2y - _p3y) + _p1y*(_p3x - _p2x) + _p3y * _p2x - _p2y * _p3x > 0)
 		switch (par) {
 		case 1: // parametr _p1x
-				return (_p3y - _p2y) / length(_p2x, _p2y, _p3x, _p3y);
-				break;
+			return (yk - yt) / len - (x0 - xk)*en / pow(len, 3);
+			break;
 		case 2: // parametr _p1y
-				return (_p2x - _p3x) / length(_p2x, _p2y, _p3x, _p3y);
-				break;
+			return -(xk - xt) / len - (y0 - yk)*en / pow(len, 3);
+			break;
 		case 3: // parametr _p2x
-				return ((_p1y - _p3y)*length(_p2x, _p2y, _p3x, _p3y) + (_p2x - _p3x)*
-					abs(_p1x*(_p2y - _p3y) + _p1y*(_p3x - _p2x) + _p3y * _p2x - _p2y * _p3x) / length(_p2x, _p2y, _p3x, _p3y)) /
-				pow(length(_p2x, _p2y, _p3x, _p3y), 2);
-				break;
+			return -(y0 - yt) / len + (x0 - xk)*en / pow(len, 3);
+			break;
 		case 4: // parametr _p2y
-				return ((_p3x - _p1x)*length(_p2x, _p2y, _p3x, _p3y) + (_p2y - _p3y)*
-					abs(_p1x*(_p2y - _p3y) + _p1y*(_p3x - _p2x) + _p3y * _p2x - _p2y * _p3x) / length(_p2x, _p2y, _p3x, _p3y)) /
-				pow(length(_p2x, _p2y, _p3x, _p3y), 2);
-				break;
+			return (xk - xt) / len - (y0 - yk)*en / pow(len, 3);
+			break;
 		case 5: // parametr _p3x
-				return ((_p2y - _p1y)*length(_p2x, _p2y, _p3x, _p3y) + (_p3x - _p2x)*
-					abs(_p1x*(_p2y - _p3y) + _p1y*(_p3x - _p2x) + _p3y * _p2x - _p2y * _p3x) / length(_p2x, _p2y, _p3x, _p3y)) /
-				pow(length(_p2x, _p2y, _p3x, _p3y), 2);
-				break;
+			return (y0 - yk) / len;
+			break;
 		case 6: // parametr _p3y
-				return ((_p1x - _p2x)*length(_p2x, _p2y, _p3x, _p3y) + (_p3y - _p2y)*
-					abs(_p1x*(_p2y - _p3y) + _p1y*(_p3x - _p2x) + _p3y * _p2x - _p2y * _p3x) / length(_p2x, _p2y, _p3x, _p3y)) /
-				pow(length(_p2x, _p2y, _p3x, _p3y), 2);
-				break;
+			return (x0 - xk) / len;
+			break;
+		case 7:
+			return 1;
+			break;
 		}
-		else
-			if (_p1x*(_p2y - _p3y) + _p1y*(_p3x - _p2x) + _p3y * _p2x - _p2y * _p3x < 0)
-			switch (par) {
-			case 1:// parametr _p1x
-					return (-1)*(_p3y - _p2y) / length(_p2x, _p2y, _p3x, _p3y);
-					break;
-			case 2:// parametr _p1y
-					return (-1)*(_p2x - _p3x) / length(_p2x, _p2y, _p3x, _p3y);
-					break;
-			case 3: // parametr _p2x
-					return (-1)*((_p1y - _p3y)*length(_p2x, _p2y, _p3x, _p3y) + (_p2x - _p3x)*
-						abs(_p1x*(_p2y - _p3y) + _p1y*(_p3x - _p2x) + _p3y * _p2x - _p2y * _p3x) / length(_p2x, _p2y, _p3x, _p3y)) /
-					pow(length(_p2x, _p2y, _p3x, _p3y), 2);
-					break;
-			case 4: // parametr _p2y
-					return (-1)*((_p3x - _p1x)*length(_p2x, _p2y, _p3x, _p3y) + (_p2y - _p3y)*
-						abs(_p1x*(_p2y - _p3y) + _p1y*(_p3x - _p2x) + _p3y * _p2x - _p2y * _p3x) / length(_p2x, _p2y, _p3x, _p3y)) /
-					pow(length(_p2x, _p2y, _p3x, _p3y), 2);
-					break;
-			case 5: // parametr _p3x
-					return (-1)*((_p2y - _p1y)*length(_p2x, _p2y, _p3x, _p3y) + (_p3x - _p2x)*
-						abs(_p1x*(_p2y - _p3y) + _p1y*(_p3x - _p2x) + _p3y * _p2x - _p2y * _p3x) / length(_p2x, _p2y, _p3x, _p3y)) /
-					pow(length(_p2x, _p2y, _p3x, _p3y), 2);
-					break;
-			case 6: // parametr _p3y
-					return (-1)*((_p1x - _p2x)*length(_p2x, _p2y, _p3x, _p3y) + (_p3y - _p2y)*
-						abs(_p1x*(_p2y - _p3y) + _p1y*(_p3x - _p2x) + _p3y * _p2x - _p2y * _p3x) / length(_p2x, _p2y, _p3x, _p3y)) /
-					pow(length(_p2x, _p2y, _p3x, _p3y), 2);
-					break;
-			}
 		return 0;
 	}
 	double getDist() const {
@@ -105,6 +68,7 @@ private:
 	Point *_end;
 	Point *_t;
 	double *_dist;
-	double _p1x, _p2x, _p3x, _p1y, _p2y, _p3y;
+	double x0,xk,xt,y0,yk,yt;
+	double len, en;
 };
 #endif

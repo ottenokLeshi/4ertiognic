@@ -21,18 +21,19 @@ public:
 
 	virtual double diff(size_t par)
 	{
-	switch (par) {
+		const double len = sqrt(length(_p1x, _p1y, _p2x, _p2y));
+		switch (par) {
 		case 1: // parametr _p1x
-			return (_p2x - _p1x) / sqrt(length(_p1x, _p1y, _p2x, _p2y));
+			return (_p2x - _p1x) / len;
 			break;
 		case 2:// parametr _p2x
-			return (_p1x - _p2x) / sqrt(length(_p1x, _p1y, _p2x, _p2y));
+			return (_p1x - _p2x) / len;
 			break;
 		case 3: //parametr _p1y
-			return (_p2y - _p1y) / sqrt(length(_p1x, _p1y, _p2x, _p2y));
+			return (_p2y - _p1y) / len;
 			break;
 		case 4: // parametr _p2y
-			return (_p1y - _p2y) / sqrt(length(_p1x, _p1y, _p2x, _p2y));
+			return (_p1y - _p2y) / len;
 			break;
 		case 5: // parametr *_dist
 			return 1;
@@ -40,6 +41,7 @@ public:
 		}
 		return 0;
 	}
+
 
 	double getDist() const {
 		return _A->distanceToPoint(_B->getX(), _B->getY());
