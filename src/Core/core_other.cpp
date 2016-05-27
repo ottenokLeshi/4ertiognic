@@ -132,9 +132,8 @@ Array <Array<double>>* Core::getInfoObj() {
 
 		case IsCircle:
 			newc = dynamic_cast<Circle*>(mar.get_current());
-			Point t = newc->getCenter();
-			par.push_back(t.getX());
-			par.push_back(t.getY());
+			par.push_back(newc->getCenter().getX());
+			par.push_back(newc->getCenter().getY());
 			par.push_back(newc->getRadius());
 			break;
 		}
