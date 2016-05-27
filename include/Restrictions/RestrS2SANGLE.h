@@ -37,32 +37,32 @@ public:
 		double *LS1 = _S1->getLength(), *LS2 = _S2->getLength();
 		switch (par) {
 		case 1: // parametr _p1x
-				return (skalyar*(_p1x - _p2x)/(*LS2*pow(*LS1,3)) - (_p3x - _p4x)/(*LS1*(*LS2)))*arccos;
-				break;
-		case 2: // parametr _p2x
+			return (skalyar*(_p1x - _p2x)/(*LS2*pow(*LS1,3)) - (_p3x - _p4x)/(*LS1*(*LS2)))*arccos;
+			break;
+		case 2: // parametr _p1y
+			return (skalyar*(_p1y - _p2y) / (*LS2*pow(*LS1, 3)) - (_p3y - _p4y) / (*LS1*(*LS2)))*arccos;
+			break;
+		case 3: // parametr _p2x
 			return (-skalyar*(_p1x - _p2x) / (*LS2*pow(*LS1, 3)) + (_p3x - _p4x) / (*LS1*(*LS2)))*arccos;
-				break;
-		case 3: // parametr _p3x
-				return (skalyar*(_p3x - _p4x) / (*LS1*pow(*LS2, 3)) - (_p1x - _p2x) / (*LS1*(*LS2)))*arccos;
-				break;
-		case 4: // parametr _p4x
-				return (- skalyar*(_p3x - _p4x) / (*LS1*pow(*LS2, 3)) + (_p1x - _p2x) / (*LS1*(*LS2)))*arccos;
-				break;
-		case 5: // parametr _p1y
-				return (skalyar*(_p1y - _p2y) / (*LS2*pow(*LS1, 3)) - (_p3y - _p4y) / (*LS1*(*LS2)))*arccos;
-				break;
-		case 6: // parametr _p2y
-				return (- skalyar*(_p1y - _p2y) / (*LS2*pow(*LS1, 3)) + (_p3y - _p4y) / (*LS1*(*LS2)))*arccos;
-				break;
-		case 7: // parametr _p3y
-				return (skalyar*(_p3y - _p4y) / (*LS1*pow(*LS2, 3)) - (_p1y - _p2y) / (*LS1*(*LS2)))*arccos;
-				break;
+			break;
+		case 4: // parametr _p2y
+			return (-skalyar*(_p1y - _p2y) / (*LS2*pow(*LS1, 3)) + (_p3y - _p4y) / (*LS1*(*LS2)))*arccos;
+			break;
+		case 5: // parametr _p3x
+			return (skalyar*(_p3x - _p4x) / (*LS1*pow(*LS2, 3)) - (_p1x - _p2x) / (*LS1*(*LS2)))*arccos;
+			break;
+		case 6: // parametr _p3y
+			return (skalyar*(_p3y - _p4y) / (*LS1*pow(*LS2, 3)) - (_p1y - _p2y) / (*LS1*(*LS2)))*arccos;
+			break;
+		case 7: // parametr _p4x
+			return (- skalyar*(_p3x - _p4x) / (*LS1*pow(*LS2, 3)) + (_p1x - _p2x) / (*LS1*(*LS2)))*arccos;
+			break;
 		case 8: // parametr _p4y
-				return (-skalyar*(_p3y - _p4y) / (*LS1*pow(*LS2, 3)) + (_p1y - _p2y) / (*LS1*(*LS2)))*arccos;
-				break;
+			return (-skalyar*(_p3y - _p4y) / (*LS1*pow(*LS2, 3)) + (_p1y - _p2y) / (*LS1*(*LS2)))*arccos;
+			break;
 		case 9: // _angle
-				return 1;
-				break;
+			return 1;
+			break;
 		}
 		return 0;
 	}

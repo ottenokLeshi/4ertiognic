@@ -46,7 +46,7 @@ public:
 					return -(y0 - yt) / len + (x0 - xk)*en / pow(len, 3);
 					break;
 				case 4: // parametr _p2y
-					return (xk - xt) / len - (y0 - yk)*en / pow(len, 3);
+					return (x0 - xt) / len + (y0 - yk)*en / pow(len, 3);
 					break;
 				case 5: // parametr _p3x
 					return (y0 - yk) / len;
@@ -63,10 +63,10 @@ public:
 				if (length(x0, y0, xt, yt) < length(xk, yk, xt, yt)) {
 					switch (par) {
 					case 1:
-						return (x0 - xt) / length(x0, y0, xt, yt);
+						return -(x0 - xt) / length(x0, y0, xt, yt);
 						break;
 					case 2:
-						return (y0 - yt) / length(x0, y0, xt, yt);
+						return -(y0 - yt) / length(x0, y0, xt, yt);
 						break;
 					case 3:
 						return 0;
@@ -75,10 +75,10 @@ public:
 						return 0;
 						break;
 					case 5:
-						return -(x0 - xt) / length(x0, y0, xt, yt);
+						return (x0 - xt) / length(x0, y0, xt, yt);
 						break;
 					case 6:
-						return -(y0 - yt) / length(x0, y0, xt, yt);
+						return (y0 - yt) / length(x0, y0, xt, yt);
 						break;
 					case 7:
 						return 1;
@@ -94,16 +94,16 @@ public:
 						return 0;
 						break;
 					case 3:
-						return (xk - xt) / length(xk, yk, xt, yt);
-						break;
-					case 4:
-						return (yk - yt) / length(xk, yk, xt, yt);
-						break;
-					case 5:
 						return -(xk - xt) / length(xk, yk, xt, yt);
 						break;
-					case 6:
+					case 4:
 						return -(yk - yt) / length(xk, yk, xt, yt);
+						break;
+					case 5:
+						return (xk - xt) / length(xk, yk, xt, yt);
+						break;
+					case 6:
+						return (yk - yt) / length(xk, yk, xt, yt);
 						break;
 					case 7:
 						return 1;
@@ -111,6 +111,7 @@ public:
 					}
 				}
 			}
+			return 0;
 		}
 
 	double getDist() const {

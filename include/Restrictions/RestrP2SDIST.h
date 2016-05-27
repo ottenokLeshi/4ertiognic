@@ -40,7 +40,7 @@ public:
 			return -(y0 - yt) / len + (x0 - xk)*en / pow(len, 3);
 			break;
 		case 4: // parametr _p2y
-			return (xk - xt) / len - (y0 - yk)*en / pow(len, 3);
+			return (x0 - xt) / len + (y0 - yk)*en / pow(len, 3);
 			break;
 		case 5: // parametr _p3x
 			return (y0 - yk) / len;
