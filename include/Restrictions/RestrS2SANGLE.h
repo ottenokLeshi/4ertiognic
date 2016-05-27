@@ -70,6 +70,12 @@ public:
 	double getAngl() const {
 		return _S1->Angle(_S2);
 	}
+	Segment* getS1() {
+		return _S1;
+	}
+	Segment* getS2() {
+		return _S2;
+	}
 
 private:
 	Segment *_S1;

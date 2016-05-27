@@ -28,6 +28,12 @@ public:
 	double violation()const {
 		return  (1.57079632 - _S1->Angle(_S2)); //1.5707963267949 - 90 in radian
 	}
+	Segment* getS1() {
+		return _S1;
+	}
+	Segment* getS2() {
+		return _S2;
+	}
 	//virtual Array<double>* diff();
 	virtual double diff(size_t par) {
 		double skalyar = (_p1x - _p2x)*(_p3x - _p4x) + (_p1y - _p2y)*(_p3y - _p4y);

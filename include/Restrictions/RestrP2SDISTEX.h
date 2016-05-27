@@ -113,6 +113,15 @@ public:
 			}
 			return 0;
 		}
+	Point* getP1() {
+		return _beg;
+	}
+	Point* getP2() {
+		return _end;
+	}
+	Point* getP3() {
+		return _t;
+	}
 
 	double getDist() const {
 			double x1 = _beg->getX(), x2 = _end->getX(), y1 = _beg->getY(), y2 = _end->getY(), xt = _t->getX(), yt = _t->getY();

@@ -54,6 +54,15 @@ public:
 		}
 		return 0;
 	}
+	Point* getP1() {
+		return _beg;
+	}
+	Point* getP2() {
+		return _end;
+	}
+	Point* getP3() {
+		return _t;
+	}
 	double getDist() const {
 		if (_beg->getX() == _end->getX()) {
 			double k = (_beg->getX() - _end->getX()) / (_beg->getY() - _end->getY()), b = _end->getX() - k*_end->getY();

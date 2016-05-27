@@ -29,8 +29,11 @@ bool Console::screen() {
 		cout << "a. Add graph primitive" << endl;
 		cout << "b. Add restriction" << endl;
 		cout << "c. Choose your side of the darkness!" << endl;
+		cout << "s. Select by point" << endl;
+		cout << "r. Select by rect" << endl;
+		cout << "d. Delete selected" << endl;
 		cout << "l. Load from batch" << endl;
-		cout << "d. Matlab file" << endl;
+		cout << "m. Matlab file" << endl;
 		cout << "*. Clear state" << endl;
 		cout << "q. Exit" << endl;
 
@@ -170,6 +173,9 @@ bool Console::screen() {
 				Arr.push_back(y);
 				Arr.push_back(r);
 				core.addObject(Arr, IsCircle);
+			} break;
+			case 'q': {
+				break;
 			} break;
 
 			default: {
@@ -600,6 +606,13 @@ bool Console::screen() {
 				objId.push_back(id2);
 				core.addRestriction(&objId, &d, RT_S2SORTHO, SOLVE);
 			} break;
+			case 'q': {
+				break;
+			}
+			default: {
+				cout << "Invalid command." << endl;
+				system("pause");
+			}
 			}
 		} break;
 
@@ -660,8 +673,9 @@ bool Console::screen() {
 			}
 		} break;
 
-		case'd': {
+		case'm': {
 			system("cls");
+			outputAll(core);
 			string _resultfilename = "Batch.m";
 			ofstream out(_resultfilename);
 			out.close();
@@ -691,6 +705,103 @@ bool Console::screen() {
 			newbatch.generateCode();
 			system("pause");
 		} break;
+		case's': {
+			system("cls");
+			outputAll(core);
+			if (core.sizeListObj() == 0) {
+				cout << endl << "No objects yet!" << endl;
+				system("pause");
+				break;
+			}
+			unsigned id;
+			cout << endl << "Enter id" << endl;
+			cout << "(q to cancel)" << endl;
+
+			bool flag;
+			do {
+				flag = true;
+				getline(cin, c);
+				tokens = stringSplit(c);
+				if (tokens.size() != 1)
+					flag = false;
+				try {
+					if (tokens[0] == "q")
+						break;
+					id = stoi(tokens[0]);
+				}
+				catch (exception) {
+					std::cout << "Error: id of point must be an integer" << std::endl;
+					flag = false;
+				}
+			} while (!flag);
+
+			if (tokens[0] == "q")
+				break;
+
+			if (!core.searchID(id)) {
+				cout << endl << "Wrong id!" << endl;
+				system("pause");
+				break;
+			}
+			if (core.searchID(id)->object_type() != IsPoint) {
+				cout << endl << "It's not id of a point!" << endl;
+				system("pause");
+				break;
+			}
+			Point *newp = 0;
+			newp = dynamic_cast<Point*>(core.searchID(id));
+			if (newp != nullptr)
+				core.selectByPoint(*newp);
+		} break;
+		case'r': {
+			system("cls");
+			outputAll(core);
+			if (core.sizeListObj() == 0) {
+				cout << endl << "No objects yet!" << endl;
+				system("pause");
+				break;
+			}
+			double x1, y1, x2, y2;
+			cout << endl << "Enter 4 double coords of a rect (x y x y)" << endl;
+			cout << "(q to cancel)" << endl;
+
+			bool flag;
+			do {
+				flag = true;
+				getline(cin, c);
+				tokens = stringSplit(c);
+				if (tokens.size() != 4)
+					flag = false;
+				try {
+					if (tokens[0] == "q")
+						break;
+					x1 = stoi(tokens[0]);
+					y1 = stoi(tokens[1]);
+					x2 = stoi(tokens[2]);
+					y2 = stoi(tokens[3]);
+				}
+				catch (exception) {
+					std::cout << "Error: coords must be 4 doubles" << std::endl;
+					flag = false;
+				}
+			} while (!flag);
+
+			if (tokens[0] == "q")
+				break;
+			core.selectByRect(x1, y1, x2, y2);
+		} break;
+
+		case'd': {
+			system("cls");
+			outputAll(core);
+			if (core.sizeListObj() == 0) {
+				cout << endl << "No objects yet!" << endl;
+				system("pause");
+				break;
+			}
+			while (core.getPicked().size())
+				core.deleteSelected();
+		} break;
 
 		default: {
 			cout << "Invalid command" << endl;
@@ -718,7 +829,9 @@ void Console::outputAll(Core &core)
 			cout << setw(8) << "POINT ";
 			cout << setw(3) << "ID: " << setw(2) << newp->showId();
 			cout << setw(6) << "X: " << setw(8) << newp->getX();
-			cout << setw(6) << "Y: " << setw(8) << newp->getY() << endl;
+			cout << setw(6) << "Y: " << setw(8) << newp->getY();
+			newp->isPicked() ? cout << "  <-" : cout << "";
+			cout << endl;
 		} break;
 		case IsSegment: {
 			news = dynamic_cast<Segment*>(core.searchID(core.getObjIDs()[i]));
@@ -728,7 +841,9 @@ void Console::outputAll(Core &core)
 			cout << setw(8) << "SEGMENT ";
 			cout << setw(3) << "ID: " << setw(2) << news->showId();
 			cout << setw(6) << news->getP1()->showId();
-			cout << "-----" << news->getP2()->showId() << endl << endl;
+			cout << "-----" << news->getP2()->showId();
+			news->isPicked() ? cout << setw(16) << "<-" : cout << "";
+			cout << endl << endl;
 		} break;
 		case IsCircle: {
 			newc = dynamic_cast<Circle*>(core.searchID(core.getObjIDs()[i]));
@@ -739,7 +854,9 @@ void Console::outputAll(Core &core)
 			cout << setw(8) << "CIRCLE ";
 			cout << setw(3) << "ID: " << setw(2) << newc->showId();
 			cout << setw(6) << "O: " << setw(8) << newc->getCenter().showId();
-			cout << setw(6) << "R: " << setw(8) << newc->getRadius() << endl << endl;
+			cout << setw(6) << "R: " << setw(8) << newc->getRadius();
+			newc->isPicked() ? cout << "  <-" : cout << "";
+			cout << endl << endl;
 		} break;
 		}
 	}
@@ -747,50 +864,58 @@ void Console::outputAll(Core &core)
 	if (core.sizeListRestr() == 0)
 		cout << "	No restrictions yet." << endl;
 	for (size_t i = 0; i < core.sizeListRestr(); ++i) {
-		BasicRestriction * restr;
 		switch (core.searchIDRestr(core.getRestrIDs()[i])->get_type()) {
 
 		case RT_P2PDIST: {
-			restr = dynamic_cast<RestrP2PDIST*>(core.searchIDRestr(core.getRestrIDs()[i]));
+			auto restr = dynamic_cast<RestrP2PDIST*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout.precision(2);
 			cout << setw(16) << "P2PDIST " << setw(3) << "ID: " << setw(2) << restr->showId();
-			cout << setw(13) << "violation: " << setw(8) << restr->violation() << endl;
+			cout << setw(13) << "violation: " << setw(8) << restr->violation();
+			cout << setw(8) << restr->getP1()->showId() << "==" << restr->getP2()->showId() << endl;
 		} break;
 		case RT_P2SDIST: {
-			restr = dynamic_cast<RestrP2SDIST*>(core.searchIDRestr(core.getRestrIDs()[i]));
+			auto restr = dynamic_cast<RestrP2SDIST*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout.precision(2);
 			cout << setw(16) << "P2SDIST " << setw(3) << "ID: " << setw(2) << restr->showId();
-			cout << setw(13) << "violation: " << setw(8) << restr->violation() << endl;
+			cout << setw(13) << "violation: " << setw(8) << restr->violation();
+			cout << setw(8) << restr->getP1()->showId() << "==" << restr->getP2()->showId();
+			cout << "==" << restr->getP3()->showId() << endl;
 		} break;
 		case RT_P2SDISTEX: {
-			restr = dynamic_cast<RestrP2SDISTEX*>(core.searchIDRestr(core.getRestrIDs()[i]));
+			auto restr = dynamic_cast<RestrP2SDISTEX*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout.precision(2);
 			cout << setw(16) << "P2SDISTEX " << setw(3) << "ID: " << setw(2) << restr->showId();
-			cout << setw(13) << "violation: " << setw(8) << restr->violation() << endl;
+			cout << setw(13) << "violation: " << setw(8) << restr->violation();
+			cout << setw(8) << restr->getP1()->showId() << "==" << restr->getP2()->showId();
+			cout << "==" << restr->getP3()->showId() << endl;
 		} break;
 		case RT_S2SANGLE: {
-			restr = dynamic_cast<RestrS2SANGLE*>(core.searchIDRestr(core.getRestrIDs()[i]));
+			auto restr = dynamic_cast<RestrS2SANGLE*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout.precision(2);
 			cout << setw(16) << "S2SANGLE " << setw(3) << "ID: " << setw(2) << restr->showId();
-			cout << setw(13) << "violation: " << setw(8) << restr->violation() << endl;
+			cout << setw(13) << "violation: " << setw(8) << restr->violation();
+			cout << setw(8) << restr->getS1()->showId() << "==" << restr->getS2()->showId() << endl;
 		} break;
 		case RT_S2SORTHO: {
-			restr = dynamic_cast<RestrS2SORTHO*>(core.searchIDRestr(core.getRestrIDs()[i]));
+			auto restr = dynamic_cast<RestrS2SORTHO*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout.precision(2);
 			cout << setw(16) << "S2SORTHO " << setw(3) << "ID: " << setw(2) << restr->showId();
-			cout << setw(13) << "violation: " << setw(8) << restr->violation() << endl;
+			cout << setw(13) << "violation: " << setw(8) << restr->violation();
+			cout << setw(8) << restr->getS1()->showId() << "==" << restr->getS2()->showId() << endl;
 		} break;
 		case RT_S2SPARAL: {
-			restr = dynamic_cast<RestrS2SPARAL*>(core.searchIDRestr(core.getRestrIDs()[i]));
+			auto restr = dynamic_cast<RestrS2SPARAL*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout.precision(2);
 			cout << setw(16) << "S2SPARAL " << setw(3) << "ID: " << setw(2) << restr->showId();
-			cout << setw(13) << "violation: " << setw(8) << restr->violation() << endl;
+			cout << setw(13) << "violation: " << setw(8) << restr->violation();
+			cout << setw(8) << restr->getS1()->showId() << "==" << restr->getS2()->showId() << endl;
 		} break;
 		case RT_S2SEQUALS: {
-			restr = dynamic_cast<RestrS2SEQUALS*>(core.searchIDRestr(core.getRestrIDs()[i]));
+			auto restr = dynamic_cast<RestrS2SEQUALS*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout.precision(2);
 			cout << setw(16) << "S2SEQUALS " << setw(3) << "ID: " << setw(2) << restr->showId();
-			cout << setw(13) << "violation: " << setw(8) << restr->violation() << endl;
+			cout << setw(13) << "violation: " << setw(8) << restr->violation();
+			cout << setw(8) << restr->getS1()->showId() << "==" << restr->getS2()->showId() << endl;
 		} break;
 		}
 	}

@@ -51,7 +51,17 @@ public:
 		}
 		return nullptr;
 	}
-
+	Array<unsigned> getPicked() {
+		Array <unsigned> picked;
+		List<GraphPrimitive*>::Marker mar(objects);
+		for (size_t i = 0; i < objects.sizeList(); ++i) {
+			if (mar.get_current()->isPicked()) {
+				picked.push_back(mar.get_current()->showId());
+				mar.move_next();
+			}
+		}
+		return picked;
+	}
 	void ShowFixed() {
 		List<GraphPrimitive*>::Marker mar(fixedObjects);
 		for (size_t i = 0; i < fixedObjects.sizeList(); ++i) {
@@ -94,6 +104,8 @@ public:
 	Array <Array<double>>* getInfoObj();
 	void toBackupState();
 	void clearState();
+	void deleteSelected();
+	void deleteRestrs(Point object);
 };
 
 #endif

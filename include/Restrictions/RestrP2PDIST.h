@@ -42,7 +42,13 @@ public:
 		return 0;
 	}
 
-
+	Point* getP1() {
+		return _A;
+	}
+	Point* getP2() {
+		return _B;
+	}
+	\
 	double getDist() const {
 		return _A->distanceToPoint(_B->getX(), _B->getY());
 	}

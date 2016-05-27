@@ -230,6 +230,7 @@ public:
 			_radius = rad;
 		}
 	}
+	Point* getC() { return _center; }
 
 	virtual double distanceToPoint(double x, double y)const {
 		return abs(sqrt(pow(_center->getX() - x, 2) + pow(_center->getY() - y, 2)) - _radius);

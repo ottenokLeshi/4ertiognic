@@ -16,6 +16,7 @@ public:
 	}
 	GraphPrimitive() {
 		_isFixed = 0;
+		_isPicked = 0;
 		_id = GraphPrimitive::next_object_id();
 	}
 	virtual ~GraphPrimitive() {}

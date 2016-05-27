@@ -25,6 +25,7 @@ unsigned Core::selectByPoint(Point p) {
 		if (current_distance < min_distance) {
 			min_distance = current_distance;
 			min_id = mar.get_current()->showId();
+			mar.get_current()->changePick(1);
 		}
 		mar.move_next();
 	}

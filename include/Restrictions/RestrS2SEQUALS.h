@@ -11,6 +11,12 @@ public:
 		_S1 = S1;
 		_S2 = S2;
 	};
+	Segment* getS1() {
+		return _S1;
+	}
+	Segment* getS2() {
+		return _S2;
+	}
 	virtual ~RestrS2SEQUALS(){ }
 	virtual RestrictType get_type()const{return RT_S2SEQUALS;};
 	virtual double violation()const { return *(_S1->getLength()) - *(_S2->getLength()); }

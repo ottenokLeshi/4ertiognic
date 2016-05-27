@@ -27,6 +27,12 @@ public:
 	virtual RestrictType get_type() const { return RT_S2SPARAL; }
 	virtual double violation() const { return _S1->Angle(_S2); }
 	double getAngl() const { return _S1->Angle(_S2); }
+	Segment* getS1() {
+		return _S1;
+	}
+	Segment* getS2() {
+		return _S2;
+	}
 	virtual double diff(size_t par) {
 		double skalyar = (_p1x - _p2x)*(_p3x - _p4x) + (_p1y - _p2y)*(_p3y - _p4y);
 		double arccos = (-1) / sqrt(1 - pow(_S1->cosAngle(_S2), 2));
