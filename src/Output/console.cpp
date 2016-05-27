@@ -871,14 +871,14 @@ void Console::outputAll(Core &core)
 			cout.precision(2);
 			cout << setw(16) << "P2PDIST " << setw(3) << "ID: " << setw(2) << restr->showId();
 			cout << setw(13) << "violation: " << setw(8) << restr->violation();
-			cout << setw(8) << restr->getP1()->showId() << "==" << restr->getP2()->showId() << endl;
+			cout << setw(8) << restr->getP1()->showId() << "---" << restr->getP2()->showId() << endl;
 		} break;
 		case RT_P2SDIST: {
 			auto restr = dynamic_cast<RestrP2SDIST*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout.precision(2);
 			cout << setw(16) << "P2SDIST " << setw(3) << "ID: " << setw(2) << restr->showId();
 			cout << setw(13) << "violation: " << setw(8) << restr->violation();
-			cout << setw(8) << restr->getP1()->showId() << "==" << restr->getP2()->showId();
+			cout << setw(8) << restr->getP1()->showId() << "---" << restr->getP2()->showId();
 			cout << "==" << restr->getP3()->showId() << endl;
 		} break;
 		case RT_P2SDISTEX: {
@@ -886,7 +886,7 @@ void Console::outputAll(Core &core)
 			cout.precision(2);
 			cout << setw(16) << "P2SDISTEX " << setw(3) << "ID: " << setw(2) << restr->showId();
 			cout << setw(13) << "violation: " << setw(8) << restr->violation();
-			cout << setw(8) << restr->getP1()->showId() << "==" << restr->getP2()->showId();
+			cout << setw(8) << restr->getP1()->showId() << "---" << restr->getP2()->showId();
 			cout << "==" << restr->getP3()->showId() << endl;
 		} break;
 		case RT_S2SANGLE: {
@@ -894,28 +894,28 @@ void Console::outputAll(Core &core)
 			cout.precision(2);
 			cout << setw(16) << "S2SANGLE " << setw(3) << "ID: " << setw(2) << restr->showId();
 			cout << setw(13) << "violation: " << setw(8) << restr->violation();
-			cout << setw(8) << restr->getS1()->showId() << "==" << restr->getS2()->showId() << endl;
+			cout << setw(8) << restr->getS1()->showId() << "---" << restr->getS2()->showId() << endl;
 		} break;
 		case RT_S2SORTHO: {
 			auto restr = dynamic_cast<RestrS2SORTHO*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout.precision(2);
 			cout << setw(16) << "S2SORTHO " << setw(3) << "ID: " << setw(2) << restr->showId();
 			cout << setw(13) << "violation: " << setw(8) << restr->violation();
-			cout << setw(8) << restr->getS1()->showId() << "==" << restr->getS2()->showId() << endl;
+			cout << setw(8) << restr->getS1()->showId() << "---" << restr->getS2()->showId() << endl;
 		} break;
 		case RT_S2SPARAL: {
 			auto restr = dynamic_cast<RestrS2SPARAL*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout.precision(2);
 			cout << setw(16) << "S2SPARAL " << setw(3) << "ID: " << setw(2) << restr->showId();
 			cout << setw(13) << "violation: " << setw(8) << restr->violation();
-			cout << setw(8) << restr->getS1()->showId() << "==" << restr->getS2()->showId() << endl;
+			cout << setw(8) << restr->getS1()->showId() << "---" << restr->getS2()->showId() << endl;
 		} break;
 		case RT_S2SEQUALS: {
 			auto restr = dynamic_cast<RestrS2SEQUALS*>(core.searchIDRestr(core.getRestrIDs()[i]));
 			cout.precision(2);
 			cout << setw(16) << "S2SEQUALS " << setw(3) << "ID: " << setw(2) << restr->showId();
 			cout << setw(13) << "violation: " << setw(8) << restr->violation();
-			cout << setw(8) << restr->getS1()->showId() << "==" << restr->getS2()->showId() << endl;
+			cout << setw(8) << restr->getS1()->showId() << "---" << restr->getS2()->showId() << endl;
 		} break;
 		}
 	}

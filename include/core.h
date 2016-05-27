@@ -35,6 +35,15 @@ public:
 		objects.push_back(obj);
 	}
 	void backupState();
+	unsigned sizeListObj() { return objects.sizeList(); }
+	unsigned sizeListRestr() { return restrictions.sizeList(); }
+	unsigned sizeListBackUpObj() { return backupObjects.sizeList(); }
+	Array <Array<double>>* getInfoObj();
+	void restoreState();
+	void clearState();
+	void deleteSelected();
+	void deleteRestrs(Point object);
+
 	GraphPrimitive* searchID(int index) {
 		List<GraphPrimitive*>::Marker mar(objects);
 		for (size_t i = 0; i<objects.sizeList(); i++) {
@@ -43,6 +52,7 @@ public:
 		}
 		return nullptr;
 	}
+
 	BasicRestriction* searchIDRestr(int index) {
 		List<BasicRestriction*>::Marker mar(restrictions);
 		for (size_t i = 0; i < restrictions.sizeList(); i++) {
@@ -51,6 +61,7 @@ public:
 		}
 		return nullptr;
 	}
+
 	Array<unsigned> getPicked() {
 		Array <unsigned> picked;
 		List<GraphPrimitive*>::Marker mar(objects);
@@ -62,6 +73,7 @@ public:
 		}
 		return picked;
 	}
+
 	void ShowFixed() {
 		List<GraphPrimitive*>::Marker mar(fixedObjects);
 		for (size_t i = 0; i < fixedObjects.sizeList(); ++i) {
@@ -79,6 +91,7 @@ public:
 		}
 		cout << endl;
 	}
+
 	Array <unsigned> getObjIDs() {
 		Array <unsigned> objIDs;
 		List<GraphPrimitive*>::Marker mar(objects);
@@ -98,14 +111,6 @@ public:
 		}
 		return restrIDs;
 	}
-	unsigned sizeListObj() { return objects.sizeList(); }
-	unsigned sizeListRestr() { return restrictions.sizeList(); }
-	unsigned sizeListBackUpObj() { return backupObjects.sizeList(); }
-	Array <Array<double>>* getInfoObj();
-	void toBackupState();
-	void clearState();
-	void deleteSelected();
-	void deleteRestrs(Point object);
 };
 
 #endif

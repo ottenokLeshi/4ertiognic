@@ -76,7 +76,7 @@ void Core::backupState() {
 
 
 
-void Core::toBackupState()
+void Core::restoreState()
 {
 	List<GraphPrimitive*>::Marker mar(objects);
 	Point * newp = 0; Circle *newc = 0; Segment * news = 0;
@@ -97,9 +97,8 @@ void Core::toBackupState()
 
 		case IsCircle:
 			newc = dynamic_cast<Circle*>(mar.get_current());
-			Point* t = &newc->getCenter();
-			t->changePoint((*backupParametrs)[i][0], (*backupParametrs)[i][1]);
-			newc->changeCircle(t, (*backupParametrs)[i][2]);
+			newc->getC()->changePoint((*backupParametrs)[i][0], (*backupParametrs)[i][1]);
+			newc->changeCircle(newc->getC(), (*backupParametrs)[i][2]);
 			break;
 		}
 
@@ -112,7 +111,7 @@ Array <Array<double>>* Core::getInfoObj() {
 	Array <Array<double>> *parametrs = new Array <Array<double>>;
 	List<GraphPrimitive*>::Marker mar(objects);
 	Point * newp = 0; Circle *newc = 0; Segment * news = 0;
-	for (size_t i = 0;i < objects.sizeList();i++) {
+	for (size_t i = 0; i < objects.sizeList(); i++) {
 		Array<double> par;
 
 		switch (mar.get_current()->object_type()) {

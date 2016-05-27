@@ -67,6 +67,7 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 						if (params[j] != fixedSegment->getP2()->x() && params[j] != fixedSegment->getP2()->y())
 							newParams.union_with(params[j]);
 				}
+
 				params = newParams;
 			}
 
@@ -290,9 +291,9 @@ bool Core::addRestriction(List<unsigned>* id, double* parametr, RestrictType typ
 		res_mar.move_next();
 	}
 	if (F->solve(&f1, params) == 0) {
-		toBackupState();
+		restoreState();
 		if (F->solve(&f1, params) == 0) {
-			toBackupState();
+			restoreState();
 			std::cout << "Can't find proper solution for this state." << std::endl;
 			return false;
 		}
