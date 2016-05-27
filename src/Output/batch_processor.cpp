@@ -93,6 +93,13 @@ bool BatchProcessor::generateCode() {
 		} break;
 
 		case 'p': {
+			if (tokens.size() != 3) {
+				std::cout << "Error while parsing batch:" << std::endl;
+				std::cout << "   " << command << std::endl;
+				std::cout << "Point arguments must be 2 doubles" << std::endl;
+				system("pause");
+				exit(1);
+			}
 			try {
 				x = stod(tokens[1]);
 				y = stod(tokens[2]);
@@ -116,6 +123,13 @@ bool BatchProcessor::generateCode() {
 		} break;
 
 		case 's': {
+			if (tokens.size() != 5) {
+				std::cout << "Error while parsing batch:" << std::endl;
+				std::cout << "   " << command << std::endl;
+				std::cout << "Segment arguments must be 4 doubles" << std::endl;
+				system("pause");
+				exit(1);
+			}
 			try {
 				x1 = stod(tokens[1]);
 				y1 = stod(tokens[2]);
@@ -145,6 +159,14 @@ bool BatchProcessor::generateCode() {
 		} break;
 
 		case 'c': {
+			if (tokens.size() != 4) {
+				std::cout << "Error while parsing batch:" << std::endl;
+				std::cout << "   " << command << std::endl;
+				std::cout << "Circle arguments must be 3 doubles" << std::endl;
+				system("pause");
+				exit(1);
+			}
+
 			try {
 				x3 = stod(tokens[1]);
 				y3 = stod(tokens[2]);
@@ -225,6 +247,13 @@ bool BatchProcessor::generateCode() {
 
 
 			if (rest == "dpp") {
+				if (tokens.size() != 5) {
+					std::cout << "Error while parsing batch:" << std::endl;
+					std::cout << "   " << command << std::endl;
+					std::cout << "ID of objects(2) must be an integer, distance must be a double" << std::endl;
+					system("pause");
+					exit(1);
+				}
 				unsigned id1, id2;
 				restrParams.push_back(new double);
 
@@ -255,6 +284,14 @@ bool BatchProcessor::generateCode() {
 				unsigned id1, id2, id3;
 				restrParams.push_back(new double);
 
+				if (tokens.size() != 6) {
+					std::cout << "Error while parsing batch:" << std::endl;
+					std::cout << "   " << command << std::endl;
+					std::cout << "ID of objects(3) must be an integer, distance must be a double" << std::endl;
+					system("pause");
+					exit(1);
+				}
+
 				try {
 					id1 = stoi(tokens[2]);
 					id2 = stoi(tokens[3]);
@@ -284,6 +321,14 @@ bool BatchProcessor::generateCode() {
 				unsigned id1, id2, id3;
 				restrParams.push_back(new double);
 
+				if (tokens.size() != 6) {
+					std::cout << "Error while parsing batch:" << std::endl;
+					std::cout << "   " << command << std::endl;
+					std::cout << "ID of objects(3) must be an integer, distance must be a double" << std::endl;
+					system("pause");
+					exit(1);
+				}
+
 				try {
 					id1 = stoi(tokens[2]);
 					id2 = stoi(tokens[3]);
@@ -312,6 +357,14 @@ bool BatchProcessor::generateCode() {
 				unsigned id1, id2;
 				restrParams.push_back(new double);
 
+				if (tokens.size() != 5) {
+					std::cout << "Error while parsing batch:" << std::endl;
+					std::cout << "   " << command << std::endl;
+					std::cout << "ID of objects(2) must be an integer, angle must be a double" << std::endl;
+					system("pause");
+					exit(1);
+				}
+
 				try {
 					id1 = stoi(tokens[2]);
 					id2 = stoi(tokens[3]);
@@ -326,7 +379,7 @@ bool BatchProcessor::generateCode() {
 				catch (exception) {
 					std::cout << "Error while parsing batch:" << std::endl;
 					std::cout << "   " << command << std::endl;
-					std::cout << "ID of objects(2) must be an integer, distance must be a double" << std::endl;
+					std::cout << "ID of objects(2) must be an integer, angle must be a double" << std::endl;
 					system("pause");
 					exit(1);
 				}
@@ -345,6 +398,14 @@ bool BatchProcessor::generateCode() {
 			if (rest == "oss") {
 				unsigned id1, id2;
 				restrParams.push_back(new double(0));
+
+				if (tokens.size() != 4) {
+					std::cout << "Error while parsing batch:" << std::endl;
+					std::cout << "   " << command << std::endl;
+					std::cout << "ID of objects(2) must be an integer" << std::endl;
+					system("pause");
+					exit(1);
+				}
 
 				try {
 					id1 = stoi(tokens[2]);
@@ -373,6 +434,14 @@ bool BatchProcessor::generateCode() {
 				unsigned id1, id2;
 				restrParams.push_back(new double(0));
 
+				if (tokens.size() != 4) {
+					std::cout << "Error while parsing batch:" << std::endl;
+					std::cout << "   " << command << std::endl;
+					std::cout << "ID of objects(2) must be an integer" << std::endl;
+					system("pause");
+					exit(1);
+				}
+
 				try {
 					id1 = stoi(tokens[2]);
 					id2 = stoi(tokens[3]);
@@ -399,6 +468,14 @@ bool BatchProcessor::generateCode() {
 			if (rest == "ess") {
 				unsigned id1, id2;
 				restrParams.push_back(new double(0));
+
+				if (tokens.size() != 4) {
+					std::cout << "Error while parsing batch:" << std::endl;
+					std::cout << "   " << command << std::endl;
+					std::cout << "ID of objects(2) must be an integer" << std::endl;
+					system("pause");
+					exit(1);
+				}
 
 				try {
 					id1 = stoi(tokens[2]);
