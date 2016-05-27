@@ -94,6 +94,7 @@ void testP2SD() {
 	}
 }
 
+
 long double s2sa(double* X) {
 	double x1 = X[2] - X[0];
 	double y1 = X[3] - X[1];
@@ -120,12 +121,37 @@ void testS2SA() {
 	}
 }
 
+long double s2so(double* X) {
+	double x1 = X[2] - X[0];
+	double y1 = X[3] - X[1];
+	double x2 = X[6] - X[4];
+	double y2 = X[7] - X[5];
+	double _angle = ((x1*x2 + y1*y2) / (sqrt((double)x1*x1 + y1*y1)*sqrt((double)x2*x2 + y2*y2)));
+	if (_angle < -1) _angle = -1;
+	else if (_angle > 1) _angle = 1;
+	return 1.57079632 - acos(_angle);
+}
+void testS2SO() {
+	const int N = 8;
+	Point P1(5, 6), P2(100, 33), P3(543, 54), P4(89, 1200);
+	Segment S1(&P1, &P2), S2(&P3, &P4);
+	RestrS2SORTHO R(&S1, &S2);
+	double X[N] = { 5, 6, 100, 33, 543, 54, 89, 1200 };
+	for (size_t i = 1; i <= N; i++) {
+		double f1 = s2so(X);
+		X[i - 1] += EPS;
+		double f2 = s2so(X);
+
+		cout << R.diff(i) << "    " << (f2 - f1) / EPS << endl;
+	}
+}
 int main() {
 	//BatchProcessor_test();
 	//testP2PD();	//correct
 	//testP2SD();	//correct
 	//testP2SDEX();	//correct
 	//testS2SA();	//correct, ortho and paral must be either
+	testS2SO();
 	system("pause");
 	return 0;
 }
